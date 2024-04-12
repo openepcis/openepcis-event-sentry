@@ -1,0 +1,22 @@
+{
+  "name": "openepcis-event-sentry",
+  "version": "1.0.0",
+  "description": "Helps with detecting EPCIS event profile, defining event profile validation rules and validating EPCIS event against them.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/openepcis/openepcis-event-sentry.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/openepcis/openepcis-event-sentry/issues"
+  },
+  "homepage": "https://github.com/openepcis/openepcis-event-sentry#readme",
+  "dependencies": {
+    "lodash": "^4.17.21"
+  }
+}
