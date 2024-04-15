@@ -1,2 +1,8 @@
-node_modules/
+# Logs
 .idea
+
+# Dependency directories
+node_modules/
+
+# Nuxt.js build / generate output
+dist

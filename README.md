@@ -16,14 +16,13 @@ For example, fishing, farming, and slaughtering are the event profiles derived f
 - Call it farming profile if ILMD field in an event contains countryOfOrigin element within it
 - Call it a slaugtering profile if ILMD field in an event contains preStageDetails element within it.
 
-
 # Installation
 
 1. <b>Using npm (Node Package Manager):</b>
 
 Open your terminal and execute the following command
 
-``` bash
+```bash
 npm install openepcis-event-sentry
 ```
 
@@ -33,15 +32,13 @@ This will download and install the library into your project's node_modules dire
 
 If you prefer to use a CDN, include the library directly in your HTML file using a script tag:
 
-``` html
+```html
 <script src="https://unpkg.com/openepcis-event-sentry@latest/dist/openepcis-event-sentry.min.js"></script>
 ```
-
 
 # Example Usage
 
 The following sections provides with sample usages of various features of SDK
-
 
 ## Define Event Profile Rule
 
@@ -49,44 +46,56 @@ Profile definition contains name, eventType, and expression/rule that evaluates 
 
 Sample definition of event profile "transforming"
 
-``` javascript
+```javascript
 {
   "name": "transforming",
   "eventType": "TransformationEvent",
-  "expression": "transformationID != undefined && type == 'TransformationEvent'"
+  "expression": "isNotEmpty(event,transformationID)"
 }
 ```
 
-Note: expression is DSL supported by https://github.com/TomFrost/Jexl library. It may change if better alternative is found for forming & evaluating inline javascript expressions.
-
-
 ## Check Profile of an EPCIS event
 
-SDK provides the following ways to check the profile of an event.
+The SDK empowers you to define custom event profile rules, allowing you to tailor event evaluation to your specific needs, catering to various use cases:
 
-1. Check with static profiles available internally
+1. Single event profile detection
 
-SDK also provide some primary statically define profiles which will be used internally to evaluate provided event.
+The function analyzes the event against the provided rules and returns the single most appropriate event profile.
 
-_TBD: link to internal profiles JSON_
+```javascript
+import { detectProfile } from 'openepcis-event-sentry';
 
-``` javascript
-// TBD: define an event here
-val profileChecker = new EventProfileChecker();
-val profile = profileChecker.check(event);
-console.log(profile)
+//Single profile detection using bare event
+const bareEventProfile = detectProfile(bareEvent, customProfileRules);
+console.log(bareEventProfile); //Output: transforming
+
+//Single profile detection per event using epcis document
+const epcisDocumentProfile = detectProfile(epcisDocument, customProfileRules);
+console.log(epcisDocumentProfile); //Output: ['transforming','farming','fishing','slaughtering']
 ```
 
-2. Check with client provided event profiles
+2. Multiple event profiles detection
 
-This approach may be relevant if user of this SDK doesn't find the suitable profile and wants to run through events with custom event profile rules which are supported by framework. You can define & validate rules through SDK's profile definition feature.
+The function analyzes the event against the provided rules and returns the multiple event profiles.
 
-``` javascript
-// TBD: define custom profiles here
-val profileChecker = new EventProfileChecker(profiles);
-val profile = profileChecker.check(event);
-console.log(profile)
+```javascript
+import { detectAllProfiles } from 'openepcis-event-sentry';
+
+//Multiple profile(s) detection using bare event
+const bareEventProfiles = detectAllProfiles(bareEvent, customProfileRules);
+console.log(bareEventProfiles); //Output: ['transforming']
+
+//Multiple profile(s) detection per event using epcis document
+const epcisDocumentProfiles = detectAllProfiles(epcisDocument2, customProfileRules);
+console.log(epcisDocumentProfiles); //Output: [['transforming'],['farming'],['farming','fishing'],['slaughtering']]
 ```
+
+Note: The documents and rules mentioned above correspond to specific file names stored in the following paths:
+
+1. [bareEvent](https://github.com/openepcis/openepcis-event-sentry/blob/GEN-48-event-profile-detection-implementation/test/data/TransformationBareEvent.json)
+2. [epcisDocument](https://github.com/openepcis/openepcis-event-sentry/blob/GEN-48-event-profile-detection-implementation/test/data/EpcisDocument.json)
+3. [epcisDocument2](https://github.com/openepcis/openepcis-event-sentry/blob/GEN-48-event-profile-detection-implementation/test/data/EpcisDocument2.json)
+4. [customProfileRules](https://github.com/openepcis/openepcis-event-sentry/blob/GEN-48-event-profile-detection-implementation/src/rules/event-profile-detection-rules.js)
 
 ## Define Validation Rules for an Event Profile
 
@@ -96,18 +105,17 @@ For example, the followings are additional rules necessary to be complied for an
 
 - Event must have a valid `transformationID`
 - It must have a non-empty `inputQuantityList` or `inputEPCs`
-- It must have a non-empty  `outputQuantityList` or `outputEPCs`
+- It must have a non-empty `outputQuantityList` or `outputEPCs`
 
 Rules definitions mapped to event profiles:
 
-``` javascript
+```javascript
 {
   "name": "transformationID_Rule",
-  "expression": "empty(event.transformationID) or service.isValidTransformationID(event.transformationID)",
+  "expression": "isNotEmpty(event,transformationID) || isValidTransformationID(event,transformationID)",
   "eventProfile": ["transforming"],
   "order": 1,
   "dependsOn": [],
-  "errorCode": 4202,
   "errorMessage": " \"TransformationID malformed - \" + event.transformationID",
   "warning": "",
   "field": "transformationID",
@@ -115,11 +123,10 @@ Rules definitions mapped to event profiles:
 }
 {
   "name": "nonEmptyInputQuantityList_Rule",
-  "expression": "negate(empty(event.inputQuantityList)) and negate(equals(service.getEpcClasses(event.inputQuantityList).size(), 0))",
+  "expression": "isNotEmpty(event,inputQuantityList))",
   "eventProfile": ["transforming"],
   "order": 2,
   "dependsOn": [],
-  "errorCode": 4104,
   "errorMessage": " \"No object ID present - Transformation Event needs to have non empty inputQuantityList\"",
   "warning": "",
   "field": "inputQuantityList",
@@ -127,11 +134,10 @@ Rules definitions mapped to event profiles:
 }
 {
   "name": "nonEmptyOutputQuantityList_Rule",
-  "expression": "negate(empty(event.outputQuantityList)) and negate(equals(service.getEpcClasses(event.outputQuantityList).size(), 0))",
+  "expression": "isNotEmpty(event,outputQuantityList))",
   "eventProfile": ["transforming"],
   "order": 3,
   "dependsOn": [],
-  "errorCode": 4104,
   "errorMessage": " \"No object ID present - Transformation Event needs to have non empty outputQuantityList\"",
   "warning": "",
   "field": "outputQuantityList",
@@ -141,27 +147,26 @@ Rules definitions mapped to event profiles:
 
 ## Check EPCIS Event against validation rules
 
-Similar to profile checker SDK provides two ways to verify event against validation rules
+Similar to profile checker SDK provides way to verify event against validation rules:
 
-1. Verify an EPCIS event against internal profiles and respective validation rules
+1. Verify an EPCIS event against custom validation rules
 
-_ TBD: Reference to internal validation rule file _
+```javascript
+import { validateProfile } from 'openepcis-event-sentry';
 
-``` javascript
-// TBD: define an event here
-val validator = new EventValiator();
-val response = validator.validate(event);
-console.log(response)
+const response = validateProfile(event, customValidationRules);
+console.log(response);
 ```
 
-2. Verify an EPCIS event against custom validation rules
+## Expression Utility Methods
 
-``` javascript
-// TBD: define custom validationRules here
-val validator = new EventValiator(validationRules);
-val response = validator.validate(event);
-console.log(response)
-```
+The openepcis-event-sentry library also provides a set of utility methods for working with expressions.
+
+| Method Name           | Description                                                                              | Usage                                      |
+| --------------------- | ---------------------------------------------------------------------------------------- | ------------------------------------------ |
+| `isNotEmpty`          | Validates whether the specified property is not empty                                    | `isNotEmpty(event,property)`               |
+| `isPropertyKeyExists` | Validates whether the specified key exists in the object                                 | `isPropertyKeyExists(event,keyName)`       |
+| `isPropertyWithValue` | Validates whether the specified value matches with the current value of specified object | `isPropertyWithValue(event,keyName,value)` |
 
 # Contribute
 

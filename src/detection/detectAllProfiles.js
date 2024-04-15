@@ -8,13 +8,11 @@ import _ from 'lodash';
 import {
   detectDocumentType,
   documentTypes,
-  errorMessages,
   isPropertyKeyExists,
   isNotEmpty,
   isValidEpcisEvent,
   parseExpression,
   isPropertyWithValue,
-  replaceMsgParams,
 } from '../index';
 
 const utilMethods = {
@@ -24,7 +22,6 @@ const utilMethods = {
   isNotEmpty,
   isPropertyKeyExists,
   isPropertyWithValue,
-  replaceMsgParams,
 };
 
 const utilMethodMap = {};
@@ -61,9 +58,6 @@ const customMatches = (expression, event, utilMethodMap) => {
     const match = segment.match(/{UTIL_(\d+)}/);
     const index = match[1];
     const utilMethod = utilMethodMap[index].name;
-    if (!utilMethod) {
-      throw new Error(replaceMsgParams('Util method not found for the segment {0}', segment));
-    }
     const originalArgs = utilMethodMap[index].args;
     const remainingArgs = originalArgs.slice(1);
 
@@ -85,8 +79,8 @@ const customMatches = (expression, event, utilMethodMap) => {
   return parseExpression(segments.join(' '));
 };
 
-const detectEventProfiles = (event, profileRules) => {
-  let detectedProfiles = [];
+const processEventProfiles = (event, profileRules) => {
+  const detectedEventProfiles = [];
   for (const rule of profileRules) {
     if (rule.eventType === event.type) {
       const processedExpression = customMatches(
@@ -95,56 +89,33 @@ const detectEventProfiles = (event, profileRules) => {
         utilMethodMap,
       );
       const result = _.template(processedExpression)(event);
-      const profileName = parseExpression(result) === true ? rule.name : '';
-      detectedProfiles.push(profileName);
+      detectedEventProfiles.push(parseExpression(result) === true ? rule.name : '');
     }
   }
-  detectedProfiles = detectedProfiles.filter(
-    (detectedProfile, index) =>
-      detectedProfile !== '' && detectedProfiles.indexOf(detectedProfile) === index,
+  return detectedEventProfiles.filter(
+    (profile, index, self) => profile !== '' && self.indexOf(profile) === index,
   );
-  return detectedProfiles;
 };
 
 const detectEpcisDocumentProfiles = (document, profileRules) => {
-  let detectedProfiles = [];
-  if (Array.isArray(document.epcisBody.eventList)) {
-    document.epcisBody.eventList.forEach((event) => {
-      const profiles = detectEventProfiles(event, profileRules);
-      if (profiles.length > 1) {
-        throw new Error(replaceMsgParams(errorMessages.multipleProfilesDetected, event.type));
-      }
-      detectedProfiles = detectedProfiles.concat(profiles);
-    });
-  }
-  return detectedProfiles;
+  return Array.isArray(document.epcisBody.eventList)
+    ? document.epcisBody.eventList.map((event) => processEventProfiles(event, profileRules))
+    : [];
 };
 
-const detectBareEventProfile = (document, profileRules) => {
-  let detectedProfile = '';
-  for (const rule of profileRules) {
-    if (rule.eventType === document.type) {
-      const processedExpression = customMatches(
-        preprocessExpression(rule.expression),
-        document,
-        utilMethodMap,
-      );
-      const result = _.template(processedExpression)(document);
-      detectedProfile = parseExpression(result) === true ? rule.name : '';
-      break;
-    }
-  }
-  return detectedProfile;
+const detectBareEventProfiles = (document, profileRules) => {
+  return processEventProfiles(document, profileRules);
 };
 
-export const detectProfile = (document, customEventProfileDetectionRules) => {
+export const detectAllProfiles = (document = {}, eventProfileDetectionRules = []) => {
   const detectedDocumentType = detectDocumentType(document);
 
   if (detectedDocumentType === documentTypes.epcisDocument) {
-    return detectEpcisDocumentProfiles(document, customEventProfileDetectionRules);
+    return detectEpcisDocumentProfiles(document, eventProfileDetectionRules);
   } else if (detectedDocumentType === documentTypes.bareEvent) {
-    return detectBareEventProfile(document, customEventProfileDetectionRules);
+    return detectBareEventProfiles(document, eventProfileDetectionRules);
   } else if (detectedDocumentType === documentTypes.unidentified) {
     return -1;
   }
+  return [];
 };
