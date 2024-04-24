@@ -64,7 +64,21 @@ The function analyzes the event against the provided rules and returns the singl
 
 ```javascript
 import { detectProfile } from 'openepcis-event-sentry';
+```
 
+Syntax:
+
+```javascript
+/*
+  1. event: The event you wish to utilize for profile detection, for example, a bare event or an EPCIS document.
+  2. rules: Profile detection rules upon which you base the detection of the profile.
+*/
+detectProfile(event, rules);
+```
+
+Example:
+
+```javascript
 //Single profile detection using bare event
 const bareEventProfile = detectProfile(bareEvent, customProfileRules);
 console.log(bareEventProfile); //Output: transforming
@@ -80,13 +94,30 @@ The function analyzes the event against the provided rules and returns the multi
 
 ```javascript
 import { detectAllProfiles } from 'openepcis-event-sentry';
+```
 
+Syntax:
+
+```javascript
+/*
+  1. event: The event you wish to utilize for profile(s) detection, for example, a bare event or an EPCIS document.
+  2. rules: Profile detection rules upon which you base the detection of the profile(s).
+*/
+detectAllProfiles(event, rules);
+```
+
+Example:
+
+```javascript
 //Multiple profile(s) detection using bare event
 const bareEventProfiles = detectAllProfiles(bareEvent, customProfileRules);
 console.log(bareEventProfiles); //Output: ['transforming']
 
 //Multiple profile(s) detection per event using epcis document
-const epcisDocumentProfiles = detectAllProfiles(epcisDocument2, customProfileRules);
+const epcisDocumentProfiles = detectAllProfiles(
+  epcisDocumentForSlaughteringAndFishing,
+  customProfileRules,
+);
 console.log(epcisDocumentProfiles); //Output: [['transforming'],['farming'],['farming','fishing'],['slaughtering']]
 ```
 
@@ -94,7 +125,7 @@ Note: The documents and rules mentioned above correspond to specific file names 
 
 1. [bareEvent](https://github.com/openepcis/openepcis-event-sentry/blob/GEN-48-event-profile-detection-implementation/test/data/TransformationBareEvent.json)
 2. [epcisDocument](https://github.com/openepcis/openepcis-event-sentry/blob/GEN-48-event-profile-detection-implementation/test/data/EpcisDocument.json)
-3. [epcisDocument2](https://github.com/openepcis/openepcis-event-sentry/blob/GEN-48-event-profile-detection-implementation/test/data/EpcisDocument2.json)
+3. [epcisDocumentForSlaughteringAndFishing](https://github.com/openepcis/openepcis-event-sentry/blob/GEN-48-event-profile-detection-implementation/test/data/EpcisDocumentForSlaughteringAndFishing.json)
 4. [customProfileRules](https://github.com/openepcis/openepcis-event-sentry/blob/GEN-48-event-profile-detection-implementation/src/rules/event-profile-detection-rules.js)
 
 ## Define Validation Rules for an Event Profile
@@ -111,37 +142,36 @@ Rules definitions mapped to event profiles:
 
 ```javascript
 {
-  "name": "transformationID_Rule",
-  "expression": "isNotEmpty(event,transformationID) || isValidTransformationID(event,transformationID)",
-  "eventProfile": ["transforming"],
+  "name": 'transformationID_Rule',
+  "expression": 'isNotEmpty(event,transformationID)',
+  "eventProfile": ['transforming'],
   "order": 1,
-  "dependsOn": [],
-  "errorMessage": " \"TransformationID malformed - \" + event.transformationID",
-  "warning": "",
-  "field": "transformationID",
-  "value": "event.transformationID"
-}
+  "errorMessage": 'TransformationID malformed',
+  "warning": 'TransformationID should not be null or undefined',
+  "field": 'transformationID',
+  "value": 'event.transformationID',
+},
 {
-  "name": "nonEmptyInputQuantityList_Rule",
-  "expression": "isNotEmpty(event,inputQuantityList))",
-  "eventProfile": ["transforming"],
+  "name": 'nonEmptyInputQuantityList_Rule',
+  "expression": 'isNotEmpty(event,inputQuantityList)',
+  "eventProfile": ['transforming'],
   "order": 2,
-  "dependsOn": [],
-  "errorMessage": " \"No object ID present - Transformation Event needs to have non empty inputQuantityList\"",
-  "warning": "",
-  "field": "inputQuantityList",
-  "value": "\"inputQuantityList is empty\""
-}
+  "errorMessage":
+    'No object ID present - Transformation Event needs to have non empty inputQuantityList',
+  "warning": 'Transformation Event needs to have non empty inputQuantityList',
+  "field": 'inputQuantityList',
+  "value": 'inputQuantityList is empty',
+},
 {
-  "name": "nonEmptyOutputQuantityList_Rule",
-  "expression": "isNotEmpty(event,outputQuantityList))",
-  "eventProfile": ["transforming"],
+  "name": 'nonEmptyOutputQuantityList_Rule',
+  "expression": 'isNotEmpty(event,outputQuantityList)',
+  "eventProfile": ['transforming'],
   "order": 3,
-  "dependsOn": [],
-  "errorMessage": " \"No object ID present - Transformation Event needs to have non empty outputQuantityList\"",
-  "warning": "",
-  "field": "outputQuantityList",
-  "value": "\"outputQuantityList is empty\""
+  "errorMessage":
+    'No object ID present - Transformation Event needs to have non empty outputQuantityList',
+  "warning": 'Transformation Event needs to have non empty outputQuantityList',
+  "field": 'outputQuantityList',
+  "value": 'outputQuantityList is empty',
 }
 ```
 
@@ -153,20 +183,92 @@ Similar to profile checker SDK provides way to verify event against validation r
 
 ```javascript
 import { validateProfile } from 'openepcis-event-sentry';
-
-const response = validateProfile(event, customValidationRules);
-console.log(response);
 ```
+
+Syntax:
+
+```javascript
+/*
+  1. event: The event you wish to utilize for profile detection, for example, a bare event or an EPCIS document.
+  2. profileName: The names of the event profile you intend to validate against the particular event, such as  [transforming, fishing, farming] etc... 
+  3. rules: validation rules based on which you want to validate the event
+*/
+validateProfile(event, profileNames, rules);
+```
+
+Example:
+
+```javascript
+//validation using the bare event
+const response = validateProfile(bareEvent, ['transforming'], customValidationRules);
+console.log(response); //output: []
+
+//validation using the epcis document
+const response = validateProfile(
+  epcisDocumentWithMissingData,
+  ['transforming', 'slaughtering'],
+  customValidationRules,
+);
+console.log(response);
+/*
+output: 
+[
+  [
+    {
+      index: 1,
+      errors: [
+        {
+          name: 'nonEmptyInputQuantityList_Rule',
+          eventProfile: ['transforming'],
+          errorMessage:
+            'No object ID present - Transformation Event needs to have non empty inputQuantityList',
+          warning: 'Transformation Event needs to have non empty inputQuantityList',
+          field: 'inputQuantityList',
+        },
+        {
+          name: 'nonEmptyOutputQuantityList_Rule',
+          eventProfile: ['transforming'],
+          errorMessage:
+            'No object ID present - Transformation Event needs to have non empty outputQuantityList',
+          warning: 'Transformation Event needs to have non empty outputQuantityList',
+          field: 'outputQuantityList',
+        },
+      ],
+    },
+  ],
+  [
+    {
+      index: 2,
+      errors: [
+        {
+          name: 'agricultureDetailsInIlmdExists_Rule',
+          eventProfile: ['slaughtering'],
+          errorMessage: 'agricultureDetails is not exists',
+          warning: 'agricultureDetails is not exists',
+          field: 'agricultureDetails',
+        },
+      ],
+    },
+  ],
+]
+*/
+```
+
+Note: The documents and rules mentioned above correspond to specific file names stored in the following paths:
+
+1. [bareEvent](https://github.com/openepcis/openepcis-event-sentry/blob/GEN-48-event-profile-detection-implementation/test/data/TransformationBareEvent.json)
+2. [epcisDocumentWithMissingData](https://github.com/openepcis/openepcis-event-sentry/blob/GEN-48-event-profile-detection-implementation/test/data/EpcisDocumentWithMissingData.json)
+3. [customValidationRules](https://github.com/openepcis/openepcis-event-sentry/blob/GEN-50-event-profile-validation-implementation/src/rules/event-profile-validation-rules.js)
 
 ## Expression Utility Methods
 
 The openepcis-event-sentry library also provides a set of utility methods for working with expressions.
 
-| Method Name           | Description                                                                              | Usage                                      |
-| --------------------- | ---------------------------------------------------------------------------------------- | ------------------------------------------ |
-| `isNotEmpty`          | Validates whether the specified property is not empty                                    | `isNotEmpty(event,property)`               |
-| `isPropertyKeyExists` | Validates whether the specified key exists in the object                                 | `isPropertyKeyExists(event,keyName)`       |
-| `isPropertyWithValue` | Validates whether the specified value matches with the current value of specified object | `isPropertyWithValue(event,keyName,value)` |
+| Method Name            | Description                                                             | Usage                                       |
+| ---------------------- | ----------------------------------------------------------------------- | ------------------------------------------- |
+| `isNotEmpty`           | Validates whether the specified property is not empty                   | `isNotEmpty(event,property)`                |
+| `isPropertyKeyExists`  | Validates whether the specified key exists in the object                | `isPropertyKeyExists(event,keyName)`        |
+| `isKeyValuePairExists` | Validates whether the specified key and value pair exists in the object | `isKeyValuePairExists(event,keyName,value)` |
 
 # Contribute
 

@@ -13,7 +13,7 @@ import {
   isNotEmpty,
   isValidEpcisEvent,
   parseExpression,
-  isPropertyWithValue,
+  isKeyValuePairExists,
   replaceMsgParams,
 } from '../index';
 
@@ -23,7 +23,7 @@ const utilMethods = {
   detectDocumentType,
   isNotEmpty,
   isPropertyKeyExists,
-  isPropertyWithValue,
+  isKeyValuePairExists,
   replaceMsgParams,
 };
 
@@ -33,6 +33,7 @@ const preprocessExpression = (expression) => {
   let utilMethodIndex = Object.keys(utilMethodMap).length;
 
   return expression.replace(/(\w+)\(([^)]+)\)/g, (_, functionName, args) => {
+    args = args.replace(/\s/g, '');
     utilMethodMap[utilMethodIndex++] = {
       name: functionName,
       args: args.split(','),
@@ -137,7 +138,7 @@ const detectBareEventProfile = (document, profileRules) => {
   return detectedProfile;
 };
 
-export const detectProfile = (document, customEventProfileDetectionRules) => {
+export const detectProfile = (document = {}, customEventProfileDetectionRules = []) => {
   const detectedDocumentType = detectDocumentType(document);
 
   if (detectedDocumentType === documentTypes.epcisDocument) {

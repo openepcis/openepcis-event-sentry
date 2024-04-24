@@ -9,6 +9,6 @@ export const customProfileRules = [
     name: 'observing',
     eventType: 'ObjectEvent',
     expression:
-      'isPropertyWithValue(event,action,OBSERVE) && isPropertyWithValue(event,type,ObjectEvent)',
+      'isKeyValuePairExists(event,action,OBSERVE) && isKeyValuePairExists(event,type,ObjectEvent)',
   },
 ];

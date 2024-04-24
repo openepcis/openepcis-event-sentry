@@ -58,6 +58,19 @@ export const replaceMsgParams = (origMsg, ...params) => {
   return msg;
 };
 
+//Function to get the validated event object
+export const eventProfileValidationResult = (isValidEvent, validationRule) => {
+  const failureEventObject = {
+    name: validationRule.name,
+    eventProfile: validationRule.eventProfile,
+    errorMessage: validationRule.errorMessage,
+    warning: validationRule.warning,
+    field: validationRule.field,
+  };
+
+  return isValidEvent === true ? '' : failureEventObject;
+};
+
 //Function to check if the property is empty or not
 export const isNotEmpty = (object, property) => {
   if (typeof object !== 'object' || object === null) {
@@ -115,7 +128,7 @@ export const isPropertyKeyExists = (object, propertyKey) => {
 };
 
 //Function to check whether the given value matches with actual value of the given key or not
-export const isPropertyWithValue = (object, propertyKey, value) => {
+export const isKeyValuePairExists = (object, propertyKey, value) => {
   const jsonString = JSON.stringify(object);
   const parsedObject = JSON.parse(jsonString);
 
@@ -126,7 +139,7 @@ export const isPropertyWithValue = (object, propertyKey, value) => {
   const keys = Object.keys(parsedObject);
   for (const key of keys) {
     if (typeof parsedObject[key] === 'object') {
-      if (isPropertyWithValue(parsedObject[key], propertyKey, value)) {
+      if (isKeyValuePairExists(parsedObject[key], propertyKey, value)) {
         return true;
       }
     }

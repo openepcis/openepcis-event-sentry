@@ -12,7 +12,7 @@ import {
   isNotEmpty,
   isValidEpcisEvent,
   parseExpression,
-  isPropertyWithValue,
+  isKeyValuePairExists,
 } from '../index';
 
 const utilMethods = {
@@ -21,7 +21,7 @@ const utilMethods = {
   detectDocumentType,
   isNotEmpty,
   isPropertyKeyExists,
-  isPropertyWithValue,
+  isKeyValuePairExists,
 };
 
 const utilMethodMap = {};
@@ -30,6 +30,7 @@ const preprocessExpression = (expression) => {
   let utilMethodIndex = Object.keys(utilMethodMap).length;
 
   return expression.replace(/(\w+)\(([^)]+)\)/g, (_, functionName, args) => {
+    args = args.replace(/\s/g, '');
     utilMethodMap[utilMethodIndex++] = {
       name: functionName,
       args: args.split(','),

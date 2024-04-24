@@ -5,18 +5,16 @@
  */
 
 import { describe, expect, it } from 'vitest';
-import {
-  TransformationBareEvent,
-  detectAllProfiles,
-  IncorrectBareEvent,
-  IncorrectEpcisDocument,
-  EpcisDocument,
-  CustomEpcisDocument,
-  customProfileRules,
-  eventProfileDetectionRules,
-  detectProfile,
-  EpcisDocument2,
-} from '../src/index';
+import * as TransformationBareEvent from '../test/data/TransformationBareEvent.json';
+import * as IncorrectBareEvent from '../test/data/IncorrectBareEvent.json';
+import * as EpcisDocument from '../test/data/EpcisDocument.json';
+import * as EpcisDocumentForSlaughteringAndFishing from '../test/data/EpcisDocumentForSlaughteringAndFishing.json';
+import * as IncorrectEpcisDocument from '../test/data/IncorrectEpcisDocument.json';
+import * as CustomEpcisDocument from '../test/data/CustomEpcisDocument.json';
+import { customProfileRules } from '../test/data/custom-profile-rules';
+import { eventProfileDetectionRules } from '../src/rules/event-profile-detection-rules';
+import { detectAllProfiles } from '../src/detection/detectAllProfiles';
+import { detectProfile } from '../src/detection/detectProfile';
 
 describe('Test case for detecting event profile', () => {
   it('should return valid event profile(s) for the bare event using detectAllProfiles', () => {
@@ -26,7 +24,7 @@ describe('Test case for detecting event profile', () => {
   });
 
   it('should return valid event profile(s) for multiple EPCIS event(s) using detectAllProfiles', () => {
-    expect(detectAllProfiles(EpcisDocument2, eventProfileDetectionRules)).toEqual([
+    expect(detectAllProfiles(EpcisDocumentForSlaughteringAndFishing, eventProfileDetectionRules)).toEqual([
       ['transforming'],
       ['farming'],
       ['farming', 'fishing'],
