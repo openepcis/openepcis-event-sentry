@@ -15,6 +15,25 @@ import { customProfileRules } from '../test/data/custom-profile-rules';
 import { eventProfileDetectionRules } from '../src/rules/event-profile-detection-rules';
 import { detectAllProfiles } from '../src/detection/detectAllProfiles';
 import { detectProfile } from '../src/detection/detectProfile';
+import { compliesToProfileRule } from '../src';
+
+const correctProfileRule = [
+  {
+    name: 'transforming',
+    eventType: 'TransformationEvent',
+    expression:
+      'isNotEmpty(event,transformationID) && isNotEmpty(event,inputQuantityList) && isNotEmpty(event,outputQuantityList)',
+  },
+];
+
+const incorrectProfileRule = [
+  {
+    name: 'transforming',
+    eventType: 'TransformationEvent',
+    expression:
+      '!isNotEmpty(event,transformationID) && isNotEmpty(event,inputQuantityList) && isNotEmpty(event,outputQuantityList)',
+  },
+];
 
 describe('Test case for detecting event profile', () => {
   it('should return valid event profile(s) for the bare event using detectAllProfiles', () => {
@@ -64,5 +83,15 @@ describe('Test case for the document', () => {
     it('should return -1 if the EPCIS document is not valid using detectAllProfiles', () => {
       expect(detectAllProfiles(IncorrectEpcisDocument, eventProfileDetectionRules)).toEqual(-1);
     });
+  });
+});
+
+describe('Test case for the compiles event to profile rule', () => {
+  it('should return true if the event successfully compiles to the profile rule', () => {
+    expect(compliesToProfileRule(TransformationBareEvent, correctProfileRule)).toEqual(true);
+  });
+
+  it('should return fase if the event not compiles to the profile rule', () => {
+    expect(compliesToProfileRule(TransformationBareEvent, incorrectProfileRule)).toEqual(false);
   });
 });
