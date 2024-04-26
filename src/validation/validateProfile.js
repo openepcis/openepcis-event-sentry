@@ -5,6 +5,8 @@
  */
 
 import _ from 'lodash';
+import Ajv from 'ajv';
+const ajv = new Ajv();
 import {
   detectDocumentType,
   isPropertyKeyExists,
@@ -17,6 +19,7 @@ import {
   documentTypes,
   isMultidimensionalArray,
   isPropertyString,
+  profileValidationRulesSchema,
 } from '../index';
 
 const utilMethods = {
@@ -168,8 +171,10 @@ export const validateProfile = (
   profileName = [],
   eventProfileValidationRules = [],
 ) => {
-  if (document && profileName && eventProfileValidationRules) {
-    const detectedDocumentType = detectDocumentType(document);
+  const validate = ajv.compile(profileValidationRulesSchema);
+  const valid = validate(eventProfileValidationRules);
+  const detectedDocumentType = detectDocumentType(document);
+  if (valid) {
     if (detectedDocumentType === documentTypes.epcisDocument) {
       return validateEpcisDocumentProfiles(document, profileName, eventProfileValidationRules);
     } else if (detectedDocumentType === documentTypes.bareEvent) {
@@ -177,6 +182,8 @@ export const validateProfile = (
     } else if (detectedDocumentType === documentTypes.unidentified) {
       return -1;
     }
+  } else {
+    return validate.errors;
   }
   return [];
 };

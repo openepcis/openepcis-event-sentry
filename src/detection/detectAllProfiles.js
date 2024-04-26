@@ -5,6 +5,8 @@
  */
 
 import _ from 'lodash';
+import Ajv from 'ajv';
+const ajv = new Ajv();
 import {
   detectDocumentType,
   documentTypes,
@@ -13,6 +15,7 @@ import {
   isValidEpcisEvent,
   parseExpression,
   isKeyValuePairExists,
+  profileDetectionRulesSchema,
 } from '../index';
 
 const utilMethods = {
@@ -109,14 +112,19 @@ const detectBareEventProfiles = (document, profileRules) => {
 };
 
 export const detectAllProfiles = (document = {}, eventProfileDetectionRules = []) => {
+  const validate = ajv.compile(profileDetectionRulesSchema);
+  const valid = validate(eventProfileDetectionRules);
   const detectedDocumentType = detectDocumentType(document);
-
-  if (detectedDocumentType === documentTypes.epcisDocument) {
-    return detectEpcisDocumentProfiles(document, eventProfileDetectionRules);
-  } else if (detectedDocumentType === documentTypes.bareEvent) {
-    return detectBareEventProfiles(document, eventProfileDetectionRules);
-  } else if (detectedDocumentType === documentTypes.unidentified) {
-    return -1;
+  if (valid) {
+    if (detectedDocumentType === documentTypes.epcisDocument) {
+      return detectEpcisDocumentProfiles(document, eventProfileDetectionRules);
+    } else if (detectedDocumentType === documentTypes.bareEvent) {
+      return detectBareEventProfiles(document, eventProfileDetectionRules);
+    } else if (detectedDocumentType === documentTypes.unidentified) {
+      return -1;
+    }
+  } else {
+    return validate.errors;
   }
   return [];
 };

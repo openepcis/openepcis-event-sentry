@@ -5,6 +5,8 @@
  */
 
 import _ from 'lodash';
+import Ajv from 'ajv';
+const ajv = new Ajv();
 import {
   detectDocumentType,
   documentTypes,
@@ -15,6 +17,7 @@ import {
   parseExpression,
   isKeyValuePairExists,
   replaceMsgParams,
+  profileDetectionRulesSchema,
 } from '../index';
 
 const utilMethods = {
@@ -139,13 +142,19 @@ const detectBareEventProfile = (document, profileRules) => {
 };
 
 export const detectProfile = (document = {}, customEventProfileDetectionRules = []) => {
+  const validate = ajv.compile(profileDetectionRulesSchema);
+  const valid = validate(customEventProfileDetectionRules);
   const detectedDocumentType = detectDocumentType(document);
-
-  if (detectedDocumentType === documentTypes.epcisDocument) {
-    return detectEpcisDocumentProfiles(document, customEventProfileDetectionRules);
-  } else if (detectedDocumentType === documentTypes.bareEvent) {
-    return detectBareEventProfile(document, customEventProfileDetectionRules);
-  } else if (detectedDocumentType === documentTypes.unidentified) {
-    return -1;
+  if (valid) {
+    if (detectedDocumentType === documentTypes.epcisDocument) {
+      return detectEpcisDocumentProfiles(document, customEventProfileDetectionRules);
+    } else if (detectedDocumentType === documentTypes.bareEvent) {
+      return detectBareEventProfile(document, customEventProfileDetectionRules);
+    } else if (detectedDocumentType === documentTypes.unidentified) {
+      return -1;
+    }
+  } else {
+    return validate.errors;
   }
+  return [];
 };

@@ -15,6 +15,46 @@ const epcisEventTypes = [
   'AssociationEvent',
 ];
 
+//schema to validate the profile detection rules
+export const profileDetectionRulesSchema = {
+  type: 'array',
+  items: {
+    type: 'object',
+    required: ['name', 'eventType', 'expression'],
+    properties: {
+      name: { type: 'string' },
+      eventType: {
+        type: 'string',
+        enum: [
+          'ObjectEvent',
+          'AggregationEvent',
+          'TransactionEvent',
+          'TransformationEvent',
+          'AssociationEvent',
+        ],
+      },
+      expression: { type: 'string' },
+    },
+  },
+};
+
+//schema to validate the profile validation rules rules
+export const profileValidationRulesSchema = {
+  type: 'array',
+  items: {
+    type: 'object',
+    required: ['name', 'eventProfile', 'expression', 'errorMessage', 'warning', 'field'],
+    properties: {
+      name: { type: 'string' },
+      eventType: { type: 'array' },
+      expression: { type: 'string' },
+      errorMessage: { type: 'string' },
+      warning: { type: 'string' },
+      field: { type: 'string' },
+    },
+  },
+};
+
 //Function to evaluate the string expression
 export const parseExpression = (expression) => {
   const tokens = expression.match(/\S+/g) || [];
