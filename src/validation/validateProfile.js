@@ -15,6 +15,8 @@ import {
   replaceMsgParams,
   eventProfileValidationResult,
   documentTypes,
+  isMultidimensionalArray,
+  isPropertyString,
 } from '../index';
 
 const utilMethods = {
@@ -90,7 +92,9 @@ const customMatches = (expression, event, utilMethodMap) => {
 const validateEventProfiles = (event, profileName, profileRules) => {
   let eventProfileValidationResults = [];
   const uniqueProfiles = {};
-  const filteredRules = profileRules.filter((r) => r.eventProfile.includes(profileName));
+  const filteredRules = profileRules.filter((profileRule) =>
+    profileRule.eventProfile.includes(profileName),
+  );
   for (const rule of filteredRules) {
     const processedExpression = customMatches(
       preprocessExpression(rule.expression),
@@ -112,10 +116,23 @@ const validateEpcisDocumentProfiles = (document, profileNames, profileRules) => 
   const validationResults = [];
   if (Array.isArray(document.epcisBody.eventList)) {
     document.epcisBody.eventList.forEach((event, index) => {
-      const profileName = profileNames[index];
-      const eventValidationResults = validateEventProfiles(event, profileName, profileRules);
-      if (eventValidationResults.length > 0) {
-        validationResults.push([{ index: index + 1, errors: eventValidationResults }]);
+      if (isMultidimensionalArray(profileNames)) {
+        let eventValidationResults = [];
+        const profilesForEvent = Array.isArray(profileNames[index])
+          ? profileNames[index]
+          : [profileNames[index]];
+        profilesForEvent.forEach((profileName) => {
+          eventValidationResults.push(validateEventProfiles(event, profileName, profileRules));
+        });
+        if (eventValidationResults.length > 0) {
+          validationResults.push([{ index: index + 1, errors: eventValidationResults.flat() }]);
+        }
+      } else {
+        const profileName = profileNames[index];
+        const eventValidationResults = validateEventProfiles(event, profileName, profileRules);
+        if (eventValidationResults.length > 0) {
+          validationResults.push([{ index: index + 1, errors: eventValidationResults }]);
+        }
       }
     });
   }
@@ -124,10 +141,24 @@ const validateEpcisDocumentProfiles = (document, profileNames, profileRules) => 
 
 const validateBareEventProfiles = (document, profileNames, profileRules) => {
   const validationResults = [];
-  const profileName = profileNames[0];
-  const eventValidationResults = validateEventProfiles(document, profileName, profileRules);
-  if (eventValidationResults.length > 0) {
-    validationResults.push({ index: 1, errors: eventValidationResults });
+  if (isPropertyString(profileNames)) {
+    const eventValidationResults = validateEventProfiles(document, profileNames, profileRules);
+    if (eventValidationResults.length > 0) {
+      validationResults.push({ index: 1, errors: eventValidationResults });
+    }
+  } else if (profileNames.length === 1) {
+    const profileName = profileNames[0];
+    const eventValidationResults = validateEventProfiles(document, profileName, profileRules);
+    if (eventValidationResults.length > 0) {
+      validationResults.push({ index: 1, errors: eventValidationResults });
+    }
+  } else if (profileNames.length > 1) {
+    profileNames.forEach((profileName) => {
+      const eventValidationResults = validateEventProfiles(document, profileName, profileRules);
+      if (eventValidationResults.length > 0) {
+        validationResults.push({ index: 1, errors: eventValidationResults });
+      }
+    });
   }
   return validationResults;
 };

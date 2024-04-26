@@ -24,12 +24,9 @@ describe('Test case for detecting event profile', () => {
   });
 
   it('should return valid event profile(s) for multiple EPCIS event(s) using detectAllProfiles', () => {
-    expect(detectAllProfiles(EpcisDocumentForSlaughteringAndFishing, eventProfileDetectionRules)).toEqual([
-      ['transforming'],
-      ['farming'],
-      ['farming', 'fishing'],
-      ['slaughtering'],
-    ]);
+    expect(
+      detectAllProfiles(EpcisDocumentForSlaughteringAndFishing, eventProfileDetectionRules),
+    ).toEqual([['transforming'], ['farming'], ['farming', 'fishing'], ['slaughtering']]);
   });
 
   it('should return valid event profile(s) for custom events and rules using detectAllProfiles', () => {

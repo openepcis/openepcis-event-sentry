@@ -71,6 +71,16 @@ export const eventProfileValidationResult = (isValidEvent, validationRule) => {
   return isValidEvent === true ? '' : failureEventObject;
 };
 
+//Function to check whether the given property is multi-dimensional array or not
+export const isMultidimensionalArray = (property) => {
+  return property.some(Array.isArray);
+};
+
+//Function to check whether the given property is string or not
+export const isPropertyString = (property) => {
+  return typeof property === 'string';
+};
+
 //Function to check if the property is empty or not
 export const isNotEmpty = (object, property) => {
   if (typeof object !== 'object' || object === null) {

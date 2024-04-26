@@ -10,17 +10,37 @@ import * as IncorrectBareEvent from '../test/data/IncorrectBareEvent.json';
 import * as EpcisDocumentWithMissingData from '../test/data/EpcisDocumentWithMissingData.json';
 import * as IncorrectEpcisDocument from '../test/data/IncorrectEpcisDocument.json';
 import { eventProfileValidationRules } from '../src/rules/event-profile-validation-rules';
-import { validationProfileEpcisDocumentResponse } from '../test/data/validationRulesResponse';
+import {
+  multipleProfilesBareEventResponse,
+  validationProfileEpcisDocumentResponse,
+  multiDimensionalProfilesEpcisDocumentResponse,
+} from '../test/data/validationRulesResponse';
 import { validateProfile } from '../src/validation/validateProfile';
 
 describe('Test case for validating event profile', () => {
-  it('should return success response if the event is validated successfully', () => {
+  it('should return success response for the single string event profile for Bare event if the event is validated successfully', () => {
+    expect(
+      validateProfile(TransformationBareEvent, 'transforming', eventProfileValidationRules),
+    ).toEqual([]);
+  });
+
+  it('should return success response for the single event profile for Bare event if the event is validated successfully', () => {
     expect(
       validateProfile(TransformationBareEvent, ['transforming'], eventProfileValidationRules),
     ).toEqual([]);
   });
 
-  it('should return error response if the event is not validated successfully', () => {
+  it('should return error response for the multiple event profiles for Bare event if the event is not validated successfully', () => {
+    expect(
+      validateProfile(
+        TransformationBareEvent,
+        ['transforming', 'slaughtering'],
+        eventProfileValidationRules,
+      ),
+    ).toEqual(multipleProfilesBareEventResponse);
+  });
+
+  it('should return error response for single event profile for single EPCIS event if the event is not validated successfully', () => {
     expect(
       validateProfile(
         EpcisDocumentWithMissingData,
@@ -28,6 +48,16 @@ describe('Test case for validating event profile', () => {
         eventProfileValidationRules,
       ),
     ).toEqual(validationProfileEpcisDocumentResponse);
+  });
+
+  it('should return error response for single or multiple event profile(s) for single EPCIS event if the event is not validated successfully', () => {
+    expect(
+      validateProfile(
+        EpcisDocumentWithMissingData,
+        [['transforming', 'fishing'], ['slaughtering']],
+        eventProfileValidationRules,
+      ),
+    ).toEqual(multiDimensionalProfilesEpcisDocumentResponse);
   });
 });
 
