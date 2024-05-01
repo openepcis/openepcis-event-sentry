@@ -50,7 +50,7 @@ Sample definition of event profile "transforming"
 {
   "name": "transforming",
   "eventType": "TransformationEvent",
-  "expression": "isNotEmpty(event,transformationID)"
+  "expression": "!_isEmpty(event.transformationID)"
 }
 ```
 
@@ -123,10 +123,41 @@ console.log(epcisDocumentProfiles); //Output: [['transforming'],['farming'],['fa
 
 Note: The documents and rules mentioned above correspond to specific file names stored in the following paths:
 
-1. [bareEvent](https://github.com/openepcis/openepcis-event-sentry/blob/GEN-48-event-profile-detection-implementation/test/data/TransformationBareEvent.json)
-2. [epcisDocument](https://github.com/openepcis/openepcis-event-sentry/blob/GEN-48-event-profile-detection-implementation/test/data/EpcisDocument.json)
-3. [epcisDocumentForSlaughteringAndFishing](https://github.com/openepcis/openepcis-event-sentry/blob/GEN-48-event-profile-detection-implementation/test/data/EpcisDocumentForSlaughteringAndFishing.json)
-4. [customProfileRules](https://github.com/openepcis/openepcis-event-sentry/blob/GEN-48-event-profile-detection-implementation/src/rules/event-profile-detection-rules.js)
+1. [bareEvent](https://github.com/openepcis/openepcis-event-sentry/blob/main/test/data/TransformationBareEvent.json)
+2. [epcisDocument](https://github.com/openepcis/openepcis-event-sentry/blob/main/test/data/EpcisDocument.json)
+3. [epcisDocumentForSlaughteringAndFishing](https://github.com/openepcis/openepcis-event-sentry/blob/main/test/data/EpcisDocumentForSlaughteringAndFishing.json)
+4. [customProfileRules](https://github.com/openepcis/openepcis-event-sentry/blob/main/src/rules/event-profile-detection-rules.js)
+
+## Check event complies to the rule
+
+This SDK provides the functionality to verify if a given event adheres to a specific rule set.
+
+```javascript
+import { compliesToProfileRule } from 'openepcis-event-sentry';
+```
+
+Syntax:
+
+```javascript
+/*
+  1. event: The event object you want to evaluate.
+  2. rule: The profile detection rules used for the compliance check.
+*/
+compliesToProfileRule(event, rule);
+```
+
+Example:
+
+```javascript
+//Multiple profile(s) detection using bare event
+const isComplies = compliesToProfileRule(bareEvent, customProfileRule);
+console.log(isComplies); //Output: false
+```
+
+Note: The documents and rules mentioned above correspond to specific file names stored in the following paths:
+
+1. [bareEvent](https://github.com/openepcis/openepcis-event-sentry/blob/main/test/data/TransformationBareEvent.json)
+2. [customProfileRule](https://github.com/openepcis/openepcis-event-sentry/blob/main/test/data/custom-profile-rules.json)
 
 ## Define Validation Rules for an Event Profile
 
@@ -143,7 +174,7 @@ Rules definitions mapped to event profiles:
 ```javascript
 {
   "name": 'transformationID_Rule',
-  "expression": 'isNotEmpty(event,transformationID)',
+  "expression": '!_isEmpty(event.transformationID)',
   "eventProfile": ['transforming'],
   "order": 1,
   "errorMessage": 'TransformationID malformed',
@@ -153,7 +184,7 @@ Rules definitions mapped to event profiles:
 },
 {
   "name": 'nonEmptyInputQuantityList_Rule',
-  "expression": 'isNotEmpty(event,inputQuantityList)',
+  "expression": '!_isEmpty(event.inputQuantityList)',
   "eventProfile": ['transforming'],
   "order": 2,
   "errorMessage":
@@ -164,7 +195,7 @@ Rules definitions mapped to event profiles:
 },
 {
   "name": 'nonEmptyOutputQuantityList_Rule',
-  "expression": 'isNotEmpty(event,outputQuantityList)',
+  "expression": '!_isEmpty(event.outputQuantityList)',
   "eventProfile": ['transforming'],
   "order": 3,
   "errorMessage":
@@ -256,19 +287,9 @@ output:
 
 Note: The documents and rules mentioned above correspond to specific file names stored in the following paths:
 
-1. [bareEvent](https://github.com/openepcis/openepcis-event-sentry/blob/GEN-48-event-profile-detection-implementation/test/data/TransformationBareEvent.json)
-2. [epcisDocumentWithMissingData](https://github.com/openepcis/openepcis-event-sentry/blob/GEN-48-event-profile-detection-implementation/test/data/EpcisDocumentWithMissingData.json)
-3. [customValidationRules](https://github.com/openepcis/openepcis-event-sentry/blob/GEN-50-event-profile-validation-implementation/src/rules/event-profile-validation-rules.js)
-
-## Expression Utility Methods
-
-The openepcis-event-sentry library also provides a set of utility methods for working with expressions.
-
-| Method Name            | Description                                                             | Usage                                       |
-| ---------------------- | ----------------------------------------------------------------------- | ------------------------------------------- |
-| `isNotEmpty`           | Validates whether the specified property is not empty                   | `isNotEmpty(event,property)`                |
-| `isPropertyKeyExists`  | Validates whether the specified key exists in the object                | `isPropertyKeyExists(event,keyName)`        |
-| `isKeyValuePairExists` | Validates whether the specified key and value pair exists in the object | `isKeyValuePairExists(event,keyName,value)` |
+1. [bareEvent](https://github.com/openepcis/openepcis-event-sentry/blob/main/test/data/TransformationBareEvent.json)
+2. [epcisDocumentWithMissingData](https://github.com/openepcis/openepcis-event-sentry/blob/main/test/data/EpcisDocumentWithMissingData.json)
+3. [customValidationRules](https://github.com/openepcis/openepcis-event-sentry/blob/main/src/rules/event-profile-validation-rules.js)
 
 # Contribute
 

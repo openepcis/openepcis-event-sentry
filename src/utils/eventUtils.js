@@ -5,6 +5,7 @@
  */
 
 import { documentTypes } from '../index';
+import _ from 'lodash';
 
 //Epcis event types
 const epcisEventTypes = [
@@ -121,79 +122,21 @@ export const isPropertyString = (property) => {
   return typeof property === 'string';
 };
 
-//Function to check if the property is empty or not
-export const isNotEmpty = (object, property) => {
-  if (typeof object !== 'object' || object === null) {
-    return false;
-  }
-
-  if (Array.isArray(object[property])) {
-    return object[property].length > 0;
-  } else if (
-    typeof object[property] === 'object' &&
-    !Array.isArray(object[property]) &&
-    Object.keys(object[property]).length > 0
-  ) {
-    return true;
-  } else if (
-    object[property] !== '' &&
-    object[property] !== undefined &&
-    object[property] !== null
-  ) {
-    return true;
-  }
-
-  for (const key in object) {
-    if (isNotEmpty(object[key], property)) {
-      return true;
-    }
-  }
-
-  return false;
+//Function to sanitize the expression
+export const sanitizeInput = (expression) => {
+  return expression.replace(/<script[^>]*>.*?<\/script>|<\/?[^>]+>|on\w+="[^"]*"|&/g, '');
 };
 
-//Function to check whether the key exists in the object or not
-export const isPropertyKeyExists = (object, propertyKey) => {
-  if (!object || typeof object !== 'object') {
-    return false;
+//Function to execute the expression eg. lodash methods
+export const expressionExecutor = (expression, context) => {
+  const sandbox = {};
+  const sanitizedExpression = sanitizeInput(expression);
+  sandbox._ = _;
+  sandbox.event = context;
+  try {
+    const evaluator = new Function('with(this) { return ' + sanitizedExpression + '; }');
+    return evaluator.call(sandbox);
+  } catch {
+    return undefined;
   }
-
-  const jsonString = JSON.stringify(object);
-  const parsedObject = JSON.parse(jsonString);
-
-  if (propertyKey in parsedObject) {
-    return true;
-  }
-
-  const keys = Object.keys(parsedObject);
-  for (const key of keys) {
-    if (typeof parsedObject[key] === 'object') {
-      if (isPropertyKeyExists(parsedObject[key], propertyKey)) {
-        return true;
-      }
-    }
-  }
-
-  return false;
-};
-
-//Function to check whether the given value matches with actual value of the given key or not
-export const isKeyValuePairExists = (object, propertyKey, value) => {
-  const jsonString = JSON.stringify(object);
-  const parsedObject = JSON.parse(jsonString);
-
-  if (parsedObject[propertyKey] === value) {
-    return true;
-  }
-
-  const keys = Object.keys(parsedObject);
-  for (const key of keys) {
-    if (typeof parsedObject[key] === 'object') {
-      if (isKeyValuePairExists(parsedObject[key], propertyKey, value)) {
-        return true;
-      }
-    }
-  }
-
-  return false;
 };

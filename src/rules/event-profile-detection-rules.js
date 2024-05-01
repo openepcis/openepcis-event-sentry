@@ -9,22 +9,21 @@ export const eventProfileDetectionRules = [
     name: 'transforming',
     eventType: 'TransformationEvent',
     expression:
-      'isNotEmpty(event,transformationID) && isNotEmpty(event,inputQuantityList) && isNotEmpty(event,outputQuantityList)',
+      '!_.isEmpty(event.transformationID) && !_.isEmpty(event.inputQuantityList) && !_.isEmpty(event.outputQuantityList)',
   },
   {
     name: 'farming',
     eventType: 'ObjectEvent',
-    expression: 'isPropertyKeyExists(event,cbvmda:countryOfOrigin)',
+    expression: `_.has(event,'ilmd.cbvmda:countryOfOrigin')`,
   },
   {
     name: 'fishing',
     eventType: 'ObjectEvent',
-    expression:
-      'isPropertyKeyExists(event,catchArea) && isPropertyKeyExists(event,vesselCatchInformation)',
+    expression: `_.has(event,'ilmd.content.vesselCatchInformation.catchArea') && _.has(event,'ilmd.content.vesselCatchInformation')`,
   },
   {
     name: 'slaughtering',
     eventType: 'ObjectEvent',
-    expression: 'isPropertyKeyExists(event,agricultureDetails)',
+    expression: `_.has(event,'ilmd.content.preStageDetails[0].agricultureDetails')`,
   },
 ];

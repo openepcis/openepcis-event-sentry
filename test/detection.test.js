@@ -22,7 +22,7 @@ const correctProfileRule = [
     name: 'transforming',
     eventType: 'TransformationEvent',
     expression:
-      'isNotEmpty(event,transformationID) && isNotEmpty(event,inputQuantityList) && isNotEmpty(event,outputQuantityList)',
+      '!_.isEmpty(event.transformationID) && !_.isEmpty(event.inputQuantityList) && !_.isEmpty(event.outputQuantityList)',
   },
 ];
 
@@ -31,7 +31,7 @@ const incorrectProfileRule = [
     name: 'transforming',
     eventType: 'TransformationEvent',
     expression:
-      '!isNotEmpty(event,transformationID) && isNotEmpty(event,inputQuantityList) && isNotEmpty(event,outputQuantityList)',
+      '_.isEmpty(event.transformationID) && _.isEmpty(event.inputQuantityList) && _.isEmpty(event.outputQuantityList)',
   },
 ];
 

@@ -8,7 +8,6 @@ export const customProfileRules = [
   {
     name: 'observing',
     eventType: 'ObjectEvent',
-    expression:
-      'isKeyValuePairExists(event,action,OBSERVE) && isKeyValuePairExists(event,type,ObjectEvent)',
+    expression: `_.isEqual(_.get(event, 'action'), 'OBSERVE') && _.isEqual(_.get(event, 'type'), 'ObjectEvent')`,
   },
 ];

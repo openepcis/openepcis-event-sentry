@@ -13,9 +13,8 @@ import {
   isValidEpcisEvent,
   isValidEpcisDocument,
   detectDocumentType,
-  isNotEmpty,
-  isPropertyKeyExists,
-  isKeyValuePairExists,
+  expressionExecutor,
+  sanitizeInput,
 } from '../src/utils/eventUtils';
 import { documentTypes } from '../src/utils/constants';
 
@@ -61,32 +60,56 @@ describe('Test case for detectDocumentType', () => {
   });
 });
 
-describe('Test case for isNotEmpty', () => {
-  it('should return true if the property is not empty', () => {
-    expect(isNotEmpty(event, 'type')).toEqual(true);
+describe('Test case for sanitizeInput', () => {
+  it('should return empty string the script tag included in the expression', () => {
+    expect(sanitizeInput('<script>onerror=alert;throw 1&</script>')).toEqual('');
   });
 
-  it('should return false if the property is empty', () => {
-    expect(isNotEmpty(event, 'bizTransactionList')).toEqual(false);
-  });
-});
-
-describe('Test case for isPropertyKeyExists', () => {
-  it('should return true if the property key exists', () => {
-    expect(isPropertyKeyExists(event, 'type')).toEqual(true);
-  });
-
-  it('should return false if the property not exists', () => {
-    expect(isNotEmpty(event, 'bizLocation')).toEqual(false);
+  it('should return string as it is if the script tag is not included in the expression', () => {
+    expect(sanitizeInput(`_.get(event,'epcisBody.eventList[0].bizStep')`)).toEqual(
+      `_.get(event,'epcisBody.eventList[0].bizStep')`,
+    );
   });
 });
 
-describe('Test case for isKeyValuePairExists', () => {
-  it('should return true if the property key exists', () => {
-    expect(isKeyValuePairExists(event, 'bizStep', 'receiving')).toEqual(true);
+describe('Test case for lodashExpressionExecutor', () => {
+  it('should return true if the lodash expression is correct', () => {
+    expect(
+      expressionExecutor(
+        `_.isEqual(_.get(event,'epcisBody.eventList[0].bizStep'),'receiving')`,
+        event,
+      ),
+    ).toEqual(true);
   });
 
-  it('should return false if the property not exists', () => {
-    expect(isKeyValuePairExists(event, 'bizStep', 'commissioning')).toEqual(false);
+  it('should return false if the lodash expression is incorrect', () => {
+    expect(
+      expressionExecutor(
+        `_.isEqual(_.get(event,'epcisBody.eventList[0].bizStep'),'sending')`,
+        event,
+      ),
+    ).toEqual(false);
+  });
+
+  it('should return true if the non-lodash expression is correct', () => {
+    expect(
+      expressionExecutor("event.epcisBody.eventList[0].bizStep === 'receiving'", event),
+    ).toEqual(true);
+  });
+
+  it('should return false if the non-lodash expression is incorrect', () => {
+    expect(expressionExecutor("event.epcisBody.eventList[0].bizStep === 'sending'", event)).toEqual(
+      false,
+    );
+  });
+
+  it('should return undefined if the lodash expression is invalid', () => {
+    expect(
+      expressionExecutor(`_.isEqual(get(event,'epcisBody.eventList[0].bizStep'),'sending')`, event),
+    ).toEqual(undefined);
+  });
+
+  it('should return undefined if the expression is empty', () => {
+    expect(expressionExecutor('', event)).toEqual(undefined);
   });
 });

@@ -7,7 +7,7 @@
 export const eventProfileValidationRules = [
   {
     name: 'transformationID_Rule',
-    expression: 'isNotEmpty(event,transformationID)',
+    expression: `!_.isEmpty(event.transformationID)`,
     eventProfile: ['transforming'],
     order: 1,
     errorMessage: 'TransformationID malformed',
@@ -17,7 +17,7 @@ export const eventProfileValidationRules = [
   },
   {
     name: 'nonEmptyInputQuantityList_Rule',
-    expression: 'isNotEmpty(event,inputQuantityList)',
+    expression: '!_.isEmpty(event.inputQuantityList)',
     eventProfile: ['transforming'],
     order: 2,
     errorMessage:
@@ -28,7 +28,7 @@ export const eventProfileValidationRules = [
   },
   {
     name: 'nonEmptyOutputQuantityList_Rule',
-    expression: 'isNotEmpty(event,outputQuantityList)',
+    expression: '!_.isEmpty(event.outputQuantityList)',
     eventProfile: ['transforming'],
     order: 3,
     errorMessage:
@@ -39,7 +39,7 @@ export const eventProfileValidationRules = [
   },
   {
     name: 'catchAreaInIlmdExists_Rule',
-    expression: 'isPropertyKeyExists(event,catchArea)',
+    expression: `_.has(event,'ilmd.content.vesselCatchInformation.catchArea')`,
     eventProfile: ['fishing'],
     order: 4,
     errorMessage: 'catchArea is not exists',
@@ -49,7 +49,7 @@ export const eventProfileValidationRules = [
   },
   {
     name: 'vesselCatchInformationInIlmdExists_Rule',
-    expression: 'isPropertyKeyExists(event,vesselCatchInformation)',
+    expression: `_.has(event,'ilmd.content.vesselCatchInformation')`,
     eventProfile: ['fishing'],
     order: 5,
     errorMessage: 'vesselCatchInformation is not exists',
@@ -59,7 +59,7 @@ export const eventProfileValidationRules = [
   },
   {
     name: 'countryOfOriginInIlmdExists_Rule',
-    expression: 'isPropertyKeyExists(event,cbvmda:countryOfOrigin)',
+    expression: `_.has(event,'ilmd.cbvmda:countryOfOrigin')`,
     eventProfile: ['farming'],
     order: 6,
     errorMessage: 'countryOfOrigin is not exists',
@@ -69,7 +69,7 @@ export const eventProfileValidationRules = [
   },
   {
     name: 'agricultureDetailsInIlmdExists_Rule',
-    expression: 'isPropertyKeyExists(event,agricultureDetails)',
+    expression: `_.has(event,'ilmd.content.preStageDetails[0].agricultureDetails')`,
     eventProfile: ['slaughtering'],
     order: 7,
     errorMessage: 'agricultureDetails is not exists',
