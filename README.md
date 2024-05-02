@@ -157,7 +157,7 @@ console.log(isComplies); //Output: false
 Note: The documents and rules mentioned above correspond to specific file names stored in the following paths:
 
 1. [bareEvent](https://github.com/openepcis/openepcis-event-sentry/blob/main/test/data/TransformationBareEvent.json)
-2. [customProfileRule](https://github.com/openepcis/openepcis-event-sentry/blob/main/test/data/custom-profile-rules.json)
+2. [customProfileRule](https://github.com/openepcis/openepcis-event-sentry/blob/main/test/data/custom-profile-rules.js)
 
 ## Define Validation Rules for an Event Profile
 
