@@ -50,7 +50,7 @@ Sample definition of event profile "transforming"
 {
   "name": "transforming",
   "eventType": "TransformationEvent",
-  "expression": "!_isEmpty(event.transformationID)"
+  "expression": "!_.isEmpty(event.transformationID)"
 }
 ```
 
