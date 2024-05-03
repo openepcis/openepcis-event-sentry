@@ -33,7 +33,7 @@ This will download and install the library into your project's node_modules dire
 If you prefer to use a CDN, include the library directly in your HTML file using a script tag:
 
 ```html
-<script src="https://unpkg.com/openepcis-event-sentry@latest/dist/openepcis-event-sentry.min.js"></script>
+<script src="https://unpkg.com/openepcis-event-sentry@latest/dist/openepcis-event-sentry.browser.js"></script>
 ```
 
 # Example Usage
@@ -53,6 +53,12 @@ Sample definition of event profile "transforming"
   "expression": "!_.isEmpty(event.transformationID)"
 }
 ```
+
+Note: The expression syntax in this example utilizes the function from the Lodash library. For comprehensive documentation and information on all available Lodash functions, please refer to the official Lodash documentation: 
+
+1. [https://lodash.com/](https://lodash.com/)
+2. [https://lodash.com/docs/4.17.15](https://lodash.com/docs/4.17.15)
+3. [https://github.com/lodash/lodash](https://github.com/lodash/lodash)
 
 ## Check Profile of an EPCIS event
 

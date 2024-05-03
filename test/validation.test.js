@@ -16,6 +16,7 @@ import {
   multiDimensionalProfilesEpcisDocumentResponse,
 } from '../test/data/validationRulesResponse';
 import { validateProfile } from '../src/validation/validateProfile';
+import { errorMessages } from '../src';
 
 describe('Test case for validating event profile', () => {
   it('should return success response for the single string event profile for Bare event if the event is validated successfully', () => {
@@ -62,23 +63,29 @@ describe('Test case for validating event profile', () => {
 });
 
 describe('Test case for the document', () => {
-  it('should return empty array if the document is empty', () => {
-    expect(validateProfile()).toEqual(-1);
+  it('should throw error if the document is empty', () => {
+    expect(() => validateProfile()).toThrowError(errorMessages.documentOrProfileOrRulesEmpty);
+  });
+
+  it('should throw error if the document, profiles and rules are empty', () => {
+    expect(() => validateProfile({}, [], [])).toThrowError(
+      errorMessages.documentOrProfileOrRulesEmpty,
+    );
   });
 
   describe('Test case for the bare event', () => {
-    it('should return -1 if the event type is incorrect in the bare event', () => {
-      expect(
+    it('should throw error if the event type is incorrect in the bare event', () => {
+      expect(() =>
         validateProfile(IncorrectBareEvent, ['transforming'], eventProfileValidationRules),
-      ).toEqual(-1);
+      ).toThrowError(errorMessages.invalidEpcisOrBareEvent);
     });
   });
 
   describe('Test case for the EPCIS document', () => {
-    it('should return -1 if the EPCIS document is not valid', () => {
-      expect(
+    it('should throw error if the EPCIS document is not valid', () => {
+      expect(() =>
         validateProfile(IncorrectEpcisDocument, ['transforming'], eventProfileValidationRules),
-      ).toEqual(-1);
+      ).toThrowError(errorMessages.invalidEpcisOrBareEvent);
     });
   });
 });

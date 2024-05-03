@@ -87,16 +87,26 @@ export const detectProfile = (document = {}, customEventProfileDetectionRules = 
   const validate = ajv.compile(profileDetectionRulesSchema);
   const valid = validate(customEventProfileDetectionRules);
   const detectedDocumentType = detectDocumentType(document);
+
+  if (
+    !document ||
+    Object.keys(document).length === 0 ||
+    !customEventProfileDetectionRules ||
+    customEventProfileDetectionRules.length === 0
+  ) {
+    throw new Error(errorMessages.documentOrRulesEmpty);
+  }
+
   if (valid) {
     if (detectedDocumentType === documentTypes.epcisDocument) {
       return detectEpcisDocumentProfiles(document, customEventProfileDetectionRules);
     } else if (detectedDocumentType === documentTypes.bareEvent) {
       return detectBareEventProfile(document, customEventProfileDetectionRules);
     } else if (detectedDocumentType === documentTypes.unidentified) {
-      return -1;
+      throw new Error(errorMessages.invalidEpcisOrBareEvent);
     }
   } else {
-    return validate.errors;
+    throw new Error(validate.errors[0].message);
   }
   return [];
 };

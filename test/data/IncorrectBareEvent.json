@@ -1,4 +1,5 @@
 {
+  "@context": "https://ref.gs1.org/standards/epcis/2.0.0/epcis-context.jsonld",
   "type": "CustomEvent",
   "eventTime": "2013-10-31T14:58:56.591Z",
   "eventTimeZoneOffset": "+02:00",

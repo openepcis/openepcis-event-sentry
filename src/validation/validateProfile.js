@@ -15,6 +15,7 @@ import {
   parseExpression,
   expressionExecutor,
   profileValidationRulesSchema,
+  errorMessages,
 } from '../index';
 
 const customMatches = (expression, event) => {
@@ -118,16 +119,28 @@ export const validateProfile = (
   const validate = ajv.compile(profileValidationRulesSchema);
   const valid = validate(eventProfileValidationRules);
   const detectedDocumentType = detectDocumentType(document);
+
+  if (
+    !document ||
+    Object.keys(document).length === 0 ||
+    !profileName ||
+    profileName.length === 0 ||
+    !eventProfileValidationRules ||
+    eventProfileValidationRules.length === 0
+  ) {
+    throw new Error(errorMessages.documentOrProfileOrRulesEmpty);
+  }
+
   if (valid) {
     if (detectedDocumentType === documentTypes.epcisDocument) {
       return validateEpcisDocumentProfiles(document, profileName, eventProfileValidationRules);
     } else if (detectedDocumentType === documentTypes.bareEvent) {
       return validateBareEventProfiles(document, profileName, eventProfileValidationRules);
     } else if (detectedDocumentType === documentTypes.unidentified) {
-      return -1;
+      throw new Error(errorMessages.invalidEpcisOrBareEvent);
     }
   } else {
-    return validate.errors;
+    throw new Error(validate.errors[0].message);
   }
   return [];
 };

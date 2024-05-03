@@ -9,6 +9,7 @@ const ajv = new Ajv();
 import {
   detectDocumentType,
   documentTypes,
+  errorMessages,
   expressionExecutor,
   parseExpression,
   profileDetectionRulesSchema,
@@ -52,12 +53,22 @@ export const compliesToProfileRule = (document = {}, customEventProfileDetection
   const validate = ajv.compile(profileDetectionRulesSchema);
   const valid = validate(customEventProfileDetectionRules);
   const detectedDocumentType = detectDocumentType(document);
+
+  if (
+    !document ||
+    Object.keys(document).length === 0 ||
+    !customEventProfileDetectionRules ||
+    customEventProfileDetectionRules.length === 0
+  ) {
+    throw new Error(errorMessages.documentOrRulesEmpty);
+  }
+
   if (valid) {
     if (detectedDocumentType === documentTypes.bareEvent) {
       return isEventCompliesToProfileRule(document, customEventProfileDetectionRules);
     }
   } else {
-    return validate.errors;
+    throw new Error(validate.errors[0].message);
   }
   return [];
 };
