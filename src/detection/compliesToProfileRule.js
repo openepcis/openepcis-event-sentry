@@ -13,6 +13,7 @@ import {
   expressionExecutor,
   parseExpression,
   profileDetectionRulesSchema,
+  throwError,
 } from '../index';
 
 const customMatches = (expression, event) => {
@@ -60,7 +61,7 @@ export const compliesToProfileRule = (document = {}, customEventProfileDetection
     !customEventProfileDetectionRules ||
     customEventProfileDetectionRules.length === 0
   ) {
-    throw new Error(errorMessages.documentOrRulesEmpty);
+    throwError(400, errorMessages.documentOrRulesEmpty);
   }
 
   if (valid) {

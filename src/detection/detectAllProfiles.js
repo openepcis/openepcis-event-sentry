@@ -13,6 +13,7 @@ import {
   expressionExecutor,
   profileDetectionRulesSchema,
   errorMessages,
+  throwError,
 } from '../index';
 
 const customMatches = (expression, event) => {
@@ -74,7 +75,7 @@ export const detectAllProfiles = (document = {}, eventProfileDetectionRules = []
     !eventProfileDetectionRules ||
     eventProfileDetectionRules.length === 0
   ) {
-    throw new Error(errorMessages.documentOrRulesEmpty);
+    throwError(400, errorMessages.documentOrRulesEmpty);
   }
 
   if (valid) {
@@ -83,7 +84,7 @@ export const detectAllProfiles = (document = {}, eventProfileDetectionRules = []
     } else if (detectedDocumentType === documentTypes.bareEvent) {
       return detectBareEventProfiles(document, eventProfileDetectionRules);
     } else if (detectedDocumentType === documentTypes.unidentified) {
-      throw new Error(errorMessages.invalidEpcisOrBareEvent);
+      throwError(400, errorMessages.invalidEpcisOrBareEvent);
     }
   } else {
     throw new Error(validate.errors[0].message);

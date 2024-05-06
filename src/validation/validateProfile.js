@@ -16,6 +16,7 @@ import {
   expressionExecutor,
   profileValidationRulesSchema,
   errorMessages,
+  throwError,
 } from '../index';
 
 const customMatches = (expression, event) => {
@@ -128,7 +129,7 @@ export const validateProfile = (
     !eventProfileValidationRules ||
     eventProfileValidationRules.length === 0
   ) {
-    throw new Error(errorMessages.documentOrProfileOrRulesEmpty);
+    throwError(400, errorMessages.documentOrProfileOrRulesEmpty);
   }
 
   if (valid) {
@@ -137,7 +138,7 @@ export const validateProfile = (
     } else if (detectedDocumentType === documentTypes.bareEvent) {
       return validateBareEventProfiles(document, profileName, eventProfileValidationRules);
     } else if (detectedDocumentType === documentTypes.unidentified) {
-      throw new Error(errorMessages.invalidEpcisOrBareEvent);
+      throwError(400, errorMessages.invalidEpcisOrBareEvent);
     }
   } else {
     throw new Error(validate.errors[0].message);

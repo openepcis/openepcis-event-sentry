@@ -122,6 +122,13 @@ export const isPropertyString = (property) => {
   return typeof property === 'string';
 };
 
+//Function to throw the custom error
+export const throwError = (statusCode, message) => {
+  const error = new Error(message);
+  error.statusCode = statusCode;
+  throw error;
+};
+
 //Function to sanitize the expression
 export const sanitizeInput = (expression) => {
   return expression.replace(/<script[^>]*>.*?<\/script>|<\/?[^>]+>|on\w+="[^"]*"|&/g, '');
