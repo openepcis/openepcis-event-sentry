@@ -91,7 +91,7 @@ console.log(bareEventProfile); //Output: transforming
 
 //Single profile detection per event using epcis document
 const epcisDocumentProfile = detectProfile(epcisDocument, customProfileRules);
-console.log(epcisDocumentProfile); //Output: ['transforming','farming','fishing','slaughtering']//
+console.log(epcisDocumentProfile); //Output: ['transforming','farming','fishing','slaughtering']
 
 //Single profile detection per event using epcis document
 const epcisQueryDocumentProfile = detectProfile(
@@ -377,7 +377,7 @@ Note: The documents and rules mentioned above correspond to specific file names 
 1. [bareEvent](https://github.com/openepcis/openepcis-event-sentry/blob/main/test/data/TransformationBareEvent.json)
 2. [epcisDocumentWithMissingData](https://github.com/openepcis/openepcis-event-sentry/blob/main/test/data/EpcisDocumentWithMissingData.json)
 3. [customValidationRules](https://github.com/openepcis/openepcis-event-sentry/blob/main/src/rules/event-profile-validation-rules.js)
-4. [epcisQueryDocumentForValidation](https://github.com/openepcis/openepcis-event-sentry/blob/main/test/EpcisQueryDocumentForValidation.json)
+4. [epcisQueryDocumentForValidation](https://github.com/openepcis/openepcis-event-sentry/blob/main/test/data/EpcisQueryDocumentForValidation.json)
 
 # Contribute
 
