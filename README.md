@@ -54,7 +54,7 @@ Sample definition of event profile "transforming"
 }
 ```
 
-Note: The expression syntax in this example utilizes the function from the Lodash library. For comprehensive documentation and information on all available Lodash functions, please refer to the official Lodash documentation: 
+Note: The expression syntax in this example utilizes the function from the Lodash library. For comprehensive documentation and information on all available Lodash functions, please refer to the official Lodash documentation:
 
 1. [https://lodash.com/](https://lodash.com/)
 2. [https://lodash.com/docs/4.17.15](https://lodash.com/docs/4.17.15)
@@ -91,7 +91,14 @@ console.log(bareEventProfile); //Output: transforming
 
 //Single profile detection per event using epcis document
 const epcisDocumentProfile = detectProfile(epcisDocument, customProfileRules);
-console.log(epcisDocumentProfile); //Output: ['transforming','farming','fishing','slaughtering']
+console.log(epcisDocumentProfile); //Output: ['transforming','farming','fishing','slaughtering']//
+
+//Single profile detection per event using epcis document
+const epcisQueryDocumentProfile = detectProfile(
+  epcisQueryDocumentForSingleProfile,
+  queryDocumentDetectionRules,
+);
+console.log(epcisQueryDocumentProfile); //Output: ['shipping','receiving']
 ```
 
 2. Multiple event profiles detection
@@ -115,16 +122,23 @@ detectAllProfiles(event, rules);
 Example:
 
 ```javascript
-//Multiple profile(s) detection using bare event
+//Profile(s) detection using bare event
 const bareEventProfiles = detectAllProfiles(bareEvent, customProfileRules);
 console.log(bareEventProfiles); //Output: ['transforming']
 
-//Multiple profile(s) detection per event using epcis document
+//Profile(s) detection per event using epcis document
 const epcisDocumentProfiles = detectAllProfiles(
   epcisDocumentForSlaughteringAndFishing,
   customProfileRules,
 );
 console.log(epcisDocumentProfiles); //Output: [['transforming'],['farming'],['farming','fishing'],['slaughtering']]
+
+//Profile(s) detection per event using epcis query document
+const epcisQueryDocumentProfiles = detectAllProfiles(
+  epcisQueryDocument,
+  queryDocumentDetectionRulesForSlaughtering,
+);
+console.log(epcisQueryDocumentProfiles); //Output: [['shipping', 'slaughtering'], ['receiving']]
 ```
 
 Note: The documents and rules mentioned above correspond to specific file names stored in the following paths:
@@ -133,6 +147,10 @@ Note: The documents and rules mentioned above correspond to specific file names 
 2. [epcisDocument](https://github.com/openepcis/openepcis-event-sentry/blob/main/test/data/EpcisDocument.json)
 3. [epcisDocumentForSlaughteringAndFishing](https://github.com/openepcis/openepcis-event-sentry/blob/main/test/data/EpcisDocumentForSlaughteringAndFishing.json)
 4. [customProfileRules](https://github.com/openepcis/openepcis-event-sentry/blob/main/src/rules/event-profile-detection-rules.js)
+5. [epcisQueryDocumentForSingleProfile](https://github.com/openepcis/openepcis-event-sentry/blob/main/test/data/EpcisQueryDocumentForSingleProfile.json)
+6. [queryDocumentDetectionRules](https://github.com/openepcis/openepcis-event-sentry/blob/main/test/data/query-document-detection-rules.js)
+7. [epcisQueryDocument](https://github.com/openepcis/openepcis-event-sentry/blob/main/test/data/EpcisQueryDocument.json)
+8. [queryDocumentDetectionRulesForSlaughtering](https://github.com/openepcis/openepcis-event-sentry/blob/main/test/data/query-document-detection-rules-for-slaughtering.js)
 
 ## Check event complies to the rule
 
@@ -238,7 +256,7 @@ Example:
 ```javascript
 //validation using the bare event
 const response = validateProfile(bareEvent, ['transforming'], customValidationRules);
-console.log(response); //output: []
+console.log(response); //Output: []
 
 //validation using the epcis document
 const response = validateProfile(
@@ -248,7 +266,7 @@ const response = validateProfile(
 );
 console.log(response);
 /*
-output: 
+Output: 
 [
   [
     {
@@ -289,6 +307,69 @@ output:
   ],
 ]
 */
+
+//validation using the epcis query document
+const response = validateProfile(
+  epcisQueryDocumentForValidation,
+  [['transforming', 'fishing'], ['slaughtering']],
+  customValidationRules,
+);
+console.log(response);
+/*
+Output:
+[
+  [
+    {
+      index: 1,
+      errors: [
+        {
+          name: 'transformationID_Rule',
+          eventProfile: ['transforming'],
+          errorMessage: 'TransformationID malformed',
+          warning: 'TransformationID should not be null or undefined',
+          field: 'transformationID',
+        },
+        {
+          name: 'nonEmptyInputQuantityList_Rule',
+          eventProfile: ['transforming'],
+          errorMessage:
+            'No object ID present - Transformation Event needs to have non empty inputQuantityList',
+          warning: 'Transformation Event needs to have non empty inputQuantityList',
+          field: 'inputQuantityList',
+        },
+        {
+          name: 'catchAreaInIlmdExists_Rule',
+          eventProfile: ['fishing'],
+          errorMessage: 'catchArea is not exists',
+          warning: 'catchArea is not exists',
+          field: 'catchArea',
+        },
+        {
+          name: 'vesselCatchInformationInIlmdExists_Rule',
+          eventProfile: ['fishing'],
+          errorMessage: 'vesselCatchInformation is not exists',
+          warning: 'vesselCatchInformation is not exists',
+          field: 'vesselCatchInformation',
+        },
+      ],
+    },
+  ],
+  [
+    {
+      index: 2,
+      errors: [
+        {
+          name: 'agricultureDetailsInIlmdExists_Rule',
+          eventProfile: ['slaughtering'],
+          errorMessage: 'agricultureDetails is not exists',
+          warning: 'agricultureDetails is not exists',
+          field: 'agricultureDetails',
+        },
+      ],
+    },
+  ],
+]
+*/
 ```
 
 Note: The documents and rules mentioned above correspond to specific file names stored in the following paths:
@@ -296,6 +377,7 @@ Note: The documents and rules mentioned above correspond to specific file names 
 1. [bareEvent](https://github.com/openepcis/openepcis-event-sentry/blob/main/test/data/TransformationBareEvent.json)
 2. [epcisDocumentWithMissingData](https://github.com/openepcis/openepcis-event-sentry/blob/main/test/data/EpcisDocumentWithMissingData.json)
 3. [customValidationRules](https://github.com/openepcis/openepcis-event-sentry/blob/main/src/rules/event-profile-validation-rules.js)
+4. [epcisQueryDocumentForValidation](https://github.com/openepcis/openepcis-event-sentry/blob/main/test/EpcisQueryDocumentForValidation.json)
 
 # Contribute
 

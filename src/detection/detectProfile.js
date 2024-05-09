@@ -72,6 +72,20 @@ const detectEpcisDocumentProfiles = (document, profileRules) => {
   return detectedProfiles;
 };
 
+const detectEpcisQueryDocumentProfiles = (document, profileRules) => {
+  let detectedProfiles = [];
+  if (Array.isArray(document.epcisBody.queryResults.resultsBody.eventList)) {
+    document.epcisBody.queryResults.resultsBody.eventList.forEach((event) => {
+      const profiles = detectEventProfiles(event, profileRules);
+      if (profiles.length > 1) {
+        throw new Error(replaceMsgParams(errorMessages.multipleProfilesDetected, event.type));
+      }
+      detectedProfiles = detectedProfiles.concat(profiles);
+    });
+  }
+  return detectedProfiles;
+};
+
 const detectBareEventProfile = (document, profileRules) => {
   let detectedProfile = '';
   for (const rule of profileRules) {
@@ -101,6 +115,8 @@ export const detectProfile = (document = {}, customEventProfileDetectionRules = 
   if (valid) {
     if (detectedDocumentType === documentTypes.epcisDocument) {
       return detectEpcisDocumentProfiles(document, customEventProfileDetectionRules);
+    } else if (detectedDocumentType === documentTypes.epcisQueryDocument) {
+      return detectEpcisQueryDocumentProfiles(document, customEventProfileDetectionRules);
     } else if (detectedDocumentType === documentTypes.bareEvent) {
       return detectBareEventProfile(document, customEventProfileDetectionRules);
     } else if (detectedDocumentType === documentTypes.unidentified) {

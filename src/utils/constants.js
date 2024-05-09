@@ -6,6 +6,7 @@
 
 export const documentTypes = {
   epcisDocument: 'Epcis Document',
+  epcisQueryDocument: 'EPCIS Query Document',
   bareEvent: 'Bare Event',
   unidentified: 'Unidentified',
 };

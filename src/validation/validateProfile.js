@@ -88,6 +88,33 @@ const validateEpcisDocumentProfiles = (document, profileNames, profileRules) => 
   return validationResults;
 };
 
+const validateEpcisQueryDocumentProfiles = (document, profileNames, profileRules) => {
+  const validationResults = [];
+  if (Array.isArray(document.epcisBody.queryResults.resultsBody.eventList)) {
+    document.epcisBody.queryResults.resultsBody.eventList.forEach((event, index) => {
+      if (isMultidimensionalArray(profileNames)) {
+        let eventValidationResults = [];
+        const profilesForEvent = Array.isArray(profileNames[index])
+          ? profileNames[index]
+          : [profileNames[index]];
+        profilesForEvent.forEach((profileName) => {
+          eventValidationResults.push(validateEventProfiles(event, profileName, profileRules));
+        });
+        if (eventValidationResults.length > 0) {
+          validationResults.push([{ index: index + 1, errors: eventValidationResults.flat() }]);
+        }
+      } else {
+        const profileName = profileNames[index];
+        const eventValidationResults = validateEventProfiles(event, profileName, profileRules);
+        if (eventValidationResults.length > 0) {
+          validationResults.push([{ index: index + 1, errors: eventValidationResults }]);
+        }
+      }
+    });
+  }
+  return validationResults;
+};
+
 const validateBareEventProfiles = (document, profileNames, profileRules) => {
   const validationResults = [];
   if (isPropertyString(profileNames)) {
@@ -135,6 +162,8 @@ export const validateProfile = (
   if (valid) {
     if (detectedDocumentType === documentTypes.epcisDocument) {
       return validateEpcisDocumentProfiles(document, profileName, eventProfileValidationRules);
+    } else if (detectedDocumentType === documentTypes.epcisQueryDocument) {
+      return validateEpcisQueryDocumentProfiles(document, profileName, eventProfileValidationRules);
     } else if (detectedDocumentType === documentTypes.bareEvent) {
       return validateBareEventProfiles(document, profileName, eventProfileValidationRules);
     } else if (detectedDocumentType === documentTypes.unidentified) {

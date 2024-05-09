@@ -60,6 +60,14 @@ const detectEpcisDocumentProfiles = (document, profileRules) => {
     : [];
 };
 
+const detectEpcisQueryDocumentProfiles = (document, profileRules) => {
+  return Array.isArray(document.epcisBody.queryResults.resultsBody.eventList)
+    ? document.epcisBody.queryResults.resultsBody.eventList.map((event) =>
+        processEventProfiles(event, profileRules),
+      )
+    : [];
+};
+
 const detectBareEventProfiles = (document, profileRules) => {
   return processEventProfiles(document, profileRules);
 };
@@ -81,6 +89,8 @@ export const detectAllProfiles = (document = {}, eventProfileDetectionRules = []
   if (valid) {
     if (detectedDocumentType === documentTypes.epcisDocument) {
       return detectEpcisDocumentProfiles(document, eventProfileDetectionRules);
+    } else if (detectedDocumentType === documentTypes.epcisQueryDocument) {
+      return detectEpcisQueryDocumentProfiles(document, eventProfileDetectionRules);
     } else if (detectedDocumentType === documentTypes.bareEvent) {
       return detectBareEventProfiles(document, eventProfileDetectionRules);
     } else if (detectedDocumentType === documentTypes.unidentified) {

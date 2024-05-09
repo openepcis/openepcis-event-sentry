@@ -11,7 +11,11 @@ import * as EpcisDocument from '../test/data/EpcisDocument.json';
 import * as EpcisDocumentForSlaughteringAndFishing from '../test/data/EpcisDocumentForSlaughteringAndFishing.json';
 import * as IncorrectEpcisDocument from '../test/data/IncorrectEpcisDocument.json';
 import * as CustomEpcisDocument from '../test/data/CustomEpcisDocument.json';
+import * as EpcisQueryDocument from '../test/data/EpcisQueryDocument.json';
+import * as EpcisQueryDocumentForSingleProfile from '../test/data/EpcisQueryDocumentForSingleProfile.json';
 import { customProfileRules } from '../test/data/custom-profile-rules';
+import { queryDocumentDetectionRules } from '../test/data/query-document-detection-rules';
+import { queryDocumentDetectionRulesForSlaughtering } from '../test/data/query-document-detection-rules-for-slaughtering';
 import { eventProfileDetectionRules } from '../src/rules/event-profile-detection-rules';
 import { detectAllProfiles } from '../src/detection/detectAllProfiles';
 import { detectProfile } from '../src/detection/detectProfile';
@@ -48,6 +52,12 @@ describe('Test case for detecting event profile', () => {
     ).toEqual([['transforming'], ['farming'], ['farming', 'fishing'], ['slaughtering']]);
   });
 
+  it('should return valid event profile(s) for multiple EPCIS event(s) for EPCIS query document using detectAllProfiles', () => {
+    expect(
+      detectAllProfiles(EpcisQueryDocument, queryDocumentDetectionRulesForSlaughtering),
+    ).toEqual([['shipping', 'slaughtering'], ['receiving']]);
+  });
+
   it('should return valid event profile(s) for custom events and rules using detectAllProfiles', () => {
     expect(detectAllProfiles(CustomEpcisDocument, customProfileRules)).toEqual([['observing']]);
   });
@@ -64,6 +74,20 @@ describe('Test case for detecting event profile', () => {
       'farming',
       'fishing',
       'slaughtering',
+    ]);
+  });
+
+  it('should return valid event profile for multiple EPCIS Query document event(s) using detectProfile', () => {
+    expect(detectProfile(EpcisQueryDocumentForSingleProfile, queryDocumentDetectionRules)).toEqual([
+      'shipping',
+      'receiving',
+    ]);
+  });
+
+  it('should return valid event profile for multiple EPCIS event(s) for EPCIS query document using detectProfile', () => {
+    expect(detectProfile(EpcisQueryDocument, queryDocumentDetectionRules)).toEqual([
+      'shipping',
+      'receiving',
     ]);
   });
 });

@@ -9,11 +9,14 @@ import * as TransformationBareEvent from '../test/data/TransformationBareEvent.j
 import * as IncorrectBareEvent from '../test/data/IncorrectBareEvent.json';
 import * as EpcisDocumentWithMissingData from '../test/data/EpcisDocumentWithMissingData.json';
 import * as IncorrectEpcisDocument from '../test/data/IncorrectEpcisDocument.json';
+import * as EpcisQueryDocumentForValidation from '../test/data/EpcisQueryDocumentForValidation.json';
 import { eventProfileValidationRules } from '../src/rules/event-profile-validation-rules';
 import {
   multipleProfilesBareEventResponse,
   validationProfileEpcisDocumentResponse,
   multiDimensionalProfilesEpcisDocumentResponse,
+  validationProfileEpcisQueryDocumentResponse,
+  multiDimensionalProfilesEpcisQueryDocumentResponse,
 } from '../test/data/validationRulesResponse';
 import { validateProfile } from '../src/validation/validateProfile';
 import { errorMessages } from '../src';
@@ -59,6 +62,26 @@ describe('Test case for validating event profile', () => {
         eventProfileValidationRules,
       ),
     ).toEqual(multiDimensionalProfilesEpcisDocumentResponse);
+  });
+
+  it('should return error response for single event profile for single EPCIS query document event if the event is not validated successfully', () => {
+    expect(
+      validateProfile(
+        EpcisQueryDocumentForValidation,
+        ['transforming', 'slaughtering'],
+        eventProfileValidationRules,
+      ),
+    ).toEqual(validationProfileEpcisQueryDocumentResponse);
+  });
+
+  it('should return error response for single or multiple event profile(s) for single EPCIS query document event if the event is not validated successfully', () => {
+    expect(
+      validateProfile(
+        EpcisQueryDocumentForValidation,
+        [['transforming', 'fishing'], ['slaughtering']],
+        eventProfileValidationRules,
+      ),
+    ).toEqual(multiDimensionalProfilesEpcisQueryDocumentResponse);
   });
 });
 

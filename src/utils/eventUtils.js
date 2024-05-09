@@ -82,10 +82,17 @@ export const isValidEpcisDocument = (document) => {
   return document.type === 'EPCISDocument';
 };
 
+//Function to check if valid epcis query document or not
+export const isValidEpcisQueryDocument = (document) => {
+  return document.type === 'EPCISQueryDocument';
+};
+
 //Function to detect the document type whether it is Epcis Document or Bare Event
 export const detectDocumentType = (document) => {
   if (isValidEpcisDocument(document)) {
     return documentTypes.epcisDocument;
+  } else if (isValidEpcisQueryDocument(document)) {
+    return documentTypes.epcisQueryDocument;
   } else if (isValidEpcisEvent(document)) {
     return documentTypes.bareEvent;
   }

@@ -59,6 +59,45 @@ export const validationProfileEpcisDocumentResponse = [
   ],
 ];
 
+export const validationProfileEpcisQueryDocumentResponse = [
+  [
+    {
+      index: 1,
+      errors: [
+        {
+          name: 'transformationID_Rule',
+          eventProfile: ['transforming'],
+          errorMessage: 'TransformationID malformed',
+          warning: 'TransformationID should not be null or undefined',
+          field: 'transformationID',
+        },
+        {
+          name: 'nonEmptyInputQuantityList_Rule',
+          eventProfile: ['transforming'],
+          errorMessage:
+            'No object ID present - Transformation Event needs to have non empty inputQuantityList',
+          warning: 'Transformation Event needs to have non empty inputQuantityList',
+          field: 'inputQuantityList',
+        },
+      ],
+    },
+  ],
+  [
+    {
+      index: 2,
+      errors: [
+        {
+          name: 'agricultureDetailsInIlmdExists_Rule',
+          eventProfile: ['slaughtering'],
+          errorMessage: 'agricultureDetails is not exists',
+          warning: 'agricultureDetails is not exists',
+          field: 'agricultureDetails',
+        },
+      ],
+    },
+  ],
+];
+
 export const multiDimensionalProfilesEpcisDocumentResponse = [
   [
     {
@@ -79,6 +118,59 @@ export const multiDimensionalProfilesEpcisDocumentResponse = [
             'No object ID present - Transformation Event needs to have non empty outputQuantityList',
           warning: 'Transformation Event needs to have non empty outputQuantityList',
           field: 'outputQuantityList',
+        },
+        {
+          name: 'catchAreaInIlmdExists_Rule',
+          eventProfile: ['fishing'],
+          errorMessage: 'catchArea is not exists',
+          warning: 'catchArea is not exists',
+          field: 'catchArea',
+        },
+        {
+          name: 'vesselCatchInformationInIlmdExists_Rule',
+          eventProfile: ['fishing'],
+          errorMessage: 'vesselCatchInformation is not exists',
+          warning: 'vesselCatchInformation is not exists',
+          field: 'vesselCatchInformation',
+        },
+      ],
+    },
+  ],
+  [
+    {
+      index: 2,
+      errors: [
+        {
+          name: 'agricultureDetailsInIlmdExists_Rule',
+          eventProfile: ['slaughtering'],
+          errorMessage: 'agricultureDetails is not exists',
+          warning: 'agricultureDetails is not exists',
+          field: 'agricultureDetails',
+        },
+      ],
+    },
+  ],
+];
+
+export const multiDimensionalProfilesEpcisQueryDocumentResponse = [
+  [
+    {
+      index: 1,
+      errors: [
+        {
+          name: 'transformationID_Rule',
+          eventProfile: ['transforming'],
+          errorMessage: 'TransformationID malformed',
+          warning: 'TransformationID should not be null or undefined',
+          field: 'transformationID',
+        },
+        {
+          name: 'nonEmptyInputQuantityList_Rule',
+          eventProfile: ['transforming'],
+          errorMessage:
+            'No object ID present - Transformation Event needs to have non empty inputQuantityList',
+          warning: 'Transformation Event needs to have non empty inputQuantityList',
+          field: 'inputQuantityList',
         },
         {
           name: 'catchAreaInIlmdExists_Rule',
