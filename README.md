@@ -93,7 +93,7 @@ console.log(bareEventProfile); //Output: transforming
 const epcisDocumentProfile = detectProfile(epcisDocument, customProfileRules);
 console.log(epcisDocumentProfile); //Output: ['transforming','farming','fishing','slaughtering']
 
-//Single profile detection per event using epcis document
+//Single profile detection per event using epcis query document
 const epcisQueryDocumentProfile = detectProfile(
   epcisQueryDocumentForSingleProfile,
   queryDocumentDetectionRules,
