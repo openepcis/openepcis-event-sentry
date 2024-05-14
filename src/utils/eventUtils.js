@@ -5,7 +5,6 @@
  */
 
 import { documentTypes } from '../index';
-import _ from 'lodash';
 
 //Epcis event types
 const epcisEventTypes = [
@@ -56,56 +55,60 @@ export const profileValidationRulesSchema = {
   },
 };
 
-//Function to evaluate the string expression
-export const parseExpression = (expression) => {
-  const tokens = expression.match(/\S+/g) || [];
-  let result = true;
-  let operator = '&&';
-  for (const token of tokens) {
-    if (token === '||' || token === '&&') {
-      operator = token;
-    } else {
-      const value = token === 'true';
-      result = operator === '&&' ? result && value : result || value;
-    }
-  }
-  return result;
-};
-
-//Function to check epcis event is valid or not
+/**
+ * Verifies if the event is valid EPCIS event or not
+ *
+ * @param {{}} event - EPCIS event
+ * @return {boolean} - returns true of false
+ */
 export const isValidEpcisEvent = (event) => {
   return epcisEventTypes.includes(event.type);
 };
 
-//Function to check if valid epcis document or not
+/**
+ * Verifies if valid EPCIS document or not
+ *
+ * @param {{}} event - EPCIS document
+ * @return {boolean} - returns true of false
+ */
 export const isValidEpcisDocument = (document) => {
   return document.type === 'EPCISDocument';
 };
 
-//Function to check if valid epcis query document or not
+/**
+ * Verifies if valid EPCIS Query document or not
+ *
+ * @param {{}} event - EPCIS Query document
+ * @return {boolean} - returns true of false
+ */
 export const isValidEpcisQueryDocument = (document) => {
   return document.type === 'EPCISQueryDocument';
 };
 
-//Function to detect the document type whether it is Epcis Document or Bare Event
+/**
+ * Detect the document type whether it is Epcis Document, Epcis Query Document or Bare Event
+ *
+ * @param {{}} event - document
+ * @return {string} - returns string based on detected document type
+ */
 export const detectDocumentType = (document) => {
   if (isValidEpcisDocument(document)) {
-    return documentTypes.epcisDocument;
+    return documentTypes.EPCIS_DOCUMENT;
   } else if (isValidEpcisQueryDocument(document)) {
-    return documentTypes.epcisQueryDocument;
+    return documentTypes.EPCIS_QUERY_DOCUMENT;
   } else if (isValidEpcisEvent(document)) {
-    return documentTypes.bareEvent;
+    return documentTypes.BARE_EVENT;
   }
-  return documentTypes.unidentified;
+  return documentTypes.UNIDENTIFIED;
 };
 
-//Function to replace the message parameters
-export const replaceMsgParams = (origMsg, ...params) => {
-  let msg = origMsg;
-  params.forEach((param, idx) => (msg = msg.replace(new RegExp(`\\{${idx}\\}`, 'ig'), param)));
-  return msg;
-};
-
+/**
+ * Get the validated event object
+ *
+ * @param {boolean} isValidEvent - true if the event is validated successfully or else false
+ * @param {{}} validationRule - particular rule based on event has validated
+ * @return {(string|{})} - returns empty string if true or else error object if false
+ */
 //Function to get the validated event object
 export const eventProfileValidationResult = (isValidEvent, validationRule) => {
   const failureEventObject = {
@@ -117,48 +120,4 @@ export const eventProfileValidationResult = (isValidEvent, validationRule) => {
   };
 
   return isValidEvent === true ? '' : failureEventObject;
-};
-
-//Function to check whether the given property is multi-dimensional array or not
-export const isMultidimensionalArray = (property) => {
-  return property.some(Array.isArray);
-};
-
-//Function to check whether the given property is string or not
-export const isPropertyString = (property) => {
-  return typeof property === 'string';
-};
-
-//Function to throw the custom error
-export const throwError = (statusCode, message) => {
-  const error = new Error(message);
-  error.statusCode = statusCode;
-  throw error;
-};
-
-//Function to throw the custom error array
-export const throwArrayError = (statusCode, message) => {
-  const error = new Error();
-  error.statusCode = statusCode;
-  error.message = JSON.stringify(message, null, 2);
-  throw error;
-};
-
-//Function to sanitize the expression
-export const sanitizeInput = (expression) => {
-  return expression.replace(/<script[^>]*>.*?<\/script>|<\/?[^>]+>|on\w+="[^"]*"|&/g, '');
-};
-
-//Function to execute the expression eg. lodash methods
-export const expressionExecutor = (expression, context) => {
-  const sandbox = {};
-  const sanitizedExpression = sanitizeInput(expression);
-  sandbox._ = _;
-  sandbox.event = context;
-  try {
-    const evaluator = new Function('with(this) { return ' + sanitizedExpression + '; }');
-    return evaluator.call(sandbox);
-  } catch {
-    return undefined;
-  }
 };

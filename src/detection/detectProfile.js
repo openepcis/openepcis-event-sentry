@@ -5,48 +5,23 @@
  */
 
 import Ajv from 'ajv';
-const ajv = new Ajv();
+import _ from 'lodash';
 import {
   detectDocumentType,
   documentTypes,
   errorMessages,
-  parseExpression,
-  replaceMsgParams,
-  expressionExecutor,
+  evaluateRuleExpression,
   profileDetectionRulesSchema,
+  replaceMsgParams,
   throwError,
 } from '../index';
-
-const customMatches = (expression, event) => {
-  const segments = expression.split(/&&|\|\|/);
-
-  const lodashExpressions = [];
-  const nonLodashExpressions = [];
-
-  segments.forEach((segment) => {
-    if (!segment.includes('&&') && !segment.includes('||')) {
-      if (segment.match(/^\s*!?_\./)) {
-        lodashExpressions.push(segment);
-      } else {
-        nonLodashExpressions.push(segment);
-      }
-    }
-  });
-
-  const processedSegments = segments.map((segment) => {
-    if (!segment.includes('&&') && !segment.includes('||')) {
-      return expressionExecutor(segment, event);
-    }
-    return segment;
-  });
-  return parseExpression(processedSegments.join(' '));
-};
+const ajv = new Ajv();
 
 const detectEventProfiles = (event, profileRules) => {
   let detectedProfiles = [];
   for (const rule of profileRules) {
     if (rule.eventType === event.type) {
-      const result = customMatches(rule.expression, event);
+      const result = evaluateRuleExpression(rule.expression, event);
       const profileName = result === true ? rule.name : '';
       detectedProfiles.push(profileName);
     }
@@ -58,29 +33,13 @@ const detectEventProfiles = (event, profileRules) => {
   return detectedProfiles;
 };
 
-const detectEpcisDocumentProfiles = (document, profileRules) => {
+const detectDocumentProfiles = (profileRules, eventPath) => {
   let detectedProfiles = [];
-  const eventPath = document.epcisBody.eventList;
   if (Array.isArray(eventPath)) {
     eventPath.forEach((event) => {
       const profiles = detectEventProfiles(event, profileRules);
       if (profiles.length > 1) {
-        throw new Error(replaceMsgParams(errorMessages.multipleProfilesDetected, event.type));
-      }
-      detectedProfiles = detectedProfiles.concat(profiles);
-    });
-  }
-  return detectedProfiles;
-};
-
-const detectEpcisQueryDocumentProfiles = (document, profileRules) => {
-  let detectedProfiles = [];
-  const eventPath = document.epcisBody.queryResults.resultsBody.eventList;
-  if (Array.isArray(eventPath)) {
-    eventPath.forEach((event) => {
-      const profiles = detectEventProfiles(event, profileRules);
-      if (profiles.length > 1) {
-        throw new Error(replaceMsgParams(errorMessages.multipleProfilesDetected, event.type));
+        throw new Error(replaceMsgParams(errorMessages.MULTIPLE_PROFILE_DETECTED, event.type));
       }
       detectedProfiles = detectedProfiles.concat(profiles);
     });
@@ -92,7 +51,7 @@ const detectBareEventProfile = (document, profileRules) => {
   let detectedProfile = '';
   for (const rule of profileRules) {
     if (rule.eventType === document.type) {
-      const result = customMatches(rule.expression, document);
+      const result = evaluateRuleExpression(rule.expression, document);
       detectedProfile = result === true ? rule.name : '';
       break;
     }
@@ -100,32 +59,38 @@ const detectBareEventProfile = (document, profileRules) => {
   return detectedProfile;
 };
 
-export const detectProfile = (document = {}, customEventProfileDetectionRules = []) => {
+/**
+ * Analyzes the event against the provided rules and returns the single most appropriate event profile.
+ *
+ * @param {{}} document - document you wish to utilize for profile detection
+ * @param {[]} rules - profile detection rules upon which you base the detection of the profile.
+ * @returns {(string|string[])} - returns detected event profiles. It Can be a single profile or an array of profiles.
+ * @throws {Error} - throws an error if the document or rules are empty.
+ */
+export const detectProfile = (document = {}, rules = []) => {
   const validate = ajv.compile(profileDetectionRulesSchema);
-  const valid = validate(customEventProfileDetectionRules);
+  const valid = validate(rules);
   const detectedDocumentType = detectDocumentType(document);
 
-  if (
-    !document ||
-    Object.keys(document).length === 0 ||
-    !customEventProfileDetectionRules ||
-    customEventProfileDetectionRules.length === 0
-  ) {
-    throwError(400, errorMessages.documentOrRulesEmpty);
+  if (_.isEmpty(document) || _.isEmpty(rules)) {
+    throwError(400, errorMessages.EMPTY_DOCUMENT_OR_RULES);
   }
 
-  if (valid) {
-    if (detectedDocumentType === documentTypes.epcisDocument) {
-      return detectEpcisDocumentProfiles(document, customEventProfileDetectionRules);
-    } else if (detectedDocumentType === documentTypes.epcisQueryDocument) {
-      return detectEpcisQueryDocumentProfiles(document, customEventProfileDetectionRules);
-    } else if (detectedDocumentType === documentTypes.bareEvent) {
-      return detectBareEventProfile(document, customEventProfileDetectionRules);
-    } else if (detectedDocumentType === documentTypes.unidentified) {
-      throwError(400, errorMessages.invalidEpcisOrBareEvent);
-    }
-  } else {
+  if (!valid) {
     throw new Error(validate.errors[0].message);
+  }
+
+  let eventPath = '';
+  if (detectedDocumentType === documentTypes.EPCIS_DOCUMENT) {
+    eventPath = document.epcisBody.eventList;
+    return detectDocumentProfiles(rules, eventPath);
+  } else if (detectedDocumentType === documentTypes.EPCIS_QUERY_DOCUMENT) {
+    eventPath = document.epcisBody.queryResults.resultsBody.eventList;
+    return detectDocumentProfiles(rules, eventPath);
+  } else if (detectedDocumentType === documentTypes.BARE_EVENT) {
+    return detectBareEventProfile(document, rules);
+  } else if (detectedDocumentType === documentTypes.UNIDENTIFIED) {
+    throwError(400, errorMessages.INVALID_EPCIS_OR_BARE_EVENT);
   }
   return [];
 };

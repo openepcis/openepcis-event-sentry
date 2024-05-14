@@ -5,15 +5,15 @@
  */
 
 export const documentTypes = {
-  epcisDocument: 'Epcis Document',
-  epcisQueryDocument: 'EPCIS Query Document',
-  bareEvent: 'Bare Event',
-  unidentified: 'Unidentified',
+  EPCIS_DOCUMENT: 'Epcis Document',
+  EPCIS_QUERY_DOCUMENT: 'EPCIS Query Document',
+  BARE_EVENT: 'Bare Event',
+  UNIDENTIFIED: 'Unidentified',
 };
 
 export const errorMessages = {
-  multipleProfilesDetected: 'Multiple profiles detected for the {0}',
-  documentOrRulesEmpty: 'Document or rules should not be empty',
-  documentOrProfileOrRulesEmpty: 'Document or profiles or rules should not be empty',
-  invalidEpcisOrBareEvent: 'Invalid EPCIS document or bare event',
+  MULTIPLE_PROFILE_DETECTED: 'Multiple profiles detected for the {0}',
+  EMPTY_DOCUMENT_OR_RULES: 'Document or rules should not be empty',
+  EMPTY_DOCUMENT_OR_PROFILE_OR_RULES: 'Document or profiles or rules should not be empty',
+  INVALID_EPCIS_OR_BARE_EVENT: 'Invalid EPCIS document or bare event',
 };

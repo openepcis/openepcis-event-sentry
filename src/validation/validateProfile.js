@@ -5,44 +5,19 @@
  */
 
 import Ajv from 'ajv';
-const ajv = new Ajv();
+import _ from 'lodash';
 import {
   detectDocumentType,
-  eventProfileValidationResult,
   documentTypes,
+  errorMessages,
+  evaluateRuleExpression,
+  eventProfileValidationResult,
   isMultidimensionalArray,
   isPropertyString,
-  parseExpression,
-  expressionExecutor,
   profileValidationRulesSchema,
-  errorMessages,
   throwError,
 } from '../index';
-
-const customMatches = (expression, event) => {
-  const segments = expression.split(/&&|\|\|/);
-
-  const lodashExpressions = [];
-  const nonLodashExpressions = [];
-
-  segments.forEach((segment) => {
-    if (!segment.includes('&&') && !segment.includes('||')) {
-      if (segment.match(/^\s*!?_\./)) {
-        lodashExpressions.push(segment);
-      } else {
-        nonLodashExpressions.push(segment);
-      }
-    }
-  });
-
-  const processedSegments = segments.map((segment) => {
-    if (!segment.includes('&&') && !segment.includes('||')) {
-      return expressionExecutor(segment, event);
-    }
-    return segment;
-  });
-  return parseExpression(processedSegments.join(' '));
-};
+const ajv = new Ajv();
 
 const validateEventProfiles = (event, profileName, profileRules) => {
   let eventProfileValidationResults = [];
@@ -51,7 +26,7 @@ const validateEventProfiles = (event, profileName, profileRules) => {
     profileRule.eventProfile.includes(profileName),
   );
   for (const rule of filteredRules) {
-    const result = customMatches(rule.expression, event);
+    const result = evaluateRuleExpression(rule.expression, event);
     const validationResult = eventProfileValidationResult(result, rule);
     if (validationResult !== '' && !uniqueProfiles[rule.name]) {
       eventProfileValidationResults.push(validationResult);
@@ -61,36 +36,7 @@ const validateEventProfiles = (event, profileName, profileRules) => {
   return eventProfileValidationResults;
 };
 
-const validateEpcisDocumentProfiles = (document, profileNames, profileRules) => {
-  const eventPath = document.epcisBody.eventList;
-  const validationResults = [];
-  if (Array.isArray(eventPath)) {
-    eventPath.forEach((event, index) => {
-      if (isMultidimensionalArray(profileNames)) {
-        let eventValidationResults = [];
-        const profilesForEvent = Array.isArray(profileNames[index])
-          ? profileNames[index]
-          : [profileNames[index]];
-        profilesForEvent.forEach((profileName) => {
-          eventValidationResults.push(validateEventProfiles(event, profileName, profileRules));
-        });
-        if (eventValidationResults.length > 0) {
-          validationResults.push([{ index: index + 1, errors: eventValidationResults.flat() }]);
-        }
-      } else {
-        const profileName = profileNames[index];
-        const eventValidationResults = validateEventProfiles(event, profileName, profileRules);
-        if (eventValidationResults.length > 0) {
-          validationResults.push([{ index: index + 1, errors: eventValidationResults }]);
-        }
-      }
-    });
-  }
-  return validationResults;
-};
-
-const validateEpcisQueryDocumentProfiles = (document, profileNames, profileRules) => {
-  const eventPath = document.epcisBody.queryResults.resultsBody.eventList;
+const validateDocumentProfiles = (profileNames, profileRules, eventPath) => {
   const validationResults = [];
   if (Array.isArray(eventPath)) {
     eventPath.forEach((event, index) => {
@@ -141,38 +87,40 @@ const validateBareEventProfiles = (document, profileNames, profileRules) => {
   return validationResults;
 };
 
-export const validateProfile = (
-  document = {},
-  profileName = [],
-  eventProfileValidationRules = [],
-) => {
+/**
+ * Validate the event against the provided rules and returns the validation response.
+ *
+ * @param {{}} document - document you wish to utilize for event validation
+ * @param {[]} profileName - profile name or names you wish to utlize for event validation
+ * @param {[]} rules - profile detection rules upon which you base the validation of the event.
+ * @returns {[]} - returns the event validation response.
+ * @throws {Error} - throws an error if the document, profileName or rules are empty.
+ */
+export const validateProfile = (document = {}, profileName = [], rules = []) => {
   const validate = ajv.compile(profileValidationRulesSchema);
-  const valid = validate(eventProfileValidationRules);
+  const valid = validate(rules);
   const detectedDocumentType = detectDocumentType(document);
 
-  if (
-    !document ||
-    Object.keys(document).length === 0 ||
-    !profileName ||
-    profileName.length === 0 ||
-    !eventProfileValidationRules ||
-    eventProfileValidationRules.length === 0
-  ) {
-    throwError(400, errorMessages.documentOrProfileOrRulesEmpty);
+  if (_.isEmpty(document) || _.isEmpty(profileName) || _.isEmpty(rules)) {
+    throwError(400, errorMessages.EMPTY_DOCUMENT_OR_PROFILE_OR_RULES);
   }
 
-  if (valid) {
-    if (detectedDocumentType === documentTypes.epcisDocument) {
-      return validateEpcisDocumentProfiles(document, profileName, eventProfileValidationRules);
-    } else if (detectedDocumentType === documentTypes.epcisQueryDocument) {
-      return validateEpcisQueryDocumentProfiles(document, profileName, eventProfileValidationRules);
-    } else if (detectedDocumentType === documentTypes.bareEvent) {
-      return validateBareEventProfiles(document, profileName, eventProfileValidationRules);
-    } else if (detectedDocumentType === documentTypes.unidentified) {
-      throwError(400, errorMessages.invalidEpcisOrBareEvent);
-    }
-  } else {
+  if (!valid) {
     throw new Error(validate.errors[0].message);
+  }
+
+  let eventPath = '';
+
+  if (detectedDocumentType === documentTypes.EPCIS_DOCUMENT) {
+    eventPath = document.epcisBody.eventList;
+    return validateDocumentProfiles(profileName, rules, eventPath);
+  } else if (detectedDocumentType === documentTypes.EPCIS_QUERY_DOCUMENT) {
+    eventPath = document.epcisBody.queryResults.resultsBody.eventList;
+    return validateDocumentProfiles(profileName, rules, eventPath);
+  } else if (detectedDocumentType === documentTypes.BARE_EVENT) {
+    return validateBareEventProfiles(document, profileName, rules);
+  } else if (detectedDocumentType === documentTypes.UNIDENTIFIED) {
+    throwError(400, errorMessages.INVALID_EPCIS_OR_BARE_EVENT);
   }
   return [];
 };

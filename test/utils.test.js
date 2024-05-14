@@ -5,18 +5,18 @@
  */
 
 import { describe, expect, it } from 'vitest';
-import * as TransformationBareEvent from '../test/data/TransformationBareEvent.json';
-import * as IncorrectBareEvent from '../test/data/IncorrectBareEvent.json';
-import * as EpcisDocument from '../test/data/EpcisDocument.json';
-import * as IncorrectEpcisDocument from '../test/data/IncorrectEpcisDocument.json';
-import {
-  isValidEpcisEvent,
-  isValidEpcisDocument,
-  detectDocumentType,
-  expressionExecutor,
-  sanitizeInput,
-} from '../src/utils/eventUtils';
+import { expressionExecutor, sanitizeExpression } from '../src';
 import { documentTypes } from '../src/utils/constants';
+import {
+  detectDocumentType,
+  isValidEpcisDocument,
+  isValidEpcisEvent,
+} from '../src/utils/eventUtils';
+import * as EpcisDocument from '../test/data/EpcisDocument.json';
+import * as EpcisQueryDocument from '../test/data/EpcisQueryDocument.json';
+import * as IncorrectBareEvent from '../test/data/IncorrectBareEvent.json';
+import * as IncorrectEpcisDocument from '../test/data/IncorrectEpcisDocument.json';
+import * as TransformationBareEvent from '../test/data/TransformationBareEvent.json';
 
 const event = {
   type: 'EPCISDocument',
@@ -53,20 +53,21 @@ describe('Test case for isValidEpcisEvent', () => {
 
 describe('Test case for detectDocumentType', () => {
   it('should return the EPCIS document type', () => {
-    expect(detectDocumentType(EpcisDocument)).toEqual(documentTypes.epcisDocument);
-    expect(detectDocumentType(TransformationBareEvent)).toEqual(documentTypes.bareEvent);
-    expect(detectDocumentType(IncorrectEpcisDocument)).toEqual(documentTypes.unidentified);
-    expect(detectDocumentType(IncorrectBareEvent)).toEqual(documentTypes.unidentified);
+    expect(detectDocumentType(EpcisDocument)).toEqual(documentTypes.EPCIS_DOCUMENT);
+    expect(detectDocumentType(EpcisQueryDocument)).toEqual(documentTypes.EPCIS_QUERY_DOCUMENT);
+    expect(detectDocumentType(TransformationBareEvent)).toEqual(documentTypes.BARE_EVENT);
+    expect(detectDocumentType(IncorrectEpcisDocument)).toEqual(documentTypes.UNIDENTIFIED);
+    expect(detectDocumentType(IncorrectBareEvent)).toEqual(documentTypes.UNIDENTIFIED);
   });
 });
 
-describe('Test case for sanitizeInput', () => {
+describe('Test case for sanitizeExpression', () => {
   it('should return empty string the script tag included in the expression', () => {
-    expect(sanitizeInput('<script>onerror=alert;throw 1&</script>')).toEqual('');
+    expect(sanitizeExpression('<script>onerror=alert;throw 1&</script>')).toEqual('');
   });
 
   it('should return string as it is if the script tag is not included in the expression', () => {
-    expect(sanitizeInput(`_.get(event,'epcisBody.eventList[0].bizStep')`)).toEqual(
+    expect(sanitizeExpression(`_.get(event,'epcisBody.eventList[0].bizStep')`)).toEqual(
       `_.get(event,'epcisBody.eventList[0].bizStep')`,
     );
   });
