@@ -55,16 +55,16 @@ const processEventProfiles = (event, profileRules) => {
 };
 
 const detectEpcisDocumentProfiles = (document, profileRules) => {
-  return Array.isArray(document.epcisBody.eventList)
-    ? document.epcisBody.eventList.map((event) => processEventProfiles(event, profileRules))
+  const eventPath = document.epcisBody.eventList;
+  return Array.isArray(eventPath)
+    ? eventPath.map((event) => processEventProfiles(event, profileRules))
     : [];
 };
 
 const detectEpcisQueryDocumentProfiles = (document, profileRules) => {
-  return Array.isArray(document.epcisBody.queryResults.resultsBody.eventList)
-    ? document.epcisBody.queryResults.resultsBody.eventList.map((event) =>
-        processEventProfiles(event, profileRules),
-      )
+  const eventPath = document.epcisBody.queryResults.resultsBody.eventList;
+  return Array.isArray(eventPath)
+    ? eventPath.map((event) => processEventProfiles(event, profileRules))
     : [];
 };
 

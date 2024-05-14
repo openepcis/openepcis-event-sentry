@@ -62,9 +62,10 @@ const validateEventProfiles = (event, profileName, profileRules) => {
 };
 
 const validateEpcisDocumentProfiles = (document, profileNames, profileRules) => {
+  const eventPath = document.epcisBody.eventList;
   const validationResults = [];
-  if (Array.isArray(document.epcisBody.eventList)) {
-    document.epcisBody.eventList.forEach((event, index) => {
+  if (Array.isArray(eventPath)) {
+    eventPath.forEach((event, index) => {
       if (isMultidimensionalArray(profileNames)) {
         let eventValidationResults = [];
         const profilesForEvent = Array.isArray(profileNames[index])
@@ -89,9 +90,10 @@ const validateEpcisDocumentProfiles = (document, profileNames, profileRules) => 
 };
 
 const validateEpcisQueryDocumentProfiles = (document, profileNames, profileRules) => {
+  const eventPath = document.epcisBody.queryResults.resultsBody.eventList;
   const validationResults = [];
-  if (Array.isArray(document.epcisBody.queryResults.resultsBody.eventList)) {
-    document.epcisBody.queryResults.resultsBody.eventList.forEach((event, index) => {
+  if (Array.isArray(eventPath)) {
+    eventPath.forEach((event, index) => {
       if (isMultidimensionalArray(profileNames)) {
         let eventValidationResults = [];
         const profilesForEvent = Array.isArray(profileNames[index])

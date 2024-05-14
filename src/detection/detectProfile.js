@@ -60,8 +60,9 @@ const detectEventProfiles = (event, profileRules) => {
 
 const detectEpcisDocumentProfiles = (document, profileRules) => {
   let detectedProfiles = [];
-  if (Array.isArray(document.epcisBody.eventList)) {
-    document.epcisBody.eventList.forEach((event) => {
+  const eventPath = document.epcisBody.eventList;
+  if (Array.isArray(eventPath)) {
+    eventPath.forEach((event) => {
       const profiles = detectEventProfiles(event, profileRules);
       if (profiles.length > 1) {
         throw new Error(replaceMsgParams(errorMessages.multipleProfilesDetected, event.type));
@@ -74,8 +75,9 @@ const detectEpcisDocumentProfiles = (document, profileRules) => {
 
 const detectEpcisQueryDocumentProfiles = (document, profileRules) => {
   let detectedProfiles = [];
-  if (Array.isArray(document.epcisBody.queryResults.resultsBody.eventList)) {
-    document.epcisBody.queryResults.resultsBody.eventList.forEach((event) => {
+  const eventPath = document.epcisBody.queryResults.resultsBody.eventList;
+  if (Array.isArray(eventPath)) {
+    eventPath.forEach((event) => {
       const profiles = detectEventProfiles(event, profileRules);
       if (profiles.length > 1) {
         throw new Error(replaceMsgParams(errorMessages.multipleProfilesDetected, event.type));

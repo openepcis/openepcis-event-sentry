@@ -136,6 +136,14 @@ export const throwError = (statusCode, message) => {
   throw error;
 };
 
+//Function to throw the custom error array
+export const throwArrayError = (statusCode, message) => {
+  const error = new Error();
+  error.statusCode = statusCode;
+  error.message = JSON.stringify(message, null, 2);
+  throw error;
+};
+
 //Function to sanitize the expression
 export const sanitizeInput = (expression) => {
   return expression.replace(/<script[^>]*>.*?<\/script>|<\/?[^>]+>|on\w+="[^"]*"|&/g, '');
