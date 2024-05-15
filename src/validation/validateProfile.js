@@ -12,8 +12,8 @@ import {
   errorMessages,
   evaluateRuleExpression,
   eventProfileValidationResult,
-  isMultidimensionalArray,
-  isPropertyString,
+  isValueMultidimensionalArray,
+  isValueString,
   profileValidationRulesSchema,
   throwError,
 } from '../index';
@@ -40,7 +40,7 @@ const validateDocumentProfiles = (profileNames, profileRules, eventPath) => {
   const validationResults = [];
   if (Array.isArray(eventPath)) {
     eventPath.forEach((event, index) => {
-      if (isMultidimensionalArray(profileNames)) {
+      if (isValueMultidimensionalArray(profileNames)) {
         let eventValidationResults = [];
         const profilesForEvent = Array.isArray(profileNames[index])
           ? profileNames[index]
@@ -65,7 +65,7 @@ const validateDocumentProfiles = (profileNames, profileRules, eventPath) => {
 
 const validateBareEventProfiles = (document, profileNames, profileRules) => {
   const validationResults = [];
-  if (isPropertyString(profileNames)) {
+  if (isValueString(profileNames)) {
     const eventValidationResults = validateEventProfiles(document, profileNames, profileRules);
     if (eventValidationResults.length > 0) {
       validationResults.push({ index: 1, errors: eventValidationResults });
@@ -97,18 +97,18 @@ const validateBareEventProfiles = (document, profileNames, profileRules) => {
  * @throws {Error} - throws an error if the document, profileName or rules are empty.
  */
 export const validateProfile = (document = {}, profileName = [], rules = []) => {
-  const validate = ajv.compile(profileValidationRulesSchema);
-  const valid = validate(rules);
-  const detectedDocumentType = detectDocumentType(document);
-
   if (_.isEmpty(document) || _.isEmpty(profileName) || _.isEmpty(rules)) {
     throwError(400, errorMessages.EMPTY_DOCUMENT_OR_PROFILE_OR_RULES);
   }
+
+  const validate = ajv.compile(profileValidationRulesSchema);
+  const valid = validate(rules);
 
   if (!valid) {
     throw new Error(validate.errors[0].message);
   }
 
+  const detectedDocumentType = detectDocumentType(document);
   let eventPath = '';
 
   if (detectedDocumentType === documentTypes.EPCIS_DOCUMENT) {

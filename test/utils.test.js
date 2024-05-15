@@ -5,13 +5,14 @@
  */
 
 import { describe, expect, it } from 'vitest';
-import { expressionExecutor, sanitizeExpression } from '../src';
 import { documentTypes } from '../src/utils/constants';
+import { isValueMultidimensionalArray, isValueString } from '../src/utils/commonUtils';
 import {
   detectDocumentType,
   isValidEpcisDocument,
   isValidEpcisEvent,
 } from '../src/utils/eventUtils';
+import { expressionExecutor, sanitizeExpression } from '../src/utils/expressionUtils';
 import * as EpcisDocument from '../test/data/EpcisDocument.json';
 import * as EpcisQueryDocument from '../test/data/EpcisQueryDocument.json';
 import * as IncorrectBareEvent from '../test/data/IncorrectBareEvent.json';
@@ -58,6 +59,28 @@ describe('Test case for detectDocumentType', () => {
     expect(detectDocumentType(TransformationBareEvent)).toEqual(documentTypes.BARE_EVENT);
     expect(detectDocumentType(IncorrectEpcisDocument)).toEqual(documentTypes.UNIDENTIFIED);
     expect(detectDocumentType(IncorrectBareEvent)).toEqual(documentTypes.UNIDENTIFIED);
+  });
+});
+
+describe('Test case for isValueMultidimensionalArray', () => {
+  it('should return true if the value is a multi-dimensional array', () => {
+    expect(isValueMultidimensionalArray([['shipping', 'slaughtering'], ['receiving']])).toEqual(
+      true,
+    );
+  });
+
+  it('should return false if the value is not a multi-dimensional array', () => {
+    expect(isValueMultidimensionalArray(['shipping', 'slaughtering', 'receiving'])).toEqual(false);
+  });
+});
+
+describe('Test case for isValueString', () => {
+  it('should return true if the value is a string', () => {
+    expect(isValueString('shipping')).toEqual(true);
+  });
+
+  it('should return false if the value is not a string', () => {
+    expect(isValueString(['shipping'])).toEqual(false);
   });
 });
 

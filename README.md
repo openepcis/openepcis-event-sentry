@@ -76,10 +76,10 @@ Syntax:
 
 ```javascript
 /*
-  1. event: The event you wish to utilize for profile detection, for example, a bare event or an EPCIS document.
+  1. document: Document you wish to utilize for profile detection, for example, a bare event, EPCIS document or EPCIS query document.
   2. rules: Profile detection rules upon which you base the detection of the profile.
 */
-detectProfile(event, rules);
+detectProfile(document, rules);
 ```
 
 Example:
@@ -113,10 +113,10 @@ Syntax:
 
 ```javascript
 /*
-  1. event: The event you wish to utilize for profile(s) detection, for example, a bare event or an EPCIS document.
+  1. document: Document you wish to utilize for profile(s) detection, for example, a bare event, EPCIS document or EPCIS query document.
   2. rules: Profile detection rules upon which you base the detection of the profile(s).
 */
-detectAllProfiles(event, rules);
+detectAllProfiles(document, rules);
 ```
 
 Example:
@@ -164,10 +164,10 @@ Syntax:
 
 ```javascript
 /*
-  1. event: The event object you want to evaluate.
+  1. document: Document you want to evaluate, for example, a bare event.
   2. rule: The profile detection rules used for the compliance check.
 */
-compliesToProfileRule(event, rule);
+compliesToProfileRule(document, rule);
 ```
 
 Example:
@@ -244,11 +244,11 @@ Syntax:
 
 ```javascript
 /*
-  1. event: The event you wish to utilize for profile detection, for example, a bare event or an EPCIS document.
+  1. document: Document you wish to utilize for profile detection, for example, a bare event, EPCIS document or EPCIS query document.
   2. profileName: The names of the event profile you intend to validate against the particular event, such as  [transforming, fishing, farming] etc... 
   3. rules: validation rules based on which you want to validate the event
 */
-validateProfile(event, profileNames, rules);
+validateProfile(document, profileNames, rules);
 ```
 
 Example:

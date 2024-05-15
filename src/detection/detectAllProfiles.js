@@ -44,18 +44,18 @@ const detectDocumentProfiles = (profileRules, eventPath) => {
  * @throws {Error} - throws an error if the document or rules are empty.
  */
 export const detectAllProfiles = (document = {}, rules = []) => {
-  const validate = ajv.compile(profileDetectionRulesSchema);
-  const valid = validate(rules);
-  const detectedDocumentType = detectDocumentType(document);
-
   if (_.isEmpty(document) || _.isEmpty(rules)) {
     throwError(400, errorMessages.EMPTY_DOCUMENT_OR_RULES);
   }
+
+  const validate = ajv.compile(profileDetectionRulesSchema);
+  const valid = validate(rules);
 
   if (!valid) {
     throw new Error(validate.errors[0].message);
   }
 
+  const detectedDocumentType = detectDocumentType(document);
   let eventPath = '';
 
   if (detectedDocumentType === documentTypes.EPCIS_DOCUMENT) {

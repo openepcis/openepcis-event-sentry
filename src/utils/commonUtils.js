@@ -20,21 +20,21 @@ export const replaceMsgParams = (origMsg, ...params) => {
 /**
  * Checks whether the given property is multi-dimensional array or not.
  *
- * @param {any} property - property to check if it is a multi-dimensional array or not, e.g., [['shipping', 'slaughtering'], ['receiving']].
+ * @param {any} value - value to check if it is a multi-dimensional array or not, e.g., [['shipping', 'slaughtering'], ['receiving']].
  * @return {boolean} - returns true of false.
  */
-export const isMultidimensionalArray = (property) => {
-  return property.some(Array.isArray);
+export const isValueMultidimensionalArray = (value) => {
+  return value.some(Array.isArray);
 };
 
 /**
  * Checks whether whether the given property is string or not.
  *
- * @param {any} property - property to check if it is a string or not, e.g., 'transformation'.
+ * @param {any} value - value to check if it is a string or not, e.g., 'transformation'.
  * @return {boolean} - returns true of false.
  */
-export const isPropertyString = (property) => {
-  return typeof property === 'string';
+export const isValueString = (value) => {
+  return typeof value === 'string';
 };
 
 /**
