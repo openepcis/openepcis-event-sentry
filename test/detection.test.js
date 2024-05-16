@@ -94,25 +94,25 @@ describe('Test case for detecting event profile', () => {
 
 describe('Test case for the document', () => {
   it('should throw error if the document is empty', () => {
-    expect(() => detectProfile()).toThrowError(errorMessages.documentOrRulesEmpty);
+    expect(() => detectProfile()).toThrowError(errorMessages.EMPTY_DOCUMENT_OR_RULES);
   });
 
   it('should throw an error if the document and customEventProfileDetectionRules are empty', () => {
-    expect(() => detectProfile({}, [])).toThrowError(errorMessages.documentOrRulesEmpty);
+    expect(() => detectProfile({}, [])).toThrowError(errorMessages.EMPTY_DOCUMENT_OR_RULES);
   });
 
   it('should throw error if the document is empty', () => {
-    expect(() => detectAllProfiles()).toThrowError(errorMessages.documentOrRulesEmpty);
+    expect(() => detectAllProfiles()).toThrowError(errorMessages.EMPTY_DOCUMENT_OR_RULES);
   });
 
   it('should throw an error if the document and customEventProfileDetectionRules are empty', () => {
-    expect(() => detectAllProfiles({}, [])).toThrowError(errorMessages.documentOrRulesEmpty);
+    expect(() => detectAllProfiles({}, [])).toThrowError(errorMessages.EMPTY_DOCUMENT_OR_RULES);
   });
 
   describe('Test case for the bare event', () => {
     it('should throe error if the event type is incorrect in the bare event using detectAllProfiles', () => {
       expect(() => detectAllProfiles(IncorrectBareEvent, eventProfileDetectionRules)).toThrowError(
-        errorMessages.invalidEpcisOrBareEvent,
+        errorMessages.INVALID_EPCIS_OR_BARE_EVENT,
       );
     });
   });
@@ -121,18 +121,18 @@ describe('Test case for the document', () => {
     it('should throw error if the EPCIS document is not valid using detectAllProfiles', () => {
       expect(() =>
         detectAllProfiles(IncorrectEpcisDocument, eventProfileDetectionRules),
-      ).toThrowError(errorMessages.invalidEpcisOrBareEvent);
+      ).toThrowError(errorMessages.INVALID_EPCIS_OR_BARE_EVENT);
     });
   });
 });
 
 describe('Test case for the compiles event to profile rule', () => {
   it('should throw error if the document is empty', () => {
-    expect(() => compliesToProfileRule()).toThrowError(errorMessages.documentOrRulesEmpty);
+    expect(() => compliesToProfileRule()).toThrowError(errorMessages.EMPTY_DOCUMENT_OR_RULES);
   });
 
   it('should throw an error if the document and customEventProfileDetectionRules are empty', () => {
-    expect(() => compliesToProfileRule({}, [])).toThrowError(errorMessages.documentOrRulesEmpty);
+    expect(() => compliesToProfileRule({}, [])).toThrowError(errorMessages.EMPTY_DOCUMENT_OR_RULES);
   });
 
   it('should return true if the event successfully compiles to the profile rule', () => {

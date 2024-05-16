@@ -13,4 +13,3 @@ export { compliesToProfileRule } from './detection/compliesToProfileRule';
 export { detectAllProfiles } from './detection/detectAllProfiles';
 export { detectProfile } from './detection/detectProfile';
 export { validateProfile } from './validation/validateProfile';
-

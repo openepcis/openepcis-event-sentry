@@ -7,14 +7,16 @@
 /**
  * Replaces placeholder parameters in the original message string with provided values.
  *
- * @param {string} origMsg - The original message string containing placeholder parameters.
+ * @param {string} template - The template string containing placeholder parameters.
  * @param {...any} params - Values to replace the placeholder parameters in the message.
  * @returns {string} - The updated message string with placeholders replaced by values.
  */
-export const replaceMsgParams = (origMsg, ...params) => {
-  let msg = origMsg;
-  params.forEach((param, idx) => (msg = msg.replace(new RegExp(`\\{${idx}\\}`, 'ig'), param)));
-  return msg;
+export const replaceMsgParams = (template, ...params) => {
+  let message = template;
+  params.forEach(
+    (param, idx) => (message = message.replace(new RegExp(`\\{${idx}\\}`, 'ig'), param)),
+  );
+  return message;
 };
 
 /**
