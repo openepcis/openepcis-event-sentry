@@ -507,16 +507,6 @@
         "eventTime": 1666400400000,
         "documentId": "ndQk2YwBKEzzO5TjHAzs",
         "isDeleted": false,
-        "extensionFields": {
-          "content": {}
-        },
-        "innerExtensionFields": {},
-        "metadata": {
-          "captureVersion": "2",
-          "ftrace.username": "mmarciniak@sekosa.pl",
-          "xFtraceHeader": "DEW2",
-          "ftrace.gln": "5909000596948"
-        },
         "baseExtension": null,
         "erroneousEventIds": null,
         "type": "ObjectEvent",
@@ -573,16 +563,6 @@
         "eventTime": 1704326401000,
         "documentId": "vgAp2YwBlZbCyoq-FvRz",
         "isDeleted": false,
-        "extensionFields": {
-          "content": {}
-        },
-        "innerExtensionFields": {},
-        "metadata": {
-          "captureVersion": "2",
-          "ftrace.username": "ULBS@danishcrown.dk",
-          "xFtraceHeader": null,
-          "ftrace.gln": "4250182300009"
-        },
         "baseExtension": null,
         "erroneousEventIds": null,
         "type": "ObjectEvent",

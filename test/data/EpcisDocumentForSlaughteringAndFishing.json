@@ -574,16 +574,6 @@
         "eventTime": 1704326401000,
         "documentId": "vgAp2YwBlZbCyoq-FvRz",
         "isDeleted": false,
-        "extensionFields": {
-          "content": {}
-        },
-        "innerExtensionFields": {},
-        "metadata": {
-          "captureVersion": "2",
-          "ftrace.username": "ULBS@danishcrown.dk",
-          "xFtraceHeader": null,
-          "ftrace.gln": "4250182300009"
-        },
         "baseExtension": null,
         "erroneousEventIds": null,
         "type": "ObjectEvent",
