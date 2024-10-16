@@ -6,9 +6,9 @@
 
 import { describe, expect, it } from 'vitest';
 import { errorMessages } from '../src';
-import validEvent from './valid-event.json';
-import invalidEvent from './invalid-event.json';
-import * as schema from './schema-for-all.json';
+import validEvent from './data/events/valid-event.json';
+import invalidEvent from './data/events/invalid-event.json';
+import * as schema from './data/schema/schema-for-all.json';
 import { validate } from '../src/validation/validator';
 
 describe('Test case for validating bare events', () => {

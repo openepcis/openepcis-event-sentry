@@ -13,11 +13,11 @@ import {
   isValidEpcisEvent,
 } from '../src/utils/eventUtils';
 import { expressionExecutor, sanitizeExpression } from '../src/utils/expressionUtils';
-import * as EpcisDocument from '../test/data/EpcisDocument.json';
-import * as EpcisQueryDocument from '../test/data/EpcisQueryDocument.json';
-import * as IncorrectBareEvent from '../test/data/IncorrectBareEvent.json';
-import * as IncorrectEpcisDocument from '../test/data/IncorrectEpcisDocument.json';
-import * as TransformationBareEvent from '../test/data/TransformationBareEvent.json';
+import * as EpcisDocument from '../test/data/events/EpcisDocument.json';
+import * as EpcisQueryDocument from '../test/data/events/EpcisQueryDocument.json';
+import * as IncorrectBareEvent from '../test/data/events/IncorrectBareEvent.json';
+import * as IncorrectEpcisDocument from '../test/data/events/IncorrectEpcisDocument.json';
+import * as TransformationBareEvent from '../test/data/events/TransformationBareEvent.json';
 
 const event = {
   type: 'EPCISDocument',
