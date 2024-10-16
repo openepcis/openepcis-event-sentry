@@ -1,0 +1,380 @@
+{
+    "$schema": "https://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "properties": {
+        "type": {"type": "string"},
+        "schemaVersion": {"type": "string"},
+        "creationDate": {"type": "string"},
+        "sender": {"type": "string"},
+        "receiver": {"type": "string"},
+        "instanceIdentifier": {"type": "string"},
+        "epcisBody": {"$ref": "#/definitions/epcisBody_type"},
+        "@context": {"$ref": "#/definitions/@context_type"}
+    },
+    "definitions": {
+        "correctiveEventIDs_type": {
+            "type": "array",
+            "minItems": 0,
+            "items": {"type": "string"}
+        },
+        "errorDeclaration_type": {
+            "type": "object",
+            "properties": {
+                "declarationTime": {"type": "string"},
+                "reason": {"type": "string"},
+                "correctiveEventIDs": {"$ref": "#/definitions/correctiveEventIDs_type"}
+            }
+        },
+        "inputQuantityList_type": {
+            "type": "array",
+            "minItems": 0,
+            "items": {
+                "type": "object",
+                "properties": {
+                    "epcClass": {"type": "string"},
+                    "quantity": {"type": "integer"},
+                    "uom": {"type": "string"}
+                },
+                "required": [
+                    "epcClass",
+                    "quantity"
+                ]
+            }
+        },
+        "readPoint_type": {
+            "type": "object",
+            "properties": {
+                "id": {"type": "string"}
+            }
+        },
+        "bizTransactionList_type": {
+            "type": "array",
+            "minItems": 0,
+            "items": {
+                "type": "object",
+                "properties": {
+                    "type": {"type": "string"},
+                    "bizTransaction": {"type": "string"}
+                },
+                "required": [
+                    "bizTransaction",
+                    "type"
+                ]
+            }
+        },
+        "sourceList_type": {
+            "type": "array",
+            "minItems": 0,
+            "items": {
+                "type": "object",
+                "properties": {
+                    "type": {"type": "string"},
+                    "source": {"type": "string"}
+                },
+                "required": [
+                    "source",
+                    "type"
+                ]
+            }
+        },
+        "destinationList_type": {
+            "type": "array",
+            "minItems": 0,
+            "items": {
+                "type": "object",
+                "properties": {
+                    "type": {"type": "string"},
+                    "destination": {"type": "string"}
+                },
+                "required": [
+                    "destination",
+                    "type"
+                ]
+            }
+        },
+        "ext2:object_type": {
+            "type": "object",
+            "properties": {
+                "ext3:string": {"type": "string"}
+            }
+        },
+        "ext2:object2_type": {
+            "type": "object",
+            "properties": {
+                "ext2:object": {"$ref": "#/definitions/ext2:object_type"}
+            }
+        },
+        "ext1:object_type": {
+            "type": "object",
+            "properties": {
+                "ext2:array": {"$ref": "#/definitions/correctiveEventIDs_type"},
+                "ext2:object": {"$ref": "#/definitions/ext2:object2_type"},
+                "ext2:int": {"type": "string"},
+                "ext2:string": {"type": "string"}
+            }
+        },
+        "ext1:object2_type": {
+            "type": "object",
+            "properties": {
+                "ext1:object": {"$ref": "#/definitions/ext1:object_type"}
+            }
+        },
+        "ext1:array_type": {
+            "type": "array",
+            "minItems": 0,
+            "items": [
+                {"type": "string"},
+                {"type": "string"},
+                {"type": "string"},
+                {"type": "string"},
+                {"type": "string"},
+                {
+                    "type": "object",
+                    "properties": {
+                        "ext1:object": {"$ref": "#/definitions/ext1:object2_type"}
+                    }
+                }
+            ]
+        },
+        "ext1:object3_type": {
+            "type": "object",
+            "properties": {
+                "ext2:array": {"$ref": "#/definitions/correctiveEventIDs_type"},
+                "ext2:object": {"$ref": "#/definitions/ext2:object2_type"},
+                "ext2:string": {"type": "string"}
+            }
+        },
+        "ilmd_type": {
+            "type": "object",
+            "properties": {
+                "ext1:float": {"type": "string"},
+                "ext1:array": {"$ref": "#/definitions/ext1:array_type"},
+                "ext1:object": {"$ref": "#/definitions/ext1:object3_type"},
+                "cbvmda:countryOfExport": {"type": "string"},
+                "cbvmda:grossWeight": {"type": "string"},
+                "ext1:int": {"type": "string"},
+                "cbvmda:netWeight": {"type": "string"},
+                "ext1:time": {"type": "string"},
+                "ext1:boolean": {"type": "string"},
+                "ext1:default": {"type": "string"},
+                "ext1:string": {"type": "string"},
+                "cbvmda:countryOfOrigin": {"type": "string"},
+                "cbvmda:drainedWeight": {"type": "string"},
+                "cbvmda:lotNumber": {"type": "string"}
+            }
+        },
+        "sensorMetadata_type": {
+            "type": "object",
+            "properties": {
+                "time": {"type": "string"},
+                "deviceID": {"type": "string"},
+                "deviceMetadata": {"type": "string"},
+                "rawData": {"type": "string"},
+                "startTime": {"type": "string"},
+                "endTime": {"type": "string"},
+                "dataProcessingMethod": {"type": "string"},
+                "bizRules": {"type": "string"},
+                "ext1:someFurtherMetadata": {"type": "string"}
+            }
+        },
+        "sensorReport_type": {
+            "type": "array",
+            "minItems": 0,
+            "items": {
+                "type": "object",
+                "properties": {
+                    "type": {"type": "string"},
+                    "deviceID": {"type": "string"},
+                    "rawData": {"type": "string"},
+                    "dataProcessingMethod": {"type": "string"},
+                    "time": {"type": "string"},
+                    "microorganism": {"type": "string"},
+                    "chemicalSubstance": {"type": "string"},
+                    "value": {"type": "integer"},
+                    "component": {"type": "string"},
+                    "stringValue": {"type": "string"},
+                    "booleanValue": {"type": "boolean"},
+                    "hexBinaryValue": {"type": "string"},
+                    "uriValue": {"type": "string"},
+                    "minValue": {"type": "integer"},
+                    "maxValue": {"type": "number"},
+                    "meanValue": {"type": "number"},
+                    "percRank": {"type": "integer"},
+                    "percValue": {"type": "number"},
+                    "uom": {"type": "string"},
+                    "sDev": {"type": "number"},
+                    "ext1:someFurtherReportData": {"type": "string"},
+                    "deviceMetadata": {"type": "string"}
+                },
+                "required": [
+                    "uriValue",
+                    "ext1:someFurtherReportData",
+                    "maxValue",
+                    "percRank",
+                    "rawData",
+                    "type",
+                    "percValue",
+                    "deviceID",
+                    "chemicalSubstance",
+                    "dataProcessingMethod",
+                    "component",
+                    "stringValue",
+                    "minValue",
+                    "uom",
+                    "sDev",
+                    "deviceMetadata",
+                    "microorganism",
+                    "meanValue",
+                    "booleanValue",
+                    "time",
+                    "value",
+                    "hexBinaryValue"
+                ]
+            }
+        },
+        "sensorElementList_type": {
+            "type": "array",
+            "minItems": 0,
+            "items": {
+                "type": "object",
+                "properties": {
+                    "sensorMetadata": {"$ref": "#/definitions/sensorMetadata_type"},
+                    "sensorReport": {"$ref": "#/definitions/sensorReport_type"},
+                    "ext1:float": {"type": "string"},
+                    "ext1:time": {"type": "string"},
+                    "ext1:array": {"$ref": "#/definitions/ext1:array_type"},
+                    "ext1:boolean": {"type": "string"},
+                    "ext1:object": {"$ref": "#/definitions/ext1:object3_type"},
+                    "ext1:default": {"type": "string"},
+                    "ext1:int": {"type": "string"},
+                    "ext1:string": {"type": "string"}
+                },
+                "required": [
+                    "sensorReport",
+                    "ext1:float",
+                    "ext1:time",
+                    "ext1:array",
+                    "sensorMetadata",
+                    "ext1:boolean",
+                    "ext1:object",
+                    "ext1:default",
+                    "ext1:int",
+                    "ext1:string"
+                ]
+            }
+        },
+        "persistentDisposition_type": {
+            "type": "object",
+            "properties": {
+                "set": {"$ref": "#/definitions/correctiveEventIDs_type"},
+                "unset": {"$ref": "#/definitions/correctiveEventIDs_type"}
+            }
+        },
+        "eventList_type": {
+            "type": "array",
+            "minItems": 0,
+            "items": {
+                "type": "object",
+                "properties": {
+                    "type": {"type": "string"},
+                    "eventTime": {"type": "string"},
+                    "eventTimeZoneOffset": {"type": "string"},
+                    "eventID": {"type": "string"},
+                    "certificationInfo": {"type": "string"},
+                    "errorDeclaration": {"$ref": "#/definitions/errorDeclaration_type"},
+                    "inputEPCList": {"$ref": "#/definitions/correctiveEventIDs_type"},
+                    "inputQuantityList": {"$ref": "#/definitions/inputQuantityList_type"},
+                    "outputEPCList": {"$ref": "#/definitions/correctiveEventIDs_type"},
+                    "outputQuantityList": {"$ref": "#/definitions/inputQuantityList_type"},
+                    "transformationID": {"type": "string"},
+                    "bizStep": {"type": "string"},
+                    "disposition": {"type": "string"},
+                    "readPoint": {"$ref": "#/definitions/readPoint_type"},
+                    "bizLocation": {"$ref": "#/definitions/readPoint_type"},
+                    "bizTransactionList": {"$ref": "#/definitions/bizTransactionList_type"},
+                    "sourceList": {"$ref": "#/definitions/sourceList_type"},
+                    "destinationList": {"$ref": "#/definitions/destinationList_type"},
+                    "ilmd": {"$ref": "#/definitions/ilmd_type"},
+                    "sensorElementList": {"$ref": "#/definitions/sensorElementList_type"},
+                    "persistentDisposition": {"$ref": "#/definitions/persistentDisposition_type"},
+                    "ext1:float": {"type": "string"},
+                    "ext1:time": {"type": "string"},
+                    "ext1:array": {"$ref": "#/definitions/ext1:array_type"},
+                    "ext1:boolean": {"type": "string"},
+                    "ext1:object": {"$ref": "#/definitions/ext1:object3_type"},
+                    "ext1:default": {"type": "string"},
+                    "ext1:int": {"type": "string"},
+                    "ext1:string": {"type": "string"}
+                },
+                "required": [
+                    "eventID",
+                    "transformationID",
+                    "outputQuantityList",
+                    "ilmd",
+                    "type",
+                    "bizStep",
+                    "inputEPCList",
+                    "ext1:boolean",
+                    "readPoint",
+                    "bizTransactionList",
+                    "eventTime",
+                    "ext1:string",
+                    "bizLocation",
+                    "errorDeclaration",
+                    "eventTimeZoneOffset",
+                    "destinationList",
+                    "sensorElementList",
+                    "outputEPCList",
+                    "ext1:float",
+                    "certificationInfo",
+                    "ext1:array",
+                    "sourceList",
+                    "ext1:object",
+                    "ext1:int",
+                    "persistentDisposition",
+                    "disposition",
+                    "inputQuantityList",
+                    "ext1:time",
+                    "ext1:default"
+                ]
+            }
+        },
+        "epcisBody_type": {
+            "type": "object",
+            "properties": {
+                "eventList": {"$ref": "#/definitions/eventList_type"}
+            }
+        },
+        "@context_type": {
+            "type": "array",
+            "minItems": 0,
+            "items": [
+                {"type": "string"},
+                {
+                    "type": "object",
+                    "properties": {
+                        "ext3": {"type": "string"}
+                    }
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "ext2": {"type": "string"}
+                    }
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "ext1": {"type": "string"}
+                    }
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "cbvmda": {"type": "string"}
+                    }
+                }
+            ]
+        }
+    }
+}
