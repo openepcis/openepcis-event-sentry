@@ -42,342 +42,106 @@ The following sections provides with sample usages of various features of SDK
 
 ## Define Event Profile Rule
 
-Profile definition contains name, eventType, and expression/rule that evaluates the event to be called that profile.
+Event profile is a combination of many rules. 
+For example, a business can consider an ObjectEvent valid only when it meets the below criteria.
 
-Sample definition of event profile "transforming"
+1. The EPCIS Event is an ObjectEvent.
+2. The EPC List includes at least one ID.
+3. The value(s) of the ID(s) in the EPCList is an/are SSCC(s).
+4. If bizStep is "shipping", then bizLocation is empty.
+5. The Event must include one user extension ("example:workingShift"), and its value is a numeric String (e.g. "5").
+6. The namespace of the extension is "https://epcis.example.com/".
+
+JSON Schema is used to come up with technical representation of the above rules which can later be used by frameworks for validation purpose.
+Here is the JSON Schema of above rules.
+
+Learn more about JSON schema from [here](https://json-schema.org/).
 
 ```javascript
 {
-  "name": "transforming",
-  "eventType": "TransformationEvent",
-  "expression": "!_.isEmpty(event.transformationID)"
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "allOf": [
+    {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "type": "object",
+      "properties": {
+        "@context": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "patternProperties": {
+                  "^[a-zA-Z0-9]+$": {
+                    "type": "string",
+                    "const": "http://ns.example.com/epcis/"
+                  }
+                },
+                "additionalProperties": true
+              }
+            ]
+          },
+          "minItems": 1
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "ObjectEvent"
+          ]
+        },
+        "action": {
+          "type": "string"
+        },
+        "bizStep": {
+          "type": "string"
+        },
+        "epcList": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "/00/"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "example:workingShift": {
+          "type": "string",
+          "pattern": "^[0-9]+$"
+        }
+      },
+      "required": [
+        "epcList",
+        "type",
+        "bizStep",
+        "@context",
+        "example:workingShift"
+      ],
+      "if": {
+        "properties": {
+          "bizStep": {
+            "const": "shipping"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "bizLocation": {
+            "maxProperties": 0
+          }
+        }
+      },
+      "additionalProperties": true
+    }
+  ]
 }
 ```
-
-Note: The expression syntax in this example utilizes the function from the Lodash library. For comprehensive documentation and information on all available Lodash functions, please refer to the official Lodash documentation:
-
-1. [https://lodash.com/](https://lodash.com/)
-2. [https://lodash.com/docs/4.17.15](https://lodash.com/docs/4.17.15)
-3. [https://github.com/lodash/lodash](https://github.com/lodash/lodash)
-
-## Check Profile of an EPCIS event
-
-The SDK empowers you to define custom event profile rules, allowing you to tailor event evaluation to your specific needs, catering to various use cases:
-
-1. Single event profile detection
-
-The function analyzes the event against the provided rules and returns the single most appropriate event profile.
-
-```javascript
-import { detectProfile } from 'openepcis-event-sentry';
-```
-
-Syntax:
-
-```javascript
-/*
-  1. document: Document you wish to utilize for profile detection, for example, a bare event, EPCIS document or EPCIS query document.
-  2. rules: Profile detection rules upon which you base the detection of the profile.
-*/
-detectProfile(document, rules);
-```
-
-Example:
-
-```javascript
-//Single profile detection using bare event
-const bareEventProfile = detectProfile(bareEvent, customProfileRules);
-console.log(bareEventProfile); //Output: transforming
-
-//Single profile detection per event using epcis document
-const epcisDocumentProfile = detectProfile(epcisDocument, customProfileRules);
-console.log(epcisDocumentProfile); //Output: ['transforming','farming','fishing','slaughtering']
-
-//Single profile detection per event using epcis query document
-const epcisQueryDocumentProfile = detectProfile(
-  epcisQueryDocumentForSingleProfile,
-  queryDocumentDetectionRules,
-);
-console.log(epcisQueryDocumentProfile); //Output: ['shipping','receiving']
-```
-
-2. Multiple event profiles detection
-
-The function analyzes the event against the provided rules and returns the multiple event profiles.
-
-```javascript
-import { detectAllProfiles } from 'openepcis-event-sentry';
-```
-
-Syntax:
-
-```javascript
-/*
-  1. document: Document you wish to utilize for profile(s) detection, for example, a bare event, EPCIS document or EPCIS query document.
-  2. rules: Profile detection rules upon which you base the detection of the profile(s).
-*/
-detectAllProfiles(document, rules);
-```
-
-Example:
-
-```javascript
-//Profile(s) detection using bare event
-const bareEventProfiles = detectAllProfiles(bareEvent, customProfileRules);
-console.log(bareEventProfiles); //Output: ['transforming']
-
-//Profile(s) detection per event using epcis document
-const epcisDocumentProfiles = detectAllProfiles(
-  epcisDocumentForSlaughteringAndFishing,
-  customProfileRules,
-);
-console.log(epcisDocumentProfiles); //Output: [['transforming'],['farming'],['farming','fishing'],['slaughtering']]
-
-//Profile(s) detection per event using epcis query document
-const epcisQueryDocumentProfiles = detectAllProfiles(
-  epcisQueryDocument,
-  queryDocumentDetectionRulesForSlaughtering,
-);
-console.log(epcisQueryDocumentProfiles); //Output: [['shipping', 'slaughtering'], ['receiving']]
-```
-
-Note: The documents and rules mentioned above correspond to specific file names stored in the following paths:
-
-1. [bareEvent](https://github.com/openepcis/openepcis-event-sentry/blob/main/test/data/TransformationBareEvent.json)
-2. [epcisDocument](https://github.com/openepcis/openepcis-event-sentry/blob/main/test/data/EpcisDocument.json)
-3. [epcisDocumentForSlaughteringAndFishing](https://github.com/openepcis/openepcis-event-sentry/blob/main/test/data/EpcisDocumentForSlaughteringAndFishing.json)
-4. [customProfileRules](https://github.com/openepcis/openepcis-event-sentry/blob/main/src/rules/event-profile-detection-rules.js)
-5. [epcisQueryDocumentForSingleProfile](https://github.com/openepcis/openepcis-event-sentry/blob/main/test/data/EpcisQueryDocumentForSingleProfile.json)
-6. [queryDocumentDetectionRules](https://github.com/openepcis/openepcis-event-sentry/blob/main/test/data/query-document-detection-rules.js)
-7. [epcisQueryDocument](https://github.com/openepcis/openepcis-event-sentry/blob/main/test/data/EpcisQueryDocument.json)
-8. [queryDocumentDetectionRulesForSlaughtering](https://github.com/openepcis/openepcis-event-sentry/blob/main/test/data/query-document-detection-rules-for-slaughtering.js)
 
 ## Check event complies to the rule
 
-This SDK provides the functionality to verify if a given event adheres to a specific rule set.
-
-```javascript
-import { compliesToProfileRule } from 'openepcis-event-sentry';
-```
-
-Syntax:
-
-```javascript
-/*
-  1. document: Document you want to evaluate, for example, a bare event.
-  2. rule: The profile detection rules used for the compliance check.
-*/
-compliesToProfileRule(document, rule);
-```
-
-Example:
-
-```javascript
-//Multiple profile(s) detection using bare event
-const isComplies = compliesToProfileRule(bareEvent, customProfileRule);
-console.log(isComplies); //Output: false
-```
-
-Note: The documents and rules mentioned above correspond to specific file names stored in the following paths:
-
-1. [bareEvent](https://github.com/openepcis/openepcis-event-sentry/blob/main/test/data/TransformationBareEvent.json)
-2. [customProfileRule](https://github.com/openepcis/openepcis-event-sentry/blob/main/test/data/custom-profile-rules.js)
-
-## Define Validation Rules for an Event Profile
-
-Business may want to define many validation rules that qualifies and event for a specific profile.
-
-For example, the followings are additional rules necessary to be complied for an event with profile `transforming`
-
-- Event must have a valid `transformationID`
-- It must have a non-empty `inputQuantityList` or `inputEPCs`
-- It must have a non-empty `outputQuantityList` or `outputEPCs`
-
-Rules definitions mapped to event profiles:
-
-```javascript
-{
-  "name": 'transformationID_Rule',
-  "expression": '!_isEmpty(event.transformationID)',
-  "eventProfile": ['transforming'],
-  "order": 1,
-  "errorMessage": 'TransformationID malformed',
-  "warning": 'TransformationID should not be null or undefined',
-  "field": 'transformationID',
-  "value": 'event.transformationID',
-},
-{
-  "name": 'nonEmptyInputQuantityList_Rule',
-  "expression": '!_isEmpty(event.inputQuantityList)',
-  "eventProfile": ['transforming'],
-  "order": 2,
-  "errorMessage":
-    'No object ID present - Transformation Event needs to have non empty inputQuantityList',
-  "warning": 'Transformation Event needs to have non empty inputQuantityList',
-  "field": 'inputQuantityList',
-  "value": 'inputQuantityList is empty',
-},
-{
-  "name": 'nonEmptyOutputQuantityList_Rule',
-  "expression": '!_isEmpty(event.outputQuantityList)',
-  "eventProfile": ['transforming'],
-  "order": 3,
-  "errorMessage":
-    'No object ID present - Transformation Event needs to have non empty outputQuantityList',
-  "warning": 'Transformation Event needs to have non empty outputQuantityList',
-  "field": 'outputQuantityList',
-  "value": 'outputQuantityList is empty',
-}
-```
-
-## Check EPCIS Event against validation rules
-
-Similar to profile checker SDK provides way to verify event against validation rules:
-
-1. Verify an EPCIS event against custom validation rules
-
-```javascript
-import { validateProfile } from 'openepcis-event-sentry';
-```
-
-Syntax:
-
-```javascript
-/*
-  1. document: Document you wish to utilize for profile detection, for example, a bare event, EPCIS document or EPCIS query document.
-  2. profileName: The names of the event profile you intend to validate against the particular event, such as  [transforming, fishing, farming] etc... 
-  3. rules: validation rules based on which you want to validate the event
-*/
-validateProfile(document, profileNames, rules);
-```
-
-Example:
-
-```javascript
-//validation using the bare event
-const response = validateProfile(bareEvent, ['transforming'], customValidationRules);
-console.log(response); //Output: []
-
-//validation using the epcis document
-const response = validateProfile(
-  epcisDocumentWithMissingData,
-  ['transforming', 'slaughtering'],
-  customValidationRules,
-);
-console.log(response);
-/*
-Output: 
-[
-  [
-    {
-      index: 1,
-      errors: [
-        {
-          name: 'nonEmptyInputQuantityList_Rule',
-          eventProfile: ['transforming'],
-          errorMessage:
-            'No object ID present - Transformation Event needs to have non empty inputQuantityList',
-          warning: 'Transformation Event needs to have non empty inputQuantityList',
-          field: 'inputQuantityList',
-        },
-        {
-          name: 'nonEmptyOutputQuantityList_Rule',
-          eventProfile: ['transforming'],
-          errorMessage:
-            'No object ID present - Transformation Event needs to have non empty outputQuantityList',
-          warning: 'Transformation Event needs to have non empty outputQuantityList',
-          field: 'outputQuantityList',
-        },
-      ],
-    },
-  ],
-  [
-    {
-      index: 2,
-      errors: [
-        {
-          name: 'agricultureDetailsInIlmdExists_Rule',
-          eventProfile: ['slaughtering'],
-          errorMessage: 'agricultureDetails is not exists',
-          warning: 'agricultureDetails is not exists',
-          field: 'agricultureDetails',
-        },
-      ],
-    },
-  ],
-]
-*/
-
-//validation using the epcis query document
-const response = validateProfile(
-  epcisQueryDocumentForValidation,
-  [['transforming', 'fishing'], ['slaughtering']],
-  customValidationRules,
-);
-console.log(response);
-/*
-Output:
-[
-  [
-    {
-      index: 1,
-      errors: [
-        {
-          name: 'transformationID_Rule',
-          eventProfile: ['transforming'],
-          errorMessage: 'TransformationID malformed',
-          warning: 'TransformationID should not be null or undefined',
-          field: 'transformationID',
-        },
-        {
-          name: 'nonEmptyInputQuantityList_Rule',
-          eventProfile: ['transforming'],
-          errorMessage:
-            'No object ID present - Transformation Event needs to have non empty inputQuantityList',
-          warning: 'Transformation Event needs to have non empty inputQuantityList',
-          field: 'inputQuantityList',
-        },
-        {
-          name: 'catchAreaInIlmdExists_Rule',
-          eventProfile: ['fishing'],
-          errorMessage: 'catchArea is not exists',
-          warning: 'catchArea is not exists',
-          field: 'catchArea',
-        },
-        {
-          name: 'vesselCatchInformationInIlmdExists_Rule',
-          eventProfile: ['fishing'],
-          errorMessage: 'vesselCatchInformation is not exists',
-          warning: 'vesselCatchInformation is not exists',
-          field: 'vesselCatchInformation',
-        },
-      ],
-    },
-  ],
-  [
-    {
-      index: 2,
-      errors: [
-        {
-          name: 'agricultureDetailsInIlmdExists_Rule',
-          eventProfile: ['slaughtering'],
-          errorMessage: 'agricultureDetails is not exists',
-          warning: 'agricultureDetails is not exists',
-          field: 'agricultureDetails',
-        },
-      ],
-    },
-  ],
-]
-*/
-```
-
-Note: The documents and rules mentioned above correspond to specific file names stored in the following paths:
-
-1. [bareEvent](https://github.com/openepcis/openepcis-event-sentry/blob/main/test/data/TransformationBareEvent.json)
-2. [epcisDocumentWithMissingData](https://github.com/openepcis/openepcis-event-sentry/blob/main/test/data/EpcisDocumentWithMissingData.json)
-3. [customValidationRules](https://github.com/openepcis/openepcis-event-sentry/blob/main/src/rules/event-profile-validation-rules.js)
-4. [epcisQueryDocumentForValidation](https://github.com/openepcis/openepcis-event-sentry/blob/main/test/data/EpcisQueryDocumentForValidation.json)
+TBD
 
 # Contribute
 
