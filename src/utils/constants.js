@@ -13,6 +13,8 @@ export const documentTypes = {
 
 export const errorMessages = {
   MULTIPLE_PROFILE_DETECTED: 'Multiple profiles detected for the {0}',
+  EMPTY_DOCUMENT: 'Event document is empty',
+  EMPTY_JSON_SCHEMA: 'JSON Schema is empty',
   EMPTY_DOCUMENT_OR_RULES: 'Document or rules should not be empty',
   EMPTY_DOCUMENT_OR_PROFILE_OR_RULES: 'Document or profiles or rules should not be empty',
   INVALID_EPCIS_OR_BARE_EVENT: 'Invalid EPCIS document or bare event',

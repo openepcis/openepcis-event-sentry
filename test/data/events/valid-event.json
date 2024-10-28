@@ -1,0 +1,19 @@
+{
+  "@context": [
+    "https://ref.gs1.org/standards/epcis/2.0.0/epcis-context.jsonld",
+    { "example": "http://ns.example.com/epcis/" }
+  ],
+  "type": "ObjectEvent",
+  "eventTime": "2013-10-31T14:58:56.591Z",
+  "action": "ADD",
+  "eventTimeZoneOffset": "+02:00",
+  "bizStep": "commissioning",
+  "bizLocation": { "id": "https://id.gs1.org/414/9521999100003" },
+  "disposition": "in_progress",
+  "readPoint": {
+    "id": "https://id.gs1.org/414/9521999100003"
+  },
+  "epcList": ["https://id.gs1.org/01/09521987654327/00/012345678912345678"],
+  "ilmd": { "example:bestBeforeDate": "2014-12-10", "example:batch": "XYZ" },
+  "example:workingShift": "5"
+}
