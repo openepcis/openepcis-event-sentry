@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft-13/schema#",
+  "type": "object",
+  "properties": {
+    "@context": {
+      "type": "array",
+      "items": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "ext": {
+                "type": "string",
+                "const": "http://example.com/ext/"
+              }
+            },
+            "required": [
+              "ext"
+            ],
+            "additionalProperties": true
+          }
+        ]
+      },
+      "minItems": 1
+    },
+    "epcisBody": {
+      "type": "object",
+      "properties": {
+        "eventList": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "TransformationEvent"
+                ]
+              },
+              "readPoint": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "id"
+                ],
+                "minProperties": 1
+              },
+              "ext:eventProfile": {
+                "type": "string"
+              },
+              "eventID": {
+                "type": "string",
+                "pattern": "^ni:///sha-256;[a-fA-F0-9]{64}\\?ver=CBV2.0$"
+              },
+              "bizStep": {
+                "type": "string",
+                "enum": [
+                  "commissioning",
+                  "creating_class_instance"
+                ]
+              },
+              "outputEPCList": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "if": {
+              "properties": {
+                "outputEPCList": {
+                  "minItems": 1
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "bizLocation"
+              ]
+            },
+            "else": {
+              "not": {
+                "required": [
+                  "bizLocation"
+                ]
+              }
+            },
+            "required": [
+              "type",
+              "readPoint",
+              "eventID",
+              "bizStep",
+              "ext:eventProfile"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "@context",
+    "epcisBody"
+  ]
+}
