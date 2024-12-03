@@ -1,0 +1,174 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "allOf": [
+      { 
+        "$ref": "https://ref.gs1.org/standards/epcis/epcis-json-schema.json"
+      },
+      {
+        "type": "object",
+        "properties": {
+          "@context": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "const": "https://ref.gs1.org/standards/epcis/2.0.0/epcis-context.jsonld"
+            },
+            "minItems": 1,
+            "maxItems": 1
+          },
+          "type": {
+            "type": "string",
+            "enum": ["ObjectEvent"]
+          },
+          "action": {
+            "type": "string",
+            "enum": ["ADD"]
+          },
+          "bizStep": {
+            "type": "string",
+            "enum": ["commissioning"]
+          },
+          "readPoint": {
+            "type": "object",
+            "properties": {
+              "id": {
+                 "$ref": "#/definitions/readPointId"
+              }
+            },
+            "required": ["id"]
+          },
+          "quantityList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/quantityElement"
+            },
+            "minItems": 1,
+            "maxItems": 1
+          },
+          "ilmd": {
+            "type": "object",
+            "properties": {
+              "cbvmda:bestBeforeDate": {
+                "type": "string",
+                "format": "date"
+              },
+              "cbvmda:storageStateCode": {
+                "type": "string",
+                "enum": ["NOT_PREVIOUSLY_FROZEN", "PREVIOUSLY_FROZEN"]
+              },
+              "cbvmda:vesselCatchInformationList": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "cbvmda:vesselID": {
+                      "type": "string"
+                    },
+                    "cbvmda:vesselFlagState": {
+                      "$ref": "#/definitions/vesselFlagStateEnum",
+                    }
+                  },
+                  "required": [
+                    "cbvmda:vesselID", 
+                    "cbvmda:vesselFlagState"
+                  ],
+                  "additionalProperties": false
+                },
+                "minItems": 1
+              }
+            },
+            "patternProperties": {
+              "^cbvmda:": {} 
+            },
+            "required":[
+              "cbvmda:bestBeforeDate",
+              "cbvmda:storageStateCode",
+              "cbvmda:vesselCatchInformationList"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "@context",
+          "type",
+          "action",
+          "bizStep",
+          "readPoint",
+          "quantityList",
+          "ilmd"
+        ],
+        "additionalProperties": true
+      }
+    ],
+    "definitions": {
+      "readPointId":{
+        "type": "string",
+        "format": "uri",
+        "pattern":"^urn:epc:id:sgln:((\\d{6}\\.\\d{6})|(\\d{7}\\.\\d{5})|(\\d{8}\\.\\d{4})|(\\d{9}\\.\\d{3})|(\\d{10}\\.\\d{2})|(\\d{11}\\.\\d{1})|(\\d{12}\\.))\\.(\\%2[125-9A-Fa-f]|\\%3[0-9A-Fa-f]|\\%4[1-9A-Fa-f]|\\%5[0-9AaFf]|\\%6[1-9A-Fa-f]|\\%7[0-9Aa]|[!\\')(*+,.0-9:;=A-Za-z_-]){1,20}$"
+      },
+      "quantityElement": {
+        "type": "object",
+        "properties": {
+          "epcClass": {
+            "$ref": "#/definitions/quantityElementURI"
+          },
+          "quantity": {
+            "$ref": "#/definitions/quantityElementDecimal"
+          },
+          "uom": {
+            "$ref": "#/definitions/quantityUOM"
+          }
+        },
+        "required": [
+          "epcClass", 
+          "quantity", 
+          "uom"
+        ],
+        "additionalProperties": false
+      },
+      "quantityElementURI": {
+        "type": "string",
+        "format": "uri",
+        "pattern": "^urn:epc:class:lgtin:(([\\d]{6}\\.[\\d]{7})|([\\d]{7}\\.[\\d]{6})|([\\d]{8}\\.[\\d]{5})|([\\d]{9}\\.[\\d]{4})|([\\d]{10}\\.[\\d]{3})|([\\d]{11}\\.[\\d]{2})|([\\d]{12}\\.[\\d]{1}))\\.(\\%2[125-9A-Fa-f]|\\%3[0-9A-Fa-f]|\\%4[1-9A-Fa-f]|\\%5[0-9AaFf]|\\%6[1-9A-Fa-f]|\\%7[0-9Aa]|[!\\')(*+,.0-9:;=A-Za-z_-]){1,20}$"
+      },
+      "quantityElementDecimal": {
+        "type": "number",
+        "exclusiveMinimum": 0
+      },
+      "quantityUOM": {
+        "type": "string",
+        "enum": ["KGM", "GRM", "ONZ", "LBR", "MGM", "MC", "STI", "TNE"]
+      },
+      "vesselFlagStateEnum": {
+        "type": "string",
+        "enum": [
+          "AD", "AE", "AF", "AG", "AI", "AL", "AM", "AO", "AQ", "AR", "AS", "AT", "AU", "AW", "AX", "AZ",
+          "BA", "BB", "BD", "BE", "BF", "BG", "BH", "BI", "BJ", "BL", "BM", "BN", "BO", "BQ", "BR", "BS", "BT", "BV", "BW", "BY", "BZ",
+          "CA", "CC", "CD", "CF", "CG", "CH", "CI", "CK", "CL", "CM", "CN", "CO", "CR", "CU", "CV", "CW", "CX", "CY", "CZ",
+          "DE", "DJ", "DK", "DM", "DO", "DZ",
+          "EC", "EE", "EG", "EH", "ER", "ES", "ET",
+          "FI", "FJ", "FK", "FM", "FO", "FR",
+          "GA", "GB", "GD", "GE", "GF", "GG", "GH", "GI", "GL", "GM", "GN", "GP", "GQ", "GR", "GT", "GU", "GW", "GY",
+          "HK", "HM", "HN", "HR", "HT", "HU",
+          "ID", "IE", "IL", "IM", "IN", "IO", "IQ", "IR", "IS", "IT",
+          "JE", "JM", "JO", "JP",
+          "KE", "KG", "KH", "KI", "KM", "KN", "KP", "KR", "KW", "KY", "KZ",
+          "LA", "LB", "LC", "LI", "LK", "LR", "LS", "LT", "LU", "LV", "LY",
+          "MA", "MC", "MD", "ME", "MF", "MG", "MH", "MK", "ML", "MM", "MN", "MO", "MP", "MQ", "MR", "MS", "MT", "MU", "MV", "MW", "MX", "MY", "MZ",
+          "NA", "NC", "NE", "NF", "NG", "NI", "NL", "NO", "NP", "NR", "NU", "NZ",
+          "OM",
+          "PA", "PE", "PF", "PG", "PH", "PK", "PL", "PM", "PN", "PR", "PT", "PW", "PY",
+          "QA",
+          "RE", "RO", "RS", "RU", "RW",
+          "SA", "SB", "SC", "SD", "SE", "SG", "SH", "SI", "SJ", "SK", "SL", "SM", "SN", "SO", "SR", "SS", "ST", "SV", "SX", "SY", "SZ",
+          "TC", "TD", "TF", "TG", "TH", "TJ", "TK", "TL", "TM", "TN", "TO", "TR", "TT", "TV", "TW", "TZ",
+          "UA", "UG", "UM", "US", "UY", "UZ",
+          "VA", "VC", "VE", "VG", "VI", "VN", "VU",
+          "WF", "WS",
+          "YE", "YT",
+          "ZA", "ZM", "ZW"
+        ]
+      }
+    }
+  }
+  
