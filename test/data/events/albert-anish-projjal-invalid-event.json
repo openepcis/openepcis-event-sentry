@@ -1,0 +1,35 @@
+{
+    "type": "EPCISDocument",
+    "schemaVersion": "2.0",
+    "creationDate": "2013-06-04T14:59:02.099+02:00",
+    "sender": "urn:epc:id:sgln:0353579.00001.0",
+    "receiver": "urn:epc:id:sgln:5012345.00001.0",
+    "instanceIdentifier": "1234567890",
+    "epcisBody": {
+        "eventList": [
+            {
+                "eventID": "ni:///md5;025ac144187a8c5e14caf4d1cfa69250a33dc59a5bc42a68d31b1b5e55a3f15a?ver=CBV2.0",
+                "type": "TransformationEvent",
+                "eventTime": "2019-11-01T14:00:00.000+01:00",
+                "eventTimeZoneOffset": "+01:00",
+                "inputEPCList": [
+                    "urn:12702-SUP-I00002262645"
+                ],
+                "bizStep": "commissioning",
+                "readPoint": {
+                    "id": "https://loc.ikea.org/414/213423423"
+                },
+                "ext:eventProfile": "234",
+                "bizLocation": {
+                    "id": "https://loc.ikea.org/414/234234234"
+                }
+            }
+        ]
+    },
+    "@context": [
+        "https://ref.gs1.org/standards/epcis/2.0.0/epcis-context.jsonld",
+        {
+            "ext": "http://example.com/ext/"
+        }
+    ]
+}
