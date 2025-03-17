@@ -1,5 +1,5 @@
 {
-  "$schema": "https://json-schema.org/draft-13/schema#",
+  "$schema": "https://json-schema.org/draft-07/schema#",
   "type": "object",
   "properties": {
     "@context": {
@@ -58,7 +58,7 @@
               },
               "eventID": {
                 "type": "string",
-                "pattern": "^ni:///sha-256;[a-fA-F0-9]{64}\\?ver=CBV2.0$"
+                "pattern": "^ni:///[a-z]*-*[0-9]*;[a-fA-F0-9]{64}\\?ver=CBV2.0$"
               },
               "bizStep": {
                 "type": "string",
@@ -75,11 +75,9 @@
               }
             },
             "if": {
-              "properties": {
-                "outputEPCList": {
-                  "minItems": 1
-                }
-              }
+              "required": [
+                "outputEPCList"
+              ]
             },
             "then": {
               "required": [
@@ -99,7 +97,12 @@
               "eventID",
               "bizStep",
               "ext:eventProfile"
-            ]
+            ],
+            "not": {
+              "required": [
+                "action"
+              ]
+            }
           }
         }
       }
