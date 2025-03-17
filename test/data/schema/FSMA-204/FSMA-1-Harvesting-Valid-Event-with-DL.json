@@ -1,0 +1,30 @@
+{
+  "@context": [
+    "https://ref.gs1.org/standards/epcis/2.0.0/epcis-context.jsonld"
+  ],
+  "type": "ObjectEvent",
+  "eventTime": "2024-12-02T16:40:43+01:00",
+  "eventTimeZoneOffset": "+01:00",
+  "action": "ADD",
+  "bizStep": "commissioning",
+  "disposition": "active",
+  "readPoint": {
+    "id": "urn:epc:id:sgln:4012345.00001.0"
+  },
+  "bizLocation": {
+    "id": "urn:epc:id:sgln:4012345.00001.0"
+  },
+  "bizTransactionList": [
+    {
+      "type": "po",
+      "bizTransaction": "urn:epc:po:123"
+    }
+  ],
+  "quantityList": [
+    {
+      "epcClass": "urn:epc:class:lgtin:9256012.034567.100",
+      "quantity": 100,
+      "uom": "KGM"
+    }
+  ]
+}
