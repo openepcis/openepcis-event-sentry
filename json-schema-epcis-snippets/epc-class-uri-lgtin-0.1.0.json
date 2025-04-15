@@ -1,0 +1,12 @@
+{
+    "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/epc-class-uri-lgtin-0.1.0.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "description": "Specifies value for the epcClass field as part of the quantityList, childQuantityList, inputQuantityList, or outputQuantityList, expressed as an LGTIN EPC Class URI (URN), relevant for all sectors.",
+    "title": "LGTIN EPC Class URI",
+    "definitions": {
+        "epc-class-uri-lgtin": {
+            "type": "string",
+            "pattern": "^urn:epc:class:lgtin:((\\d{6}\\.\\d{7})|(\\d{7}\\.\\d{6})|(\\d{8}\\.\\d{5})|(\\d{9}\\.\\d{4})|(\\d{10}\\.\\d{3})|(\\d{11}\\.\\d{2})|(\\d{12}\\.\\d{1}))\\.(\\%2[125-9A-Fa-f]|\\%3[0-9A-Fa-f]|\\%4[1-9A-Fa-f]|\\%5[0-9AaFf]|\\%6[1-9A-Fa-f]|\\%7[0-9Aa]|[!\\')(*+,.0-9:;=A-Za-z_-]){1,20}$"
+        }
+    }
+}

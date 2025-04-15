@@ -1,0 +1,23 @@
+{
+    "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/quantity-uom-all-0.1.0.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "description": "Specifies set of values for the uom field in a QuantityElement, expressed as a 2- or 3-character unit code for area, length, mass or volume, relevant for all sectors, note: from UN/CEFACT Rec. 20.",
+    "title": "Unit codes for area, length, mass and volume, based on UN/CEFACT Rec. 20",
+    "definitions": {
+        "quantity-uom-all": {
+            "oneOf": [{
+                    "$ref": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/quantity-uom-area-0.1.0.json#/definitions/quantity-uom-area"
+                },
+                {
+                    "$ref": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/quantity-uom-length-0.1.0.json#/definitions/quantity-uom-length"
+                },
+                {
+                    "$ref": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/quantity-uom-mass-0.1.0.json#/definitions/quantity-uom-mass"
+                },
+                {
+                    "$ref": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/quantity-uom-volume-0.1.0.json#/definitions/quantity-uom-volume"
+                }
+            ]
+        }
+    }
+}
