@@ -1,0 +1,14 @@
+{
+    "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/quantity-uom-area-0.1.0.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "description": "Specifies set of values for the uom field in a QuantityElement, expressed as a 2- or 3-character area unit code, relevant for packaging, technical industries, apparel, etc., note: from UN/CEFACT Rec. 20, e.g., 'MTK' for 'square metre'.",
+    "title": "Unit codes for area, based on UN/CEFACT Rec. 20",
+    "definitions": {
+        "quantity-uom-area": {
+            "type": "string",
+            "enum": [
+                "MTK", "KMK", "H30", "DAA", "CMK", "DMK", "H16", "H18", "MMK", "ARE", "HAR", "INK", "FTK", "YDK", "MIK", "M48", "ACR", "M47", "BB"
+            ]
+        }
+    }
+}

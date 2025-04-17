@@ -1,0 +1,13 @@
+{
+    "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/quantity-uom-volume-0.1.0.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "description": "Specifies set of values for the uom field in a QuantityElement, expressed as a 2- or 3-character volume unit code, relevant for food, pharma, technical industries, healthcare, etc., note: from UN/CEFACT Rec. 20, e.g., 'LTR' for 'litre'.",
+    "definitions": {
+        "quantity-uom-volume": {
+            "type": "string",
+            "enum": [
+                "MTQ", "MAL", "LTR", "MMQ", "CMQ", "DMQ", "HLT", "DMA", "H19", "H20", "DLT", "CLT", "MLT", "4G", "Q34", "Q33", "Q32", "K6", "D40", "A44", "INQ", "FTQ", "YDQ", "GLI", "GLL", "PT", "PTI", "QTI", "PTL", "QTL", "PTD", "OZI", "QT", "J57", "L43", "L61", "L62", "L84", "L86", "OZA", "BUI", "BUA", "BLL", "BLD", "GLD", "QTD", "G26", "G21", "G24", "G25", "G23", "M67", "M68", "M69", "M70", "BFT", "BP", "5I", "GIA", "GII", "NM3", "R9", "SM3", "T6", "WCD", "WSD"
+            ]
+        }
+    }
+}

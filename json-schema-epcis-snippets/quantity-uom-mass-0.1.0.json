@@ -1,0 +1,14 @@
+{
+    "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/quantity-uom-mass-0.1.0.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "description": "Specifies set of values for the uom field in a QuantityElement, expressed as a 2- or 3-character mass unit code, relevant for food, pharma, technical industries, etc., note: from UN/CEFACT Rec. 20, e.g., 'KGM' for 'kilogram'.",
+    "title": "Unit codes for mass, based on UN/CEFACT Rec. 20",
+    "definitions": {
+        "quantity-uom-mass": {
+            "type": "string",
+            "enum": [
+                "KGM", "KTN", "LTN", "2U", "TNE", "STN", "DTN", "STI", "LBR", "HGM", "ONZ", "DJ", "APZ", "GRM", "DG", "CGM", "MGM", "MC", "F13", "CWI", "CWA", "M86", "58", "DRA", "DRI", "E4", "GRN", "PN", "DWT"
+            ]
+        }
+    }
+}
