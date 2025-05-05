@@ -1,0 +1,12 @@
+{
+    "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/epc-uri-giai-0.1.0.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "description": "Specifies value for the epcList, childEPCs or parentID field, expressed as a Global Individual Asset Identifier (GIAI) in EPC URI (URN) format, relevant for all sectors.",
+    "title": "GIAI EPC URI",
+    "definitions": {
+        "epc-uri-giai": {
+            "type": "string",
+            "pattern": "^urn:epc:id:giai:(([\\d]{6}\\.(\\%2[125-9A-Fa-f]|\\%3[0-9A-Fa-f]|\\%4[1-9A-Fa-f]|\\%5[0-9AaFf]|\\%6[1-9A-Fa-f]|\\%7[0-9Aa]|[!\\')(*+,.0-9:;=A-Za-z_-]){1,24})|([\\d]{7}\\.(\\%2[125-9A-Fa-f]|\\%3[0-9A-Fa-f]|\\%4[1-9A-Fa-f]|\\%5[0-9AaFf]|\\%6[1-9A-Fa-f]|\\%7[0-9Aa]|[!\\')(*+,.0-9:;=A-Za-z_-]){1,23})|([\\d]{8}\\.(\\%2[125-9A-Fa-f]|\\%3[0-9A-Fa-f]|\\%4[1-9A-Fa-f]|\\%5[0-9AaFf]|\\%6[1-9A-Fa-f]|\\%7[0-9Aa]|[!\\')(*+,.0-9:;=A-Za-z_-]){1,22})|([\\d]{9}\\.(\\%2[125-9A-Fa-f]|\\%3[0-9A-Fa-f]|\\%4[1-9A-Fa-f]|\\%5[0-9AaFf]|\\%6[1-9A-Fa-f]|\\%7[0-9Aa]|[!\\')(*+,.0-9:;=A-Za-z_-]){1,21})|([\\d]{10}\\.(\\%2[125-9A-Fa-f]|\\%3[0-9A-Fa-f]|\\%4[1-9A-Fa-f]|\\%5[0-9AaFf]|\\%6[1-9A-Fa-f]|\\%7[0-9Aa]|[!\\')(*+,.0-9:;=A-Za-z_-]){1,20})|([\\d]{11}\\.(\\%2[125-9A-Fa-f]|\\%3[0-9A-Fa-f]|\\%4[1-9A-Fa-f]|\\%5[0-9AaFf]|\\%6[1-9A-Fa-f]|\\%7[0-9Aa]|[!\\')(*+,.0-9:;=A-Za-z_-]){1,19})|([\\d]{12}\\.(\\%2[125-9A-Fa-f]|\\%3[0-9A-Fa-f]|\\%4[1-9A-Fa-f]|\\%5[0-9AaFf]|\\%6[1-9A-Fa-f]|\\%7[0-9Aa]|[!\\')(*+,.0-9:;=A-Za-z_-]){1,18}))$"
+        }
+    }
+}
