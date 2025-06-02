@@ -1,15 +1,16 @@
 {
     "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/quantity-uom-length-0.1.0.json",
+   	"deprecated": true,
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "deprecated": true,
-    "description": "DEPRECATED - { deprecation-message } - { deprecated-since } - { deprecated-removed-in } - { deprecated-replacement } - Specifies set of values for the uom field in a QuantityElement, expressed as a 2- or 3-character length unit code, relevant for technical industries, apparel, etc., note: from UN/CEFACT Rec. 20, e.g., 'MTR' for 'metre'.",
+    "description": "DEPRECATED - deprecating for using the latest JSON-schema version 2020-12, use quantity-uom-length-0.2.0 instead. Specifies set of values for the uom field in a QuantityElement, expressed as a 2- or 3-character length unit code, relevant for technical industries, apparel, etc., note: from UN/CEFACT Rec. 20, e.g., 'MTR' for 'metre'.",
     "title": "Unit codes for length, based on UN/CEFACT Rec. 20",
     "definitions": {
         "quantity-uom-length": {
             "type": "string",
             "enum": [
                 "MTR", "A11", "A71", "C45", "4H", "A12", "DMT", "CMT", "MMT", "INH", "FOT", "YRD", "NMI", "A45", "HMT", "KMT", "B57", "AK", "M50", "M49", "X1", "M51", "HL", "LF", "LK", "LM", "SMI"
-            ]
+            ],
+          "deprecated": true,
         }
     }
 }
