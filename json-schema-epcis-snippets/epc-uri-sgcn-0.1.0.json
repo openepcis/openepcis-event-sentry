@@ -1,0 +1,12 @@
+{
+    "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/epc-uri-sgcn-0.1.0.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "description": "Specifies value for the epcList field, expressed as a Serialised Global Coupon Number (SGCN) in EPC URI (URN) format, relevant for retail, FMCG, general merchandise, apparel, and others.",
+    "title": "SGCN EPC URI",
+    "$defs": {
+        "epc-uri-sgcn": {
+            "type": "string",
+            "pattern": "^urn:epc:id:sgcn:(([\\d]{6}\\.\\d{6})|([\\d]{7}\\.\\d{5})|([\\d]{8}\\.\\d{4})|([\\d]{9}\\.\\d{3})|([\\d]{10}\\.\\d{2})|([\\d]{11}\\.\\d{1})|([\\d]{12}\\.))\\.[\\d]{1,12}$"
+        }
+    }
+}

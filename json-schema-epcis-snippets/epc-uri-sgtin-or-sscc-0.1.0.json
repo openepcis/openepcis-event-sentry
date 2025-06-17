@@ -1,0 +1,17 @@
+{
+    "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/epc-uri-sgtin-or-sscc-0.1.0.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "SGTIN or SSCC EPC URI",
+    "description": "Specifies set of values for the epcList, childEPCs or parentID field, expressed as either a Serialised Global Trade Item Number (SGTIN) or Serial Shipping Container Code (SSCC) in EPC URI (URN) format, relevant for all sectors.",
+    "$defs": {
+        "epc-uri-sgtin-or-sscc": {
+            "oneOf": [{
+                    "$ref": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/epc-uri-sscc-0.1.0.json#/$defs/epc-uri-sscc"
+                },
+                {
+                    "$ref": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/epc-uri-sgtin-0.1.0.json#/$defs/epc-uri-sgtin"
+                }
+            ]
+        }
+    }
+}

@@ -1,9 +1,9 @@
 {
     "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/example-custom-bizsteps-0.1.0.json",
-    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "description": "Specifies set of values for the bizStep field, expressed as user-defined placeholder values using the 'example.com' domain, for illustration, note that 'example.com' and custom code values need to be replaced with your own ones.",
     "title": "Example custom bizstep code values",
-    "definitions": {
+    "$defs": {
         "example-custom-bizsteps": {
             "type": "string",
             "enum": [

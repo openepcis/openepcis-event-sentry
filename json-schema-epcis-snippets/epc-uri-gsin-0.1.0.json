@@ -1,0 +1,12 @@
+{
+    "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/epc-uri-gsin-0.1.0.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "description": "Specifies value for the epcList, childEPCs or parentID field, expressed as a Global Shipment Identification Number (GSIN) in EPC URI (URN) format, relevant for all sectors.",
+    "title": "GSIN EPC URI",
+    "$defs": {
+        "epc-uri-gsin": {
+            "type": "string",
+            "pattern": "^urn:epc:id:gsin:(([\\d]{6}\\.\\d{10}$)|([\\d]{7}\\.\\d{9}$)|([\\d]{8}\\.\\d{8}$)|([\\d]{9}\\.\\d{7}$)|([\\d]{10}\\.\\d{6}$)|([\\d]{11}\\.\\d{5}$)|([\\d]{12}\\.\\d{4}$))"
+        }
+    }
+}
