@@ -1,9 +1,9 @@
 {
     "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/epc-uri-cpi-0.1.0.json",
-    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "description": "Specifies value for the epcList, childEPCs, inputEPCList, outputEPCList, or parentID field, expressed as a Component / Part Identifier (CPI) in EPC URI (URN) format, relevant for automotive and technical industries.",
     "title": "CPI EPC URI",
-    "definitions": {
+    "$defs": {
         "epc-uri-cpi": {
             "type": "string",
             "pattern": "^urn:epc:id:cpi:((\\d{6}\\.(\\%2[3dfDF]|\\%3[0-9]|\\%4[1-9A-Fa-f]|\\%5[0-9Aa]|[0-9A-Z-]){1,24})|(\\d{7}\\.(\\%2[3dfDF]|\\%3[0-9]|\\%4[1-9A-Fa-f]|\\%5[0-9Aa]|[0-9A-Z-]){1,23})|(\\d{8}\\.(\\%2[3dfDF]|\\%3[0-9]|\\%4[1-9A-Fa-f]|\\%5[0-9Aa]|[0-9A-Z-]){1,22})|(\\d{9}\\.(\\%2[3dfDF]|\\%3[0-9]|\\%4[1-9A-Fa-f]|\\%5[0-9Aa]|[0-9A-Z-]){1,21})|(\\d{10}\\.(\\%2[3dfDF]|\\%3[0-9]|\\%4[1-9A-Fa-f]|\\%5[0-9Aa]|[0-9A-Z-]){1,20})|(\\d{11}\\.(\\%2[3dfDF]|\\%3[0-9]|\\%4[1-9A-Fa-f]|\\%5[0-9Aa]|[0-9A-Z-]){1,19})|(\\d{12}\\.(\\%2[3dfDF]|\\%3[0-9]|\\%4[1-9A-Fa-f]|\\%5[0-9Aa]|[0-9A-Z-]){1,18}))\\.[\\d]{1,12}$"
