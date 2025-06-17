@@ -6,16 +6,16 @@
     "$defs": {
         "quantity-uom-all": {
             "oneOf": [{
-                    "$ref": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/quantity-uom-area-0.1.0.json#/definitions/quantity-uom-area"
+                    "$ref": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/quantity-uom-area-0.1.0.json#/$defs/quantity-uom-area"
                 },
                 {
-                    "$ref": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/quantity-uom-length-0.1.0.json#/definitions/quantity-uom-length"
+                    "$ref": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/quantity-uom-length-0.1.0.json#/$defs/quantity-uom-length"
                 },
                 {
-                    "$ref": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/quantity-uom-mass-0.1.0.json#/definitions/quantity-uom-mass"
+                    "$ref": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/quantity-uom-mass-0.1.0.json#/$defs/quantity-uom-mass"
                 },
                 {
-                    "$ref": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/quantity-uom-volume-0.1.0.json#/definitions/quantity-uom-volume"
+                    "$ref": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/quantity-uom-volume-0.1.0.json#/$defs/quantity-uom-volume"
                 }
             ]
         }

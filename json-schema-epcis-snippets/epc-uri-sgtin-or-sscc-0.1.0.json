@@ -6,10 +6,10 @@
     "$defs": {
         "epc-uri-sgtin-or-sscc": {
             "oneOf": [{
-                    "$ref": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/epc-uri-sscc-0.1.0.json#/definitions/epc-uri-sscc"
+                    "$ref": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/epc-uri-sscc-0.1.0.json#/$defs/epc-uri-sscc"
                 },
                 {
-                    "$ref": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/epc-uri-sgtin-0.1.0.json#/definitions/epc-uri-sgtin"
+                    "$ref": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/epc-uri-sgtin-0.1.0.json#/$defs/epc-uri-sgtin"
                 }
             ]
         }
