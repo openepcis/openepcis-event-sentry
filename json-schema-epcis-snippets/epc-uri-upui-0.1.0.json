@@ -1,9 +1,9 @@
 {
     "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/epc-uri-upui-0.1.0.json",
-    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "description": "Specifies value for the epcList, childEPCs, inputEPCList, outputEPCList, or parentID field, expressed as a Unit Pack Identifier (UPUI) in EPC URI (URN) format, relevant for tobacco, note: serialised product code according to EU 2018/574.",
     "title": "UPUI EPC URI",
-    "definitions": {
+    "$defs": {
         "epc-uri-upui": {
             "type": "string",
             "pattern": "^urn:epc:id:upui:((\\d{6}\\.\\d{7})|(\\d{7}\\.\\d{6})|(\\d{8}\\.\\d{5})|(\\d{9}\\.\\d{4})|(\\d{10}\\.\\d{3})|(\\d{11}\\.\\d{2})|(\\d{12}\\.\\d{1}))\\.(\\%2[125-9A-Fa-f]|\\%3[0-9A-Fa-f]|\\%4[1-9A-Fa-f]|\\%5[0-9AaFf]|\\%6[1-9A-Fa-f]|\\%7[0-9Aa]|[!\\')(*+,.0-9:;=A-Za-z_-]){1,28}$"
