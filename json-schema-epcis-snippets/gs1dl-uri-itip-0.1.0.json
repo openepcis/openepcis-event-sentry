@@ -1,0 +1,12 @@
+{
+    "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/gs1dl-uri-itip-0.1.0.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "description": "Specifies value for the epcList, childEPCs, inputEPCList, outputEPCList, or parentID field, expressed as an Individual Trade Item Piece (ITIP) in GS1 Digital Link Web URI format, relevant for apparel, shoe, DIY, furniture, and technical industries.",
+    "title": "ITIP GS1 Digital Link URI",
+    "$defs": {
+        "gs1dl-uri-itip": {
+            "type": "string",
+            "pattern": "^https?:\\/\\/((([^\\/?#]*)@)?([^\\/?#:]*)(:([^\\/?#]*))?)?([^?#]*)\\/8006\\/\\d{18}\\/21\\/([a-zA-Z0-9_\".-]|%2[a-cA-CfF15-9]|%3[a-fA-F]){1,20}$"
+        }
+    }
+}
