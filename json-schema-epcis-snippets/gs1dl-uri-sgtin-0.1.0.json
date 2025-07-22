@@ -1,0 +1,15 @@
+{
+    "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/gs1dl-uri-sgtin-0.1.0.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "description": "Specifies value for the epcList, childEPCs, inputEPCList, outputEPCList, or parentID field, expressed as a Serialised Global Trade Item Number (SGTIN) in GS1 Digital Link Web URI format, relevant for all sectors.",
+    "title": "SGTIN GS1 Digital Link URI",
+    "$defs": {
+        "gs1dl-uri-sgtin": {
+            "type": "string",
+            "pattern": "^https?:\\/\\/((([^\\/?#]*)@)?([^\\/?#:]*)(:([^\\/?#]*))?)?([^?#]*)\\/01\\/\\d{14}\\/21\\/([a-zA-Z0-9_\".-]|%2[a-cA-CfF15-9]|%3[a-fA-F]){1,20}$"
+        }
+    }
+}
+
+
+
