@@ -1,0 +1,12 @@
+{
+    "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/gs1dl-uri-gsrnp-0.1.0.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "description": "Specifies value for the epcList field, expressed as a Global Service Relation Number - Provider (GSRNP) in GS1 Digital Link Web URI format, relevant for healthcare and technical industries.",
+    "title": "GSRN-P GS1 Digital Link URI",
+    "$defs": {
+        "gs1dl-uri-gsrnp": {
+            "type": "string",
+            "pattern": "^https?:\\/\\/((([^\\/?#]*)@)?([^\\/?#:]*)(:([^\\/?#]*))?)?([^?#]*)\\/8017\\/\\d{18}$"
+        }
+    }
+}
