@@ -1,0 +1,12 @@
+{
+    "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/gs1dl-uri-gsrn-0.1.0.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "description": "Specifies value for the epcList field, expressed as a Global Service Relation Number - Recipient (GSRN) in GS1 Digital Link Web URI format, relevant for healthcare and technical industries.",
+    "title": "GSRN GS1 Digital Link URI",
+    "$defs": {
+        "gs1dl-uri-gsrn": {
+            "type": "string",
+            "pattern": "^https?:\\/\\/((([^\\/?#]*)@)?([^\\/?#:]*)(:([^\\/?#]*))?)?([^?#]*)\\/8018\\/\\d{18}$"
+        }
+    }
+}
