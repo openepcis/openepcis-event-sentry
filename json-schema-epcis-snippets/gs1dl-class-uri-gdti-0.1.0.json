@@ -1,0 +1,12 @@
+{
+    "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/gs1dl-class-uri-gdti-0.1.0.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "description": "Specifies value for the epcClass field as part of the quantityList or childQuantityList, expressed as a Global Document Type Identifier (GDTI) without Serial Number, in GS1 Digital Link Web URI format, relevant for all sectors.",
+    "title": "GS1 Digital Link URI for GDTI without Serial",
+    "$defs": {
+        "gs1dl-class-uri-gdti": {
+            "type": "string",
+            "pattern": "^https?:\\/\\/((([^\\/?#]*)@)?([^\\/?#:]*)(:([^\\/?#]*))?)?([^?#]*)\\/253\\/\\d{13}$"
+        }
+    }
+}
