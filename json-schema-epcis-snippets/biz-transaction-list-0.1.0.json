@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/biz-transaction-list-0.1.0.json",
+  "title": "JSON schema for bizTransactionList attribute from EPCIS standard",
+  "description": "Specifies the bizTransactionList property (array of bizTransaction objects) as part of EPCIS events.",
+  "type": "object",
+  "properties": {
+    "bizTransactionList": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/bizTransaction"
+      }
+    }
+  },
+  "required": [
+    "bizTransactionList"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "bizTransaction": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "$ref": "#/$defs/bizTransaction-type"
+        },
+        "bizTransaction": {
+          "$ref": "#/$defs/uri"
+        }
+      },
+      "required": [
+        "bizTransaction"
+      ],
+      "additionalProperties": false
+    },
+    "bizTransaction-type": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/vocab-other-uri"
+        },
+        {
+          "type": "string",
+          "enum": [
+            "bol",
+            "cert",
+            "desadv",
+            "inv",
+            "pedigree",
+            "po",
+            "poc",
+            "prodorder",
+            "recadv",
+            "rma",
+            "testprd",
+            "testres",
+            "upevt"
+          ]
+        }
+      ]
+    },
+    "vocab-other-uri": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^(?!(urn:epcglobal:cbv|https?:\\/\\/ns\\.gs1\\.org/cbv\\/))"
+    },
+    "uri": {
+      "type": "string",
+      "format": "uri"
+    }
+  }
+}

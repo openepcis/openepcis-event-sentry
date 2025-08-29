@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/destination-list-0.1.0.json",
+  "title": "JSON schema for destinationList attribute from EPCIS standard",
+  "description": "Specifies the destinationList property (array of destination objects) as part of EPCIS events.",
+  "type": "object",
+  "properties": {
+    "destinationList": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/destination"
+      }
+    }
+  },
+  "required": [
+    "destinationList"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "destination": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "$ref": "#/$defs/source-dest-type"
+        },
+        "destination": {
+          "$ref": "#/$defs/uri"
+        }
+      },
+      "required": [
+        "type",
+        "destination"
+      ],
+      "additionalProperties": false
+    },
+    "source-dest-type": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/vocab-other-uri"
+        },
+        {
+          "type": "string",
+          "enum": [
+            "owning_party",
+            "possessing_party",
+            "location"
+          ]
+        }
+      ]
+    },
+    "vocab-other-uri": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^(?!(urn:epcglobal:cbv|https?:\\/\\/ns\\.gs1\\.org/cbv\\/))"
+    },
+    "uri": {
+      "type": "string",
+      "format": "uri"
+    }
+  }
+}
