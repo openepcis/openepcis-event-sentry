@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/action-0.1.0.json",
-  "title": "JSON schema for action attribute from EPCIS standard",
-  "description": "Specifies an object containing the action property as defined in the EPCIS standard.",
+  "title": "EPCIS action field",
+  "description": "Specifies set of values for the action field, expressed as string.",
   "type": "object",
   "properties": {
     "action": {
@@ -13,9 +13,5 @@
         "DELETE"
       ]
     }
-  },
-  "required": [
-    "action"
-  ],
-  "additionalProperties": false
+  }
 }

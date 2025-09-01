@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/destination-list-0.1.0.json",
-  "title": "JSON schema for destinationList attribute from EPCIS standard",
-  "description": "Specifies the destinationList property (array of destination objects) as part of EPCIS events.",
+  "title": "EPCIS destinationList field",
+  "description": "Specifies set of values for the destinationList field, expressed as array of destination objects.",
   "type": "object",
   "properties": {
     "destinationList": {
@@ -12,10 +12,6 @@
       }
     }
   },
-  "required": [
-    "destinationList"
-  ],
-  "additionalProperties": false,
   "$defs": {
     "destination": {
       "type": "object",
