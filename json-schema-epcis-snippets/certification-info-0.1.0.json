@@ -1,0 +1,28 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/certification-info-0.1.0.json",
+    "title": "EPCIS certificationInfo field",
+    "description": "Specifies set of values for the certificationInfo field, expressed as array or single URI reference.",
+    "type": "object",
+    "properties": {
+	"certificationInfo": {
+	    "anyOf": [
+		{
+		    "type": "array",
+		    "items": {
+			"$ref": "#/$defs/uri"
+		    }
+		},
+		{
+		    "$ref": "#/$defs/uri"
+		}
+	    ]
+	}
+    },
+    "$defs": {
+	"uri": {
+	    "type": "string",
+	    "format": "uri"
+	}
+    }
+}

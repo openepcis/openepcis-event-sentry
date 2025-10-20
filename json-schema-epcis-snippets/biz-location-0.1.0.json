@@ -1,0 +1,29 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/biz-location-0.1.0.json",
+    "title": "EPCIS bizLocation field",
+    "description": "Specifies value for the bizLocation field, expressed as object containing a URI identifier.",
+    "type": "object",
+    "properties": {
+	"bizLocation": {
+	    "$ref": "#/$defs/bizLocation"
+	}
+    },
+    "$defs": {
+	"bizLocation": {
+	    "type": "object",
+	    "properties": {
+		"id": {
+		    "$ref": "#/$defs/uri"
+		}
+	    },
+	    "required": [
+		"id"
+	    ]
+	},
+	"uri": {
+	    "type": "string",
+	    "format": "uri"
+	}
+    }
+}

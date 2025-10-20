@@ -1,0 +1,22 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/input-epc-list-0.1.0.json",
+    "title": "EPCIS inputEPCList field",
+    "description": "Specifies set of values for the inputEPCList field, expressed as array of unique EPC URIs representing input objects to a transformation.",
+    "type": "object",
+    "properties": {
+	"inputEPCList": {
+	    "type": "array",
+	    "items": {
+		"$ref": "#/$defs/uri"
+	    },
+	    "uniqueItems": true
+	}
+    },
+    "$defs": {
+	"uri": {
+	    "type": "string",
+	    "format": "uri"
+	}
+    }
+}

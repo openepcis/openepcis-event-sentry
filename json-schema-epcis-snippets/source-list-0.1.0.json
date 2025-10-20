@@ -1,0 +1,57 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/source-list-0.1.0.json",
+    "title": "EPCIS sourceList field",
+    "description": "Specifies set of values for the sourceList field, expressed as array of source objects.",
+    "type": "object",
+    "properties": {
+	"sourceList": {
+	    "type": "array",
+	    "items": {
+		"$ref": "#/$defs/source"
+	    }
+	}
+    },
+    "$defs": {
+	"source": {
+	    "type": "object",
+	    "properties": {
+		"type": {
+		    "$ref": "#/$defs/source-dest-type"
+		},
+		"source": {
+		    "$ref": "#/$defs/uri"
+		}
+	    },
+	    "required": [
+		"type",
+		"source"
+	    ],
+	    "additionalProperties": false
+	},
+	"source-dest-type": {
+	    "anyOf": [
+		{
+		    "$ref": "#/$defs/vocab-other-uri"
+		},
+		{
+		    "type": "string",
+		    "enum": [
+			"owning_party",
+			"possessing_party",
+			"location"
+		    ]
+		}
+	    ]
+	},
+	"vocab-other-uri": {
+	    "type": "string",
+	    "format": "uri",
+	    "pattern": "^(?!(urn:epcglobal:cbv|https?:\\/\\/ns\\.gs1\\.org/cbv\\/))"
+	},
+	"uri": {
+	    "type": "string",
+	    "format": "uri"
+	}
+    }
+}

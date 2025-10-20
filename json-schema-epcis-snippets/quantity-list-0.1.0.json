@@ -1,0 +1,46 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/quantity-list-0.1.0.json",
+    "title": "EPCIS quantityList field",
+    "description": "Specifies set of values for the quantityList field, expressed as array of quantity element objects.",
+    "type": "object",
+    "properties": {
+	"quantityList": {
+	    "type": "array",
+	    "items": {
+		"$ref": "#/$defs/quantityElement"
+	    }
+	}
+    },
+    "$defs": {
+	"quantityElement": {
+	    "type": "object",
+	    "properties": {
+		"epcClass": {
+		    "$ref": "#/$defs/uri"
+		},
+		"quantity": {
+		    "$ref": "#/$defs/decimal"
+		},
+		"uom": {
+		    "$ref": "#/$defs/uom"
+		}
+	    },
+	    "required": [
+		"epcClass"
+	    ],
+	    "additionalProperties": false
+	},
+	"uri": {
+	    "type": "string",
+	    "format": "uri"
+	},
+	"decimal": {
+	    "type": "number"
+	},
+	"uom": {
+	    "type": "string",
+	    "pattern": "^[A-Z0-9]{2,3}$"
+	}
+    }
+}

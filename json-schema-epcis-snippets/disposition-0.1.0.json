@@ -1,0 +1,61 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/disposition-0.1.0.json",
+    "title": "EPCIS disposition field",
+    "description": "Specifies value for the disposition field, expressed as string or non-CBV URI.",
+    "type": "object",
+    "properties": {
+	"disposition": {
+	    "anyOf": [
+		{
+		    "$ref": "#/$defs/vocab-other-uri"
+		},
+		{
+		    "type": "string",
+		    "enum": [
+			"active",
+			"container_closed",
+			"damaged",
+			"destroyed",
+			"dispensed",
+			"disposed",
+			"encoded",
+			"expired",
+			"in_progress",
+			"in_transit",
+			"inactive",
+			"no_pedigree_match",
+			"non_sellable_other",
+			"partially_dispensed",
+			"recalled",
+			"reserved",
+			"retail_sold",
+			"returned",
+			"sellable_accessible",
+			"sellable_not_accessible",
+			"stolen",
+			"unknown",
+			"available",
+			"completeness_verified",
+			"completeness_inferred",
+			"conformant",
+			"container_open",
+			"mismatch_instance",
+			"mismatch_class",
+			"mismatch_quantity",
+			"needs_replacement",
+			"non_conformant",
+			"unavailable"
+		    ]
+		}
+	    ]
+	}
+    },
+    "$defs": {
+	"vocab-other-uri": {
+	    "type": "string",
+	    "format": "uri",
+	    "pattern": "^(?!(urn:epcglobal:cbv|https?:\\/\\/ns\\.gs1\\.org/cbv\\/))"
+	}
+    }
+}

@@ -1,0 +1,98 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/persistent-disposition-0.1.0.json",
+    "title": "EPCIS persistentDisposition field",
+    "description": "Specifies set of values for the persistentDisposition field, expressed as object containing disposition states to set or unset.",
+    "type": "object",
+    "properties": {
+	"persistentDisposition": {
+	    "$ref": "#/$defs/persistentDisposition"
+	}
+    },
+    "$defs": {
+	"persistentDisposition": {
+	    "type": "object",
+	    "properties": {
+		"set": {
+		    "type": "array",
+		    "items": {
+			"$ref": "#/$defs/disposition"
+		    },
+		    "minItems": 1,
+		    "uniqueItems": true
+		},
+		"unset": {
+		    "type": "array",
+		    "items": {
+			"$ref": "#/$defs/disposition"
+		    },
+		    "minItems": 1,
+		    "uniqueItems": true
+		}
+	    },
+	    "anyOf": [
+		{
+		    "required": [
+			"set"
+		    ]
+		},
+		{
+		    "required": [
+			"unset"
+		    ]
+		}
+	    ],
+	    "additionalProperties": false
+	},
+	"disposition": {
+	    "anyOf": [
+		{
+		    "$ref": "#/$defs/vocab-other-uri"
+		},
+		{
+		    "type": "string",
+		    "enum": [
+			"active",
+			"available",
+			"completeness_inferred",
+			"completeness_verified",
+			"conformant",
+			"container_closed",
+			"container_open",
+			"damaged",
+			"destroyed",
+			"dispensed",
+			"disposed",
+			"encoded",
+			"expired",
+			"in_progress",
+			"in_transit",
+			"inactive",
+			"mismatch_class",
+			"mismatch_instance",
+			"mismatch_quantity",
+			"needs_replacement",
+			"no_pedigree_match",
+			"non_conformant",
+			"non_sellable_other",
+			"partially_dispensed",
+			"recalled",
+			"reserved",
+			"retail_sold",
+			"returned",
+			"sellable_accessible",
+			"sellable_not_accessible",
+			"stolen",
+			"unknown",
+			"unavailable"
+		    ]
+		}
+	    ]
+	},
+	"vocab-other-uri": {
+	    "type": "string",
+	    "format": "uri",
+	    "pattern": "^(?!(urn:epcglobal:cbv|https?:\\/\\/ns\\.gs1\\.org/cbv\\/))"
+	}
+    }
+}
