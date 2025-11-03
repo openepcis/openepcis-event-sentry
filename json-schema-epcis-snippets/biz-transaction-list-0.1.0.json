@@ -56,7 +56,7 @@
     "vocab-other-uri": {
       "type": "string",
       "format": "uri",
-      "pattern": "^(?!(urn:epcglobal:cbv|https?:\\/\\/ns\\.gs1\\.org/cbv\\/))"
+      "pattern": "^(?!(urn:epcglobal:cbv|https?:\\/\\/ref\\.gs1\\.org/cbv\\/))"
     },
     "uri": {
       "type": "string",

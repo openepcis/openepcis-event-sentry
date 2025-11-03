@@ -1,15 +1,12 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/source-list-0.1.0.json",
-    "title": "EPCIS sourceList field",
-    "description": "Specifies set of values for the sourceList field, expressed as array of source objects.",
+    "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/source-0.1.0.json",
+    "title": "EPCIS source field",
+    "description": "Specifies value for the source field, expressed as object containing a source type and URI reference.",
     "type": "object",
     "properties": {
-	"sourceList": {
-	    "type": "array",
-	    "items": {
-		"$ref": "#/$defs/source"
-	    }
+	"source": {
+	    "$ref": "#/$defs/source"
 	}
     },
     "$defs": {

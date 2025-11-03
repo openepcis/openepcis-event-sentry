@@ -1,31 +1,28 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/source-list-0.1.0.json",
-    "title": "EPCIS sourceList field",
-    "description": "Specifies set of values for the sourceList field, expressed as array of source objects.",
+    "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/destination-0.1.0.json",
+    "title": "EPCIS destination field",
+    "description": "Specifies value for the destination field, expressed as object containing a destination type and URI reference.",
     "type": "object",
     "properties": {
-	"sourceList": {
-	    "type": "array",
-	    "items": {
-		"$ref": "#/$defs/source"
-	    }
+	"destination": {
+	    "$ref": "#/$defs/destination"
 	}
     },
     "$defs": {
-	"source": {
+	"destination": {
 	    "type": "object",
 	    "properties": {
 		"type": {
 		    "$ref": "#/$defs/source-dest-type"
 		},
-		"source": {
+		"destination": {
 		    "$ref": "#/$defs/uri"
 		}
 	    },
 	    "required": [
 		"type",
-		"source"
+		"destination"
 	    ],
 	    "additionalProperties": false
 	},

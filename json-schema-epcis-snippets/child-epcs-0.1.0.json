@@ -2,7 +2,7 @@
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/child-epcs-0.1.0.json",
     "title": "EPCIS childEPCs field",
-    "description": "Specifies set of values for the childEPCs field, expressed as array of unique EPC URIs representing contained or output objects.",
+    "description": "Specifies set of values for the childEPCs field, expressed as array of unique EPC URIs representing contained objects.",
     "type": "object",
     "properties": {
 	"childEPCs": {

@@ -1,35 +1,31 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/source-list-0.1.0.json",
-    "title": "EPCIS sourceList field",
-    "description": "Specifies set of values for the sourceList field, expressed as array of source objects.",
+    "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/biz-transaction-0.1.0.json",
+    "title": "EPCIS bizTransaction field",
+    "description": "Specifies value for the bizTransaction field, expressed as object containing a transaction type and URI reference.",
     "type": "object",
     "properties": {
-	"sourceList": {
-	    "type": "array",
-	    "items": {
-		"$ref": "#/$defs/source"
-	    }
+	"bizTransaction": {
+	    "$ref": "#/$defs/bizTransaction"
 	}
     },
     "$defs": {
-	"source": {
+	"bizTransaction": {
 	    "type": "object",
 	    "properties": {
 		"type": {
-		    "$ref": "#/$defs/source-dest-type"
+		    "$ref": "#/$defs/bizTransaction-type"
 		},
-		"source": {
+		"bizTransaction": {
 		    "$ref": "#/$defs/uri"
 		}
 	    },
 	    "required": [
-		"type",
-		"source"
+		"bizTransaction"
 	    ],
 	    "additionalProperties": false
 	},
-	"source-dest-type": {
+	"bizTransaction-type": {
 	    "anyOf": [
 		{
 		    "$ref": "#/$defs/vocab-other-uri"
@@ -37,9 +33,19 @@
 		{
 		    "type": "string",
 		    "enum": [
-			"owning_party",
-			"possessing_party",
-			"location"
+			"bol",
+			"cert",
+			"desadv",
+			"inv",
+			"pedigree",
+			"po",
+			"poc",
+			"prodorder",
+			"recadv",
+			"rma",
+			"testprd",
+			"testres",
+			"upevt"
 		    ]
 		}
 	    ]
