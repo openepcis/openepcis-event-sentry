@@ -1,0 +1,21 @@
+name: Validate JSON
+
+on:
+  push:
+    branches: [ main, merge-action ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate-json:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Validate JSON files
+      shell: bash
+      run: |
+        echo "Checking JSON and JSON-LD files..."
+        find . \( -name "*.json" -o -name "*.jsonld" \) -type f -exec python3 -m json.tool {} \; > /dev/null
+        echo "All JSON and JSON-LD files are valid"
