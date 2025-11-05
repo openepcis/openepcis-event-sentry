@@ -1,0 +1,31 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/source-dest-type-0.1.0.json",
+    "title": "EPCIS source-dest-type field",
+    "description": "Specifies set of values for the source-dest-type field, expressed as string enumeration or non-CBV URI identifying business or physical party type.",
+    "type": "object",
+    "properties": {
+	"source-dest-type": {
+	    "anyOf": [
+		{
+		    "$ref": "#/$defs/vocab-other-uri"
+		},
+		{
+		    "type": "string",
+		    "enum": [
+			"owning_party",
+			"possessing_party",
+			"location"
+		    ]
+		}
+	    ]
+	}
+    },
+    "$defs": {
+	"vocab-other-uri": {
+	    "type": "string",
+	    "format": "uri",
+	    "pattern": "^(?!(urn:epcglobal:cbv|https?:\\/\\/ref\\.gs1\\.org/cbv\\/))"
+	}
+    }
+}

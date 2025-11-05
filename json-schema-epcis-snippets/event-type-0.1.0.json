@@ -1,0 +1,19 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/event-type-0.1.0.json",
+    "title": "EPCIS eventType field",
+    "description": "Specifies set of values for the eventType field, expressed as string enumeration identifying the EPCIS event class.",
+    "type": "object",
+    "properties": {
+	"eventType": {
+	    "type": "string",
+	    "enum": [
+		"ObjectEvent",
+		"AggregationEvent",
+		"TransactionEvent",
+		"TransformationEvent",
+		"AssociationEvent"
+	    ]
+	}
+    }
+}

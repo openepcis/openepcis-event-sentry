@@ -1,0 +1,42 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/component-0.1.0.json",
+    "title": "EPCIS component field",
+    "description": "Specifies set of values for the component field, expressed as string enumeration or non-CBV URI identifying a measured spatial dimension or coordinate axis.",
+    "type": "object",
+    "properties": {
+	"component": {
+	    "anyOf": [
+		{
+		    "$ref": "#/$defs/vocab-other-uri"
+		},
+		{
+		    "type": "string",
+		    "enum": [
+			"x",
+			"y",
+			"z",
+			"axial_distance",
+			"azimuth",
+			"height",
+			"spherical_radius",
+			"polar_angle",
+			"elevation_angle",
+			"easting",
+			"northing",
+			"latitude",
+			"longitude",
+			"altitude"
+		    ]
+		}
+	    ]
+	}
+    },
+    "$defs": {
+	"vocab-other-uri": {
+	    "type": "string",
+	    "format": "uri",
+	    "pattern": "^(?!(urn:epcglobal:cbv|https?:\\/\\/ref\\.gs1\\.org/cbv\\/))"
+	}
+    }
+}

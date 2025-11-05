@@ -1,0 +1,251 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/event-0.1.0.json",
+    "title": "EPCIS event field",
+    "description": "Specifies set of values for the event field, expressed as object representing any EPCIS event type including ObjectEvent, AggregationEvent, TransactionEvent, TransformationEvent, or AssociationEvent.",
+    "type": "object",
+    "properties": {
+	"event": {
+	    "oneOf": [
+		{
+		    "$ref": "#/$defs/objectEvent"
+		},
+		{
+		    "$ref": "#/$defs/aggregationEvent"
+		},
+		{
+		    "$ref": "#/$defs/transactionEvent"
+		},
+		{
+		    "$ref": "#/$defs/transformationEvent"
+		},
+		{
+		    "$ref": "#/$defs/associationEvent"
+		}
+	    ]
+	}
+    },
+    "$defs": {
+	"objectEvent": {
+	    "type": "object",
+	    "properties": {
+		"type": {
+		    "const": "ObjectEvent"
+		},
+		"eventTime": {
+		    "$ref": "#/$defs/time"
+		},
+		"eventTimeZoneOffset": {
+		    "$ref": "#/$defs/timezone"
+		},
+		"action": {
+		    "type": "string",
+		    "enum": [
+			"OBSERVE",
+			"ADD",
+			"DELETE"
+		    ]
+		},
+		"epcList": {
+		    "type": "array",
+		    "items": {
+			"$ref": "#/$defs/uri"
+		    }
+		},
+		"bizStep": {
+		    "$ref": "#/$defs/bizStep"
+		},
+		"disposition": {
+		    "$ref": "#/$defs/disposition"
+		}
+	    },
+	    "required": [
+		"type",
+		"action",
+		"epcList",
+		"eventTime",
+		"eventTimeZoneOffset"
+	    ]
+	},
+	"aggregationEvent": {
+	    "type": "object",
+	    "properties": {
+		"type": {
+		    "const": "AggregationEvent"
+		},
+		"eventTime": {
+		    "$ref": "#/$defs/time"
+		},
+		"eventTimeZoneOffset": {
+		    "$ref": "#/$defs/timezone"
+		},
+		"action": {
+		    "type": "string",
+		    "enum": [
+			"ADD",
+			"DELETE",
+			"OBSERVE"
+		    ]
+		},
+		"parentID": {
+		    "$ref": "#/$defs/uri"
+		},
+		"childEPCs": {
+		    "type": "array",
+		    "items": {
+			"$ref": "#/$defs/uri"
+		    }
+		}
+	    },
+	    "required": [
+		"type",
+		"action",
+		"eventTime",
+		"eventTimeZoneOffset"
+	    ]
+	},
+	"transactionEvent": {
+	    "type": "object",
+	    "properties": {
+		"type": {
+		    "const": "TransactionEvent"
+		},
+		"eventTime": {
+		    "$ref": "#/$defs/time"
+		},
+		"eventTimeZoneOffset": {
+		    "$ref": "#/$defs/timezone"
+		},
+		"action": {
+		    "type": "string",
+		    "enum": [
+			"ADD",
+			"DELETE",
+			"OBSERVE"
+		    ]
+		},
+		"bizTransactionList": {
+		    "type": "array",
+		    "items": {
+			"$ref": "#/$defs/bizTransaction"
+		    }
+		},
+		"epcList": {
+		    "type": "array",
+		    "items": {
+			"$ref": "#/$defs/uri"
+		    }
+		}
+	    },
+	    "required": [
+		"type",
+		"action",
+		"eventTime",
+		"eventTimeZoneOffset"
+	    ]
+	},
+	"transformationEvent": {
+	    "type": "object",
+	    "properties": {
+		"type": {
+		    "const": "TransformationEvent"
+		},
+		"eventTime": {
+		    "$ref": "#/$defs/time"
+		},
+		"eventTimeZoneOffset": {
+		    "$ref": "#/$defs/timezone"
+		},
+		"inputEPCList": {
+		    "type": "array",
+		    "items": {
+			"$ref": "#/$defs/uri"
+		    }
+		},
+		"outputEPCList": {
+		    "type": "array",
+		    "items": {
+			"$ref": "#/$defs/uri"
+		    }
+		},
+		"transformationID": {
+		    "$ref": "#/$defs/uri"
+		}
+	    },
+	    "required": [
+		"type",
+		"eventTime",
+		"eventTimeZoneOffset"
+	    ]
+	},
+	"associationEvent": {
+	    "type": "object",
+	    "properties": {
+		"type": {
+		    "const": "AssociationEvent"
+		},
+		"eventTime": {
+		    "$ref": "#/$defs/time"
+		},
+		"eventTimeZoneOffset": {
+		    "$ref": "#/$defs/timezone"
+		},
+		"action": {
+		    "type": "string",
+		    "enum": [
+			"ADD",
+			"DELETE",
+			"OBSERVE"
+		    ]
+		},
+		"parentID": {
+		    "$ref": "#/$defs/uri"
+		},
+		"childEPCs": {
+		    "type": "array",
+		    "items": {
+			"$ref": "#/$defs/uri"
+		    }
+		}
+	    },
+	    "required": [
+		"type",
+		"action",
+		"eventTime",
+		"eventTimeZoneOffset"
+	    ]
+	},
+	"bizTransaction": {
+	    "type": "object",
+	    "properties": {
+		"type": {
+		    "type": "string"
+		},
+		"bizTransaction": {
+		    "$ref": "#/$defs/uri"
+		}
+	    },
+	    "required": [
+		"bizTransaction"
+	    ]
+	},
+	"uri": {
+	    "type": "string",
+	    "format": "uri"
+	},
+	"time": {
+	    "type": "string",
+	    "format": "date-time"
+	},
+	"timezone": {
+	    "type": "string",
+	    "pattern": "^([+]|[-])((0[0-9]|1[0-3]):([0-5][0-9])|14:00)$"
+	},
+	"bizStep": {
+	    "type": "string"
+	},
+	"disposition": {
+	    "type": "string"
+	}
+    }
+}

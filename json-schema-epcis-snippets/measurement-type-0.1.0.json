@@ -1,0 +1,100 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/measurement-type-0.1.0.json",
+    "title": "EPCIS measurementType field",
+    "description": "Specifies set of values for the measurementType field, expressed as string enumeration or non-GS1 URI identifying a measurement category for sensor data.",
+    "type": "object",
+    "properties": {
+	"measurementType": {
+	    "anyOf": [
+		{
+		    "$ref": "#/$defs/vocab-nonGS1WebVoc-uri"
+		},
+		{
+		    "type": "string",
+		    "enum": [
+			"AbsoluteHumidity",
+			"AbsorbedDose",
+			"AbsorbedDoseRate",
+			"Acceleration",
+			"Radioactivity",
+			"Altitude",
+			"AmountOfSubstance",
+			"AmountOfSubstancePerUnitVolume",
+			"Angle",
+			"AngularAcceleration",
+			"AngularMomentum",
+			"AngularVelocity",
+			"Area",
+			"Capacitance",
+			"Conductance",
+			"Conductivity",
+			"Count",
+			"Density",
+			"Dimensionless",
+			"DoseEquivalent",
+			"DoseEquivalentRate",
+			"DynamicViscosity",
+			"ElectricCharge",
+			"ElectricCurrent",
+			"ElectricCurrentDensity",
+			"ElectricFieldStrength",
+			"Energy",
+			"Exposure",
+			"Force",
+			"Frequency",
+			"Illuminance",
+			"Inductance",
+			"Irradiance",
+			"KinematicViscosity",
+			"Length",
+			"LinearMomentum",
+			"Luminance",
+			"LuminousFlux",
+			"LuminousIntensity",
+			"MagneticFlux",
+			"MagneticFluxDensity",
+			"MagneticVectorPotential",
+			"Mass",
+			"MassConcentration",
+			"MassFlowRate",
+			"MassPerAreaTime",
+			"MemoryCapacity",
+			"MolalityOfSolute",
+			"MolarEnergy",
+			"MolarMass",
+			"MolarVolume",
+			"Power",
+			"Pressure",
+			"RadiantFlux",
+			"RadiantIntensity",
+			"RelativeHumidity",
+			"Resistance",
+			"Resistivity",
+			"SolidAngle",
+			"SpecificVolume",
+			"Speed",
+			"SurfaceDensity",
+			"SurfaceTension",
+			"Temperature",
+			"Time",
+			"Torque",
+			"Voltage",
+			"Volume",
+			"VolumeFlowRate",
+			"VolumeFraction",
+			"VolumetricFlux",
+			"Wavenumber"
+		    ]
+		}
+	    ]
+	}
+    },
+    "$defs": {
+	"vocab-nonGS1WebVoc-uri": {
+	    "type": "string",
+	    "format": "uri",
+	    "pattern": "^(?!(https?:\\/\\/gs1\\.org\\/voc\\/|https?:\\/\\/www\\.gs1\\.org\\/voc\\/))"
+	}
+    }
+}
