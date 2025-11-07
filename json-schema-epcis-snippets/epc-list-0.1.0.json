@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/epc-list-0.1.0.json",
   "title": "EPCIS epcList field",
-  "description": "Specifies set of values for the epcList field, expressed as array of unique EPC URIs.",
+  "description": "Specifies set of values for the epcList field, expressed as an array of unique EPC URIs.",
   "type": "object",
   "properties": {
     "epcList": {
