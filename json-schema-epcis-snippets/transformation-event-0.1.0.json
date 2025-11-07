@@ -1,0 +1,466 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/transformation-event-0.1.0.json",
+    "title": "EPCIS TransformationEvent field",
+    "description": "Specifies value for the type field as TransformationEvent, expressed as an object containing input and output EPCs or quantities, plus event context and optional business data.",
+    "type": "object",
+    "properties": {
+	"type": {
+	    "const": "TransformationEvent"
+	},
+	"eventID": {
+	    "$ref": "#/$defs/uri"
+	},
+	"eventTime": {
+	    "$ref": "#/$defs/time"
+	},
+	"eventTimeZoneOffset": {
+	    "$ref": "#/$defs/timezone"
+	},
+	"recordTime": {
+	    "$ref": "#/$defs/time"
+	},
+	"certificationInfo": {
+	    "anyOf": [
+		{
+		    "$ref": "#/$defs/uri"
+		},
+		{
+		    "type": "array",
+		    "items": {
+			"$ref": "#/$defs/uri"
+		    }
+		}
+	    ]
+	},
+	"inputEPCList": {
+	    "type": "array",
+	    "items": {
+		"$ref": "#/$defs/uri"
+	    },
+	    "uniqueItems": true
+	},
+	"inputQuantityList": {
+	    "type": "array",
+	    "items": {
+		"$ref": "#/$defs/quantityElement"
+	    }
+	},
+	"outputEPCList": {
+	    "type": "array",
+	    "items": {
+		"$ref": "#/$defs/uri"
+	    },
+	    "uniqueItems": true
+	},
+	"outputQuantityList": {
+	    "type": "array",
+	    "items": {
+		"$ref": "#/$defs/quantityElement"
+	    }
+	},
+	"transformationID": {
+	    "$ref": "#/$defs/uri"
+	},
+	"bizStep": {
+	    "$ref": "#/$defs/bizStep"
+	},
+	"disposition": {
+	    "$ref": "#/$defs/disposition"
+	},
+	"readPoint": {
+	    "$ref": "#/$defs/readPoint"
+	},
+	"bizLocation": {
+	    "$ref": "#/$defs/bizLocation"
+	},
+	"bizTransactionList": {
+	    "type": "array",
+	    "items": {
+		"$ref": "#/$defs/bizTransaction"
+	    }
+	},
+	"sourceList": {
+	    "type": "array",
+	    "items": {
+		"$ref": "#/$defs/source"
+	    }
+	},
+	"destinationList": {
+	    "type": "array",
+	    "items": {
+		"$ref": "#/$defs/destination"
+	    }
+	},
+	"persistentDisposition": {
+	    "$ref": "#/$defs/persistentDisposition"
+	},
+	"ilmd": {
+	    "$ref": "#/$defs/ilmd"
+	},
+	"sensorElementList": {
+	    "type": "array",
+	    "items": {
+		"$ref": "#/$defs/sensorElement"
+	    }
+	},
+	"errorDeclaration": {
+	    "$ref": "#/$defs/errorDeclaration"
+	}
+    },
+    "$defs": {
+	"uri": {
+	    "type": "string",
+	    "format": "uri"
+	},
+	"time": {
+	    "type": "string",
+	    "format": "date-time"
+	},
+	"timezone": {
+	    "type": "string",
+	    "pattern": "^([+]|[-])((0[0-9]|1[0-3]):([0-5][0-9])|14:00)$"
+	},
+	"quantityElement": {
+	    "type": "object",
+	    "properties": {
+		"epcClass": {
+		    "$ref": "#/$defs/uri"
+		},
+		"quantity": {
+		    "type": "number"
+		},
+		"uom": {
+		    "type": "string",
+		    "pattern": "^[A-Z0-9]{2,3}$"
+		}
+	    },
+	    "required": [
+		"epcClass"
+	    ],
+	    "additionalProperties": false
+	},
+	"bizStep": {
+	    "anyOf": [
+		{
+		    "$ref": "#/$defs/vocab-other-uri"
+		},
+		{
+		    "type": "string",
+		    "enum": [
+			"accepting",
+			"arriving",
+			"assembling",
+			"collecting",
+			"commissioning",
+			"consigning",
+			"creating_class_instance",
+			"cycle_counting",
+			"decommissioning",
+			"departing",
+			"destroying",
+			"disassembling",
+			"dispensing",
+			"encoding",
+			"entering_exiting",
+			"holding",
+			"inspecting",
+			"installing",
+			"killing",
+			"loading",
+			"other",
+			"packing",
+			"picking",
+			"receiving",
+			"removing",
+			"repackaging",
+			"repairing",
+			"replacing",
+			"reserving",
+			"retail_selling",
+			"shipping",
+			"staging_outbound",
+			"stock_taking",
+			"stocking",
+			"storing",
+			"transporting",
+			"unloading",
+			"unpacking",
+			"void_shipping",
+			"sensor_reporting",
+			"sampling"
+		    ]
+		}
+	    ]
+	},
+	"disposition": {
+	    "anyOf": [
+		{
+		    "$ref": "#/$defs/vocab-other-uri"
+		},
+		{
+		    "type": "string",
+		    "enum": [
+			"active",
+			"available",
+			"completeness_inferred",
+			"completeness_verified",
+			"conformant",
+			"container_closed",
+			"container_open",
+			"damaged",
+			"destroyed",
+			"dispensed",
+			"disposed",
+			"encoded",
+			"expired",
+			"in_progress",
+			"in_transit",
+			"inactive",
+			"mismatch_class",
+			"mismatch_instance",
+			"mismatch_quantity",
+			"needs_replacement",
+			"no_pedigree_match",
+			"non_conformant",
+			"non_sellable_other",
+			"partially_dispensed",
+			"recalled",
+			"reserved",
+			"retail_sold",
+			"returned",
+			"sellable_accessible",
+			"sellable_not_accessible",
+			"stolen",
+			"unknown",
+			"unavailable"
+		    ]
+		}
+	    ]
+	},
+	"readPoint": {
+	    "type": "object",
+	    "properties": {
+		"id": {
+		    "$ref": "#/$defs/uri"
+		}
+	    },
+	    "required": [
+		"id"
+	    ]
+	},
+	"bizLocation": {
+	    "type": "object",
+	    "properties": {
+		"id": {
+		    "$ref": "#/$defs/uri"
+		}
+	    },
+	    "required": [
+		"id"
+	    ]
+	},
+	"bizTransaction": {
+	    "type": "object",
+	    "properties": {
+		"type": {
+		    "anyOf": [
+			{
+			    "$ref": "#/$defs/vocab-other-uri"
+			},
+			{
+			    "type": "string",
+			    "enum": [
+				"bol",
+				"cert",
+				"desadv",
+				"inv",
+				"pedigree",
+				"po",
+				"poc",
+				"prodorder",
+				"recadv",
+				"rma",
+				"testprd",
+				"testres",
+				"upevt"
+			    ]
+			}
+		    ]
+		},
+		"bizTransaction": {
+		    "$ref": "#/$defs/uri"
+		}
+	    },
+	    "required": [
+		"bizTransaction"
+	    ],
+	    "additionalProperties": false
+	},
+	"source": {
+	    "type": "object",
+	    "properties": {
+		"type": {
+		    "anyOf": [
+			{
+			    "$ref": "#/$defs/vocab-other-uri"
+			},
+			{
+			    "type": "string",
+			    "enum": [
+				"owning_party",
+				"possessing_party",
+				"location"
+			    ]
+			}
+		    ]
+		},
+		"source": {
+		    "$ref": "#/$defs/uri"
+		}
+	    },
+	    "required": [
+		"type",
+		"source"
+	    ]
+	},
+	"destination": {
+	    "type": "object",
+	    "properties": {
+		"type": {
+		    "anyOf": [
+			{
+			    "$ref": "#/$defs/vocab-other-uri"
+			},
+			{
+			    "type": "string",
+			    "enum": [
+				"owning_party",
+				"possessing_party",
+				"location"
+			    ]
+			}
+		    ]
+		},
+		"destination": {
+		    "$ref": "#/$defs/uri"
+		}
+	    },
+	    "required": [
+		"type",
+		"destination"
+	    ]
+	},
+	"persistentDisposition": {
+	    "type": "object",
+	    "properties": {
+		"set": {
+		    "type": "array",
+		    "items": {
+			"$ref": "#/$defs/disposition"
+		    }
+		},
+		"unset": {
+		    "type": "array",
+		    "items": {
+			"$ref": "#/$defs/disposition"
+		    }
+		}
+	    },
+	    "anyOf": [
+		{
+		    "required": [
+			"set"
+		    ]
+		},
+		{
+		    "required": [
+			"unset"
+		    ]
+		}
+	    ]
+	},
+	"ilmd": {
+	    "type": "object",
+	    "propertyNames": {
+		"type": "string",
+		"format": "uri"
+	    }
+	},
+	"sensorElement": {
+	    "type": "object",
+	    "properties": {
+		"sensorMetadata": {
+		    "type": "object",
+		    "properties": {
+			"time": {
+			    "$ref": "#/$defs/time"
+			},
+			"deviceID": {
+			    "$ref": "#/$defs/uri"
+			}
+		    }
+		},
+		"sensorReport": {
+		    "type": "array",
+		    "items": {
+			"type": "object",
+			"properties": {
+			    "type": {
+				"type": "string"
+			    },
+			    "value": {
+				"type": "number"
+			    },
+			    "uom": {
+				"type": "string"
+			    }
+			},
+			"required": [
+			    "type"
+			]
+		    }
+		}
+	    },
+	    "required": [
+		"sensorReport"
+	    ]
+	},
+	"errorDeclaration": {
+	    "type": "object",
+	    "properties": {
+		"declarationTime": {
+		    "$ref": "#/$defs/time"
+		},
+		"reason": {
+		    "anyOf": [
+			{
+			    "$ref": "#/$defs/vocab-other-uri"
+			},
+			{
+			    "type": "string",
+			    "enum": [
+				"did_not_occur",
+				"incorrect_data"
+			    ]
+			}
+		    ]
+		},
+		"correctiveEventIDs": {
+		    "type": "array",
+		    "items": {
+			"$ref": "#/$defs/uri"
+		    }
+		}
+	    },
+	    "required": [
+		"declarationTime"
+	    ]
+	},
+	"vocab-other-uri": {
+	    "type": "string",
+	    "format": "uri",
+	    "pattern": "^(?!(urn:epcglobal:cbv|https?:\\/\\/ref\\.gs1\\.org/cbv\\/))"
+	}
+    }
+}

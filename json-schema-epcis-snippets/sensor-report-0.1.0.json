@@ -1,0 +1,289 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/sensor-report-0.1.0.json",
+    "title": "EPCIS sensorReport field",
+    "description": "Specifies value for the sensorReport field, expressed as an object containing measured sensor data and related context information.",
+    "type": "object",
+    "properties": {
+	"sensorReport": {
+	    "$ref": "#/$defs/sensorReport"
+	}
+    },
+    "$defs": {
+	"sensorReport": {
+	    "type": "object",
+	    "properties": {
+		"type": {
+		    "$ref": "#/$defs/measurementType"
+		},
+		"exception": {
+		    "$ref": "#/$defs/sensorAlertType"
+		},
+		"deviceID": {
+		    "$ref": "#/$defs/uri"
+		},
+		"deviceMetadata": {
+		    "$ref": "#/$defs/uri"
+		},
+		"rawData": {
+		    "$ref": "#/$defs/uri"
+		},
+		"dataProcessingMethod": {
+		    "$ref": "#/$defs/uri"
+		},
+		"bizRules": {
+		    "$ref": "#/$defs/uri"
+		},
+		"time": {
+		    "$ref": "#/$defs/time"
+		},
+		"microorganism": {
+		    "$ref": "#/$defs/uri"
+		},
+		"chemicalSubstance": {
+		    "$ref": "#/$defs/uri"
+		},
+		"coordinateReferenceSystem": {
+		    "$ref": "#/$defs/uri"
+		},
+		"value": {
+		    "$ref": "#/$defs/decimal"
+		},
+		"component": {
+		    "$ref": "#/$defs/component"
+		},
+		"stringValue": {
+		    "$ref": "#/$defs/string"
+		},
+		"booleanValue": {
+		    "$ref": "#/$defs/boolean"
+		},
+		"hexBinaryValue": {
+		    "$ref": "#/$defs/hexBinary"
+		},
+		"uriValue": {
+		    "$ref": "#/$defs/uri"
+		},
+		"minValue": {
+		    "$ref": "#/$defs/decimal"
+		},
+		"maxValue": {
+		    "$ref": "#/$defs/decimal"
+		},
+		"meanValue": {
+		    "$ref": "#/$defs/decimal"
+		},
+		"sDev": {
+		    "$ref": "#/$defs/decimal"
+		},
+		"percRank": {
+		    "$ref": "#/$defs/decimal"
+		},
+		"percValue": {
+		    "$ref": "#/$defs/decimal"
+		},
+		"uom": {
+		    "$ref": "#/$defs/string"
+		}
+	    },
+	    "required": [
+		"type"
+	    ],
+	    "propertyNames": {
+		"anyOf": [
+		    {
+			"$ref": "#/$defs/vocab-uri"
+		    },
+		    {
+			"type": "string",
+			"enum": [
+			    "type",
+			    "exception",
+			    "deviceID",
+			    "deviceMetadata",
+			    "rawData",
+			    "dataProcessingMethod",
+			    "bizRules",
+			    "time",
+			    "microorganism",
+			    "chemicalSubstance",
+			    "coordinateReferenceSystem",
+			    "value",
+			    "component",
+			    "stringValue",
+			    "booleanValue",
+			    "hexBinaryValue",
+			    "uriValue",
+			    "minValue",
+			    "maxValue",
+			    "meanValue",
+			    "sDev",
+			    "percRank",
+			    "percValue",
+			    "uom"
+			]
+		    }
+		]
+	    }
+	},
+	"measurementType": {
+	    "anyOf": [
+		{
+		    "$ref": "#/$defs/vocab-nonGS1WebVoc-uri"
+		},
+		{
+		    "type": "string",
+		    "enum": [
+			"AbsoluteHumidity",
+			"AbsorbedDose",
+			"AbsorbedDoseRate",
+			"Acceleration",
+			"Radioactivity",
+			"Altitude",
+			"AmountOfSubstance",
+			"AmountOfSubstancePerUnitVolume",
+			"Angle",
+			"AngularAcceleration",
+			"AngularMomentum",
+			"AngularVelocity",
+			"Area",
+			"Capacitance",
+			"Conductance",
+			"Conductivity",
+			"Count",
+			"Density",
+			"Dimensionless",
+			"DoseEquivalent",
+			"DoseEquivalentRate",
+			"DynamicViscosity",
+			"ElectricCharge",
+			"ElectricCurrent",
+			"ElectricCurrentDensity",
+			"ElectricFieldStrength",
+			"Energy",
+			"Exposure",
+			"Force",
+			"Frequency",
+			"Illuminance",
+			"Inductance",
+			"Irradiance",
+			"KinematicViscosity",
+			"Length",
+			"LinearMomentum",
+			"Luminance",
+			"LuminousFlux",
+			"LuminousIntensity",
+			"MagneticFlux",
+			"MagneticFluxDensity",
+			"MagneticVectorPotential",
+			"Mass",
+			"MassConcentration",
+			"MassFlowRate",
+			"MassPerAreaTime",
+			"MemoryCapacity",
+			"MolalityOfSolute",
+			"MolarEnergy",
+			"MolarMass",
+			"MolarVolume",
+			"Power",
+			"Pressure",
+			"RadiantFlux",
+			"RadiantIntensity",
+			"RelativeHumidity",
+			"Resistance",
+			"Resistivity",
+			"SolidAngle",
+			"SpecificVolume",
+			"Speed",
+			"SurfaceDensity",
+			"SurfaceTension",
+			"Temperature",
+			"Time",
+			"Torque",
+			"Voltage",
+			"Volume",
+			"VolumeFlowRate",
+			"VolumeFraction",
+			"VolumetricFlux",
+			"Wavenumber"
+		    ]
+		}
+	    ]
+	},
+	"sensorAlertType": {
+	    "anyOf": [
+		{
+		    "$ref": "#/$defs/vocab-nonGS1WebVoc-uri"
+		},
+		{
+		    "type": "string",
+		    "enum": [
+			"ALARM_CONDITION",
+			"ERROR_CONDITION"
+		    ]
+		}
+	    ]
+	},
+	"component": {
+	    "anyOf": [
+		{
+		    "$ref": "#/$defs/vocab-other-uri"
+		},
+		{
+		    "type": "string",
+		    "enum": [
+			"x",
+			"y",
+			"z",
+			"axial_distance",
+			"azimuth",
+			"height",
+			"spherical_radius",
+			"polar_angle",
+			"elevation_angle",
+			"easting",
+			"northing",
+			"latitude",
+			"longitude",
+			"altitude"
+		    ]
+		}
+	    ]
+	},
+	"uri": {
+	    "type": "string",
+	    "format": "uri"
+	},
+	"time": {
+	    "type": "string",
+	    "format": "date-time"
+	},
+	"decimal": {
+	    "type": "number"
+	},
+	"string": {
+	    "type": "string"
+	},
+	"boolean": {
+	    "type": "boolean"
+	},
+	"hexBinary": {
+	    "type": "string",
+	    "pattern": "^[A-Fa-f0-9]+$"
+	},
+	"vocab-uri": {
+	    "type": "string",
+	    "format": "uri"
+	},
+	"vocab-other-uri": {
+	    "type": "string",
+	    "format": "uri",
+	    "pattern": "^(?!(urn:epcglobal:cbv|https?:\\/\\/ref\\.gs1\\.org/cbv\\/))"
+	},
+	"vocab-nonGS1WebVoc-uri": {
+	    "type": "string",
+	    "format": "uri",
+	    "pattern": "^(?!(https?:\\/\\/gs1\\.org\\/voc\\/|https?:\\/\\/www\\.gs1\\.org\\/voc\\/))"
+	}
+    }
+}

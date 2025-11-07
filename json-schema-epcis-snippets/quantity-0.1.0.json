@@ -1,0 +1,17 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/quantity-0.1.0.json",
+    "title": "EPCIS quantity field",
+    "description": "Specifies value for the quantity field, expressed as a number.",
+    "type": "object",
+    "properties": {
+	"quantity": {
+	    "$ref": "#/$defs/decimal"
+	}
+    },
+    "$defs": {
+	"decimal": {
+	    "type": "number"
+	}
+    }
+}

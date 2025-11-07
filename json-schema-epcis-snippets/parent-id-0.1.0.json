@@ -1,0 +1,18 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/parent-id-0.1.0.json",
+    "title": "EPCIS parentID field",
+    "description": "Specifies value for the parentID field, expressed as a URI identifying the parent EPC instance.",
+    "type": "object",
+    "properties": {
+	"parentID": {
+	    "$ref": "#/$defs/uri"
+	}
+    },
+    "$defs": {
+	"uri": {
+	    "type": "string",
+	    "format": "uri"
+	}
+    }
+}

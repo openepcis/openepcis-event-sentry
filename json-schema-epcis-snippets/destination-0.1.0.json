@@ -1,0 +1,54 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/destination-0.1.0.json",
+    "title": "EPCIS destination field",
+    "description": "Specifies value for the destination field, expressed as an object containing a destination type from the Core Business Vocabulary or a URI for a user-defined type, together with a URI identifying the destination.",
+    "type": "object",
+    "properties": {
+	"destination": {
+	    "$ref": "#/$defs/destination"
+	}
+    },
+    "$defs": {
+	"destination": {
+	    "type": "object",
+	    "properties": {
+		"type": {
+		    "$ref": "#/$defs/source-dest-type"
+		},
+		"destination": {
+		    "$ref": "#/$defs/uri"
+		}
+	    },
+	    "required": [
+		"type",
+		"destination"
+	    ],
+	    "additionalProperties": false
+	},
+	"source-dest-type": {
+	    "anyOf": [
+		{
+		    "$ref": "#/$defs/vocab-other-uri"
+		},
+		{
+		    "type": "string",
+		    "enum": [
+			"owning_party",
+			"possessing_party",
+			"location"
+		    ]
+		}
+	    ]
+	},
+	"vocab-other-uri": {
+	    "type": "string",
+	    "format": "uri",
+	    "pattern": "^(?!(urn:epcglobal:cbv|https?:\\/\\/ref\\.gs1\\.org/cbv\\/))"
+	},
+	"uri": {
+	    "type": "string",
+	    "format": "uri"
+	}
+    }
+}

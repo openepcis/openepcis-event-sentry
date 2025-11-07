@@ -1,0 +1,21 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/ilmd-0.1.0.json",
+    "title": "EPCIS ilmd field",
+    "description": "Specifies value for the ilmd field, expressed as an object containing instance- or lot-level master data properties as defined in the EPCIS standard.",
+    "type": "object",
+    "properties": {
+	"ilmd": {
+	    "$ref": "#/$defs/ilmd"
+	}
+    },
+    "$defs": {
+	"ilmd": {
+	    "type": "object",
+	    "propertyNames": {
+		"type": "string",
+		"format": "uri"
+	    }
+	}
+    }
+}

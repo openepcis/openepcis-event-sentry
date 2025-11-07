@@ -1,0 +1,69 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/biz-step-0.1.0.json",
+    "title": "EPCIS bizStep field",
+    "description": "Specifies value for the bizStep field, expressed as a string from the Core Business Vocabulary or as a URI for a user-defined term.",
+    "type": "object",
+    "properties": {
+	"bizStep": {
+	    "anyOf": [
+		{
+		    "$ref": "#/$defs/vocab-other-uri"
+		},
+		{
+		    "type": "string",
+		    "enum": [
+			"accepting",
+			"arriving",
+			"assembling",
+			"collecting",
+			"commissioning",
+			"consigning",
+			"creating_class_instance",
+			"cycle_counting",
+			"decommissioning",
+			"departing",
+			"destroying",
+			"disassembling",
+			"dispensing",
+			"encoding",
+			"entering_exiting",
+			"holding",
+			"inspecting",
+			"installing",
+			"killing",
+			"loading",
+			"other",
+			"packing",
+			"picking",
+			"receiving",
+			"removing",
+			"repackaging",
+			"repairing",
+			"replacing",
+			"reserving",
+			"retail_selling",
+			"shipping",
+			"staging_outbound",
+			"stock_taking",
+			"stocking",
+			"storing",
+			"transporting",
+			"unloading",
+			"unpacking",
+			"void_shipping",
+			"sensor_reporting",
+			"sampling"
+		    ]
+		}
+	    ]
+	}
+    },
+    "$defs": {
+	"vocab-other-uri": {
+	    "type": "string",
+	    "format": "uri",
+	    "pattern": "^(?!(urn:epcglobal:cbv|https?:\\/\\/ref\\.gs1\\.org/cbv\\/))"
+	}
+    }
+}

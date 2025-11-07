@@ -1,0 +1,54 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/source-0.1.0.json",
+    "title": "EPCIS source field",
+    "description": "Specifies value for the source field, expressed as an object containing a source type from the Core Business Vocabulary or a URI for a user-defined term, and a URI reference identifying the source.",
+    "type": "object",
+    "properties": {
+	"source": {
+	    "$ref": "#/$defs/source"
+	}
+    },
+    "$defs": {
+	"source": {
+	    "type": "object",
+	    "properties": {
+		"type": {
+		    "$ref": "#/$defs/source-dest-type"
+		},
+		"source": {
+		    "$ref": "#/$defs/uri"
+		}
+	    },
+	    "required": [
+		"type",
+		"source"
+	    ],
+	    "additionalProperties": false
+	},
+	"source-dest-type": {
+	    "anyOf": [
+		{
+		    "$ref": "#/$defs/vocab-other-uri"
+		},
+		{
+		    "type": "string",
+		    "enum": [
+			"owning_party",
+			"possessing_party",
+			"location"
+		    ]
+		}
+	    ]
+	},
+	"vocab-other-uri": {
+	    "type": "string",
+	    "format": "uri",
+	    "pattern": "^(?!(urn:epcglobal:cbv|https?:\\/\\/ref\\.gs1\\.org/cbv\\/))"
+	},
+	"uri": {
+	    "type": "string",
+	    "format": "uri"
+	}
+    }
+}

@@ -1,0 +1,13 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/event-time-zone-offset-0.1.0.json",
+    "title": "EPCIS eventTimeZoneOffset field",
+    "description": "Specifies value for the eventTimeZoneOffset field, expressed as a string in ±hh:mm format.",
+    "type": "object",
+    "properties": {
+	"eventTimeZoneOffset": {
+	    "type": "string",
+	    "pattern": "^([+]|[-])((0[0-9]|1[0-3]):([0-5][0-9])|14:00)$"
+	}
+    }
+}

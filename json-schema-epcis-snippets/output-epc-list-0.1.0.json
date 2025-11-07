@@ -1,0 +1,22 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/output-epc-list-0.1.0.json",
+    "title": "EPCIS outputEPCList field",
+    "description": "Specifies set of values for the outputEPCList field, expressed as an array of unique EPC URIs representing output objects from a transformation.",
+    "type": "object",
+    "properties": {
+	"outputEPCList": {
+	    "type": "array",
+	    "items": {
+		"$ref": "#/$defs/uri"
+	    },
+	    "uniqueItems": true
+	}
+    },
+    "$defs": {
+	"uri": {
+	    "type": "string",
+	    "format": "uri"
+	}
+    }
+}

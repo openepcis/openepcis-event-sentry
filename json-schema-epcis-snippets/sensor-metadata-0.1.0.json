@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/sensor-metadata-0.1.0.json",
+  "title": "EPCIS sensorMetadata field",
+  "description": "Specifies value for the sensorMetadata field, expressed as an object containing metadata about the sensor measurement.",
+  "type": "object",
+  "properties": {
+    "sensorMetadata": {
+      "$ref": "#/$defs/sensorMetadata"
+    }
+  },
+  "$defs": {
+    "sensorMetadata": {
+      "type": "object",
+      "properties": {
+        "time": {
+          "$ref": "#/$defs/time"
+        },
+        "deviceID": {
+          "$ref": "#/$defs/uri"
+        },
+        "deviceMetadata": {
+          "$ref": "#/$defs/uri"
+        },
+        "rawData": {
+          "$ref": "#/$defs/uri"
+        },
+        "startTime": {
+          "$ref": "#/$defs/time"
+        },
+        "endTime": {
+          "$ref": "#/$defs/time"
+        },
+        "dataProcessingMethod": {
+          "$ref": "#/$defs/uri"
+        },
+        "bizRules": {
+          "$ref": "#/$defs/uri"
+        }
+      },
+      "propertyNames": {
+        "anyOf": [
+          {
+            "$ref": "#/$defs/vocab-uri"
+          },
+          {
+            "type": "string",
+            "enum": [
+              "time",
+              "deviceID",
+              "deviceMetadata",
+              "rawData",
+              "startTime",
+              "endTime",
+              "dataProcessingMethod",
+              "bizRules"
+            ]
+          }
+        ]
+      }
+    },
+    "uri": {
+      "type": "string",
+      "format": "uri"
+    },
+    "time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "vocab-uri": {
+      "type": "string",
+      "format": "uri"
+    }
+  }
+}

@@ -1,0 +1,63 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/biz-transaction-0.1.0.json",
+    "title": "EPCIS bizTransaction field",
+    "description": "Specifies value for the bizTransaction field, expressed as an object containing a transaction type and a URI reference identifying the transaction.",
+    "type": "object",
+    "properties": {
+	"bizTransaction": {
+	    "$ref": "#/$defs/bizTransaction"
+	}
+    },
+    "$defs": {
+	"bizTransaction": {
+	    "type": "object",
+	    "properties": {
+		"type": {
+		    "$ref": "#/$defs/bizTransaction-type"
+		},
+		"bizTransaction": {
+		    "$ref": "#/$defs/uri"
+		}
+	    },
+	    "required": [
+		"bizTransaction"
+	    ],
+	    "additionalProperties": false
+	},
+	"bizTransaction-type": {
+	    "anyOf": [
+		{
+		    "$ref": "#/$defs/vocab-other-uri"
+		},
+		{
+		    "type": "string",
+		    "enum": [
+			"bol",
+			"cert",
+			"desadv",
+			"inv",
+			"pedigree",
+			"po",
+			"poc",
+			"prodorder",
+			"recadv",
+			"rma",
+			"testprd",
+			"testres",
+			"upevt"
+		    ]
+		}
+	    ]
+	},
+	"vocab-other-uri": {
+	    "type": "string",
+	    "format": "uri",
+	    "pattern": "^(?!(urn:epcglobal:cbv|https?:\\/\\/ref\\.gs1\\.org/cbv\\/))"
+	},
+	"uri": {
+	    "type": "string",
+	    "format": "uri"
+	}
+    }
+}

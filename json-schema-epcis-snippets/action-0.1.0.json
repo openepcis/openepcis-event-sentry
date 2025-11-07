@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/action-0.1.0.json",
+  "title": "EPCIS action field",
+  "description": "Specifies value for the action field, expressed as one of the EPCIS action values (OBSERVE, ADD, DELETE).",
+  "type": "object",
+  "properties": {
+    "action": {
+      "type": "string",
+      "enum": [
+        "OBSERVE",
+        "ADD",
+        "DELETE"
+      ]
+    }
+  }
+}
