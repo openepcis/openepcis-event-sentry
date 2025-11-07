@@ -2,7 +2,7 @@
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/source-0.1.0.json",
     "title": "EPCIS source field",
-    "description": "Specifies value for the source field, expressed as object containing a source type and URI reference.",
+    "description": "Specifies value for the source field, expressed as an object containing a source type from the Core Business Vocabulary or a URI for a user-defined term, and a URI reference identifying the source.",
     "type": "object",
     "properties": {
 	"source": {
