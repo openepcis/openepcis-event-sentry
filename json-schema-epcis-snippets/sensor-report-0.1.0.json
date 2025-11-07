@@ -2,7 +2,7 @@
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/sensor-report-0.1.0.json",
     "title": "EPCIS sensorReport field",
-    "description": "Specifies value for the sensorReport field, expressed as object containing measured sensor data and related context information.",
+    "description": "Specifies value for the sensorReport field, expressed as an object containing measured sensor data and related context information.",
     "type": "object",
     "properties": {
 	"sensorReport": {
