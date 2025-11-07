@@ -2,7 +2,7 @@
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/quantity-element-0.1.0.json",
     "title": "EPCIS quantityElement field",
-    "description": "Specifies value for the quantityElement definition, expressed as object containing class-level EPC, numeric quantity, and optional unit of measure.",
+    "description": "Specifies value for the quantityElement field, expressed as an object containing class-level EPC identifier, numeric quantity, and optional unit of measure.",
     "type": "object",
     "properties": {
 	"quantityElement": {
