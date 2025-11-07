@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/destination-list-0.1.0.json",
   "title": "EPCIS destinationList field",
-  "description": "Specifies set of values for the destinationList field, expressed as array of destination objects.",
+  "description": "Specifies set of values for the destinationList field, expressed as an array of destination objects.",
   "type": "object",
   "properties": {
     "destinationList": {
