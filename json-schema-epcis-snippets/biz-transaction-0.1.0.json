@@ -2,7 +2,7 @@
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/biz-transaction-0.1.0.json",
     "title": "EPCIS bizTransaction field",
-    "description": "Specifies value for the bizTransaction field, expressed as object containing a transaction type and URI reference.",
+    "description": "Specifies value for the bizTransaction field, expressed as an object that includes a transaction type from the Core Business Vocabulary or a URI for a user-defined type, together with a URI reference identifying the transaction.",
     "type": "object",
     "properties": {
 	"bizTransaction": {
