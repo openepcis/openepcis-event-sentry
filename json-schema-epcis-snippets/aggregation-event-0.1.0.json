@@ -2,7 +2,7 @@
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/aggregation-event-0.1.0.json",
     "title": "EPCIS AggregationEvent field",
-    "description": "Specifies set of values for the AggregationEvent, expressed as object containing parent-child EPC relationships, event context, and associated business data.",
+    "description": "Specifies value for the type field as AggregationEvent, expressed as an object that captures parent-child EPC relationships via parentID with childEPCs and/or childQuantityList, plus event context and associated business data.",
     "type": "object",
     "properties": {
 	"type": {
