@@ -2,7 +2,7 @@
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/sensor-element-list-0.1.0.json",
     "title": "EPCIS sensorElementList field",
-    "description": "Specifies set of values for the sensorElementList field, expressed as array of sensor element objects containing sensorMetadata and sensorReport.",
+    "description": "Specifies value for the sensorElementList field, expressed as an array of sensorElement objects containing sensorMetadata and sensorReport data.",
     "type": "object",
     "properties": {
 	"sensorElementList": {
