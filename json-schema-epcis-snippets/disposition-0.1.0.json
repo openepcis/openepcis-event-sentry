@@ -2,7 +2,7 @@
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/disposition-0.1.0.json",
     "title": "EPCIS disposition field",
-    "description": "Specifies value for the disposition field, expressed as string or non-CBV URI.",
+    "description": "Specifies value for the disposition field, expressed as a string from the Core Business Vocabulary or as a URI for a user-defined term.",
     "type": "object",
     "properties": {
 	"disposition": {
