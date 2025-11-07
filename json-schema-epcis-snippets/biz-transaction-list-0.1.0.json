@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/biz-transaction-list-0.1.0.json",
   "title": "EPCIS bizTransactionList field",
-  "description": "Specifies set of values for the bizTransactionList field, expressed as array of business transaction objects.",
+  "description": "Specifies set of values for the bizTransactionList field, expressed as an array of business transaction objects.",
   "type": "object",
   "properties": {
     "bizTransactionList": {
