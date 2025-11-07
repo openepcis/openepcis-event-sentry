@@ -2,7 +2,7 @@
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/child-quantity-list-0.1.0.json",
     "title": "EPCIS childQuantityList field",
-    "description": "Specifies set of values for the childQuantityList field, expressed as array of quantity element objects representing child class-level quantities.",
+    "description": "Specifies set of values for the childQuantityList field, expressed as an array of quantity element objects.",
     "type": "object",
     "properties": {
 	"childQuantityList": {
