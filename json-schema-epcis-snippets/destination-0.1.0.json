@@ -2,7 +2,7 @@
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/destination-0.1.0.json",
     "title": "EPCIS destination field",
-    "description": "Specifies value for the destination field, expressed as object containing a destination type and URI reference.",
+    "description": "Specifies value for the destination field, expressed as an object containing a destination type from the Core Business Vocabulary or a URI for a user-defined type, together with a URI identifying the destination.",
     "type": "object",
     "properties": {
 	"destination": {
