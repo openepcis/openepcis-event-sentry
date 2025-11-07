@@ -2,7 +2,7 @@
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/measurement-type-0.1.0.json",
     "title": "EPCIS measurementType field",
-    "description": "Specifies set of values for the measurementType field, expressed as string enumeration or non-GS1 URI identifying a measurement category for sensor data.",
+    "description": "Specifies set of values for the measurementType field, expressed as a string enumeration or non-GS1 URI identifying a measurement category for sensor data.",
     "type": "object",
     "properties": {
 	"measurementType": {
