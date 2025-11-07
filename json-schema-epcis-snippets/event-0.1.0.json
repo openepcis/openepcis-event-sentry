@@ -2,7 +2,7 @@
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/event-0.1.0.json",
     "title": "EPCIS event field",
-    "description": "Specifies set of values for the event field, expressed as object representing any EPCIS event type including ObjectEvent, AggregationEvent, TransactionEvent, TransformationEvent, or AssociationEvent.",
+    "description": "Specifies value for the event field, expressed as an object representing any EPCIS event type, including ObjectEvent, AggregationEvent, TransactionEvent, TransformationEvent, or AssociationEvent.",
     "type": "object",
     "properties": {
 	"event": {
