@@ -2,7 +2,7 @@
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/persistent-disposition-0.1.0.json",
     "title": "EPCIS persistentDisposition field",
-    "description": "Specifies set of values for the persistentDisposition field, expressed as object containing disposition states to set or unset.",
+    "description": "Specifies set of values for the persistentDisposition field, expressed as an object containing disposition states to set or unset.",
     "type": "object",
     "properties": {
 	"persistentDisposition": {
