@@ -2,8 +2,8 @@
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/association-event-0.1.0.json",
     "title": "EPCIS AssociationEvent field",
-    "description": "Specifies set of values for the AssociationEvent, expressed as object containing parent-child associations, action, business context, and sensor data.",
-    "type": "object",
+    "description": "Specifies value for the type field as AssociationEvent, expressed as an object containing parent-child associations, plus event context and associated business data.",	
+	"type": "object",
     "properties": {
 	"type": {
 	    "const": "AssociationEvent"
