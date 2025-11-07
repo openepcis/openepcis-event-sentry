@@ -2,7 +2,7 @@
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/sensor-alert-type-0.1.0.json",
     "title": "EPCIS sensorAlertType field",
-    "description": "Specifies set of values for the sensorAlertType field, expressed as string enumeration or non-GS1 URI identifying an alert or error condition observed by a sensor.",
+    "description": "Specifies value for the sensorAlertType field, expressed as a string from the Core Business Vocabulary or as a non-GS1 URI for a user-defined term.",
     "type": "object",
     "properties": {
 	"sensorAlertType": {
