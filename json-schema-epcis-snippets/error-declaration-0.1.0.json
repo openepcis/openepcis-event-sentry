@@ -2,7 +2,7 @@
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/error-declaration-0.1.0.json",
     "title": "EPCIS errorDeclaration field",
-    "description": "Specifies value for the errorDeclaration field, expressed as object containing declaration time, reason, and optional corrective event references.",
+    "description": "Specifies value for the errorDeclaration field, expressed as an object containing declaration time, reason, and optional corrective event references.",
     "type": "object",
     "properties": {
 	"errorDeclaration": {
