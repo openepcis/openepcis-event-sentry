@@ -1,0 +1,12 @@
+{
+    "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/biz-transid-gln-based-0.1.0.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "description": "Specifies value for the bizTransaction field in EPCIS events, expressed as a GLN-based URN, relevant for all sectors.",
+    "title": "GLN-based identifier for legacy system business transaction identifiers",
+    "$defs": {
+        "biz-transid-gln-based": {
+            "type": "string",
+            "pattern": "^urn:epcglobal:cbv:bt:\\d{13}:[^:]+$"
+        }
+    }
+}
