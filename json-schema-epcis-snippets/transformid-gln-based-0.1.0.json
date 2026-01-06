@@ -1,0 +1,12 @@
+{
+    "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/transformid-gln-based-0.1.0.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "description": "Specifies value for the transformationID field, expressed as a GLN-based URN, for linking multiple EPCIS Transformation Events, relevant for food.",
+    "title": "GLN-based identifier for legacy system transformation identifiers",
+    "$defs": {
+        "transformid-gln-based": {
+            "type": "string",
+            "pattern": "^urn:epcglobal:cbv:xform:\\d{13}:[^:]+$"
+        }
+    }
+}
