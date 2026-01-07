@@ -1,0 +1,12 @@
+{
+    "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/eventid-uuid-0.1.0.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "description": "Specifies value for the eventID field, expressed as a UUID URN according to RFC4122, relevant for all sectors.",
+    "title": "Universally Unique Identifier (UUID) URI",
+    "$defs": {
+        "eventid-uuid": {
+            "type": "string",
+            "pattern": "^urn:uuid:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[14][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$"
+        }
+    }
+}
