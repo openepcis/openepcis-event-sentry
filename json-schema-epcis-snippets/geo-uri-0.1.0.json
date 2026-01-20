@@ -1,0 +1,12 @@
+{
+    "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/geo-uri-0.1.0.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "description": "Specifies value for the readPoint and bizLocation field, expressed as an RFC5870-compliant geographic location URI, relevant for logistics scenarios where it is not feasible to assign a unique location identifier.",
+    "title": "Geographic Location URI",
+    "$defs": {
+        "geo-uri": {
+            "type": "string",
+            "pattern": "^geo:-?\\d+(?:\\.\\d+)?,-?\\d+(?:\\.\\d+)?(?:,-?\\d+(?:\\.\\d+)?)?(?:;crs=(?:wgs84|[A-Za-z0-9-]+))?(?:;u=\\d+(?:\\.\\d+)?)?(?:;[A-Za-z0-9-]+=(?:[A-Za-z0-9._~!*'()\\-\\[\\]:&+$]|%[A-Fa-f0-9]{2})+)*$"
+        }
+    }
+}

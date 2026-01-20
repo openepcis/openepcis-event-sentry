@@ -1,0 +1,12 @@
+{
+    "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/eventid-event-hash-0.1.0.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "description": "Specifies value for the eventID field, expressed as an EPCIS Event Hash ID URI based on RFC6920 ('ni' URI), relevant for all sectors.",
+    "title": "EPCIS Event Hash ID URI",
+    "$defs": {
+        "eventid-event-hash": {
+            "type": "string",
+            "pattern": "^ni:\\/\\/\\/[A-Za-z0-9._~-]+;[A-Za-z0-9_-]+\\?ver=CBV\\d+\\.\\d+(?:\\.\\d+)?$"
+        }
+    }
+}
