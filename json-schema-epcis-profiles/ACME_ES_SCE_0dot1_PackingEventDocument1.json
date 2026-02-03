@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "allOf": [
+    {
+      "$ref": "https://ref.gs1.org/standards/epcis/epcis-json-schema.json"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "EPCISDocument"
+        },
+        "epcisBody": {
+          "type": "object",
+          "properties": {
+            "eventList": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": ["AggregationEvent"]
+                  },
+                  "action": {
+                    "type": "string",
+                    "enum": ["ADD"]
+                  },
+                  "parentID": {
+                    "type": "string",
+                    "pattern": "^https?:\\/\\/([^\\/?#:]+)(:([0-9]*))?(\\/[^?#]*)*\\/00\\/\\d{18}$"
+                  },
+                  "childQuantityList": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "epcClass": {
+                          "type": "string",
+                          "pattern": "^https?:\\/\\/([^\\/?#:]+)(:([0-9]*))?(\\/[^?#]*)*\\/01\\/\\d{14}\\/10\\/([a-zA-Z0-9_\".-]|%2[a-cA-CfF15-9]|%3[a-fA-F]){1,20}$"
+                        },
+                        "quantity": {
+                          "type": "number"
+                        },
+                        "uom": {
+                          "type": "string",
+                          "pattern": "^(KGM|GRM|MGM|TNE|LBR|ONZ)$"
+                        }
+                      },
+                      "required": ["epcClass", "quantity", "uom"]
+                    },
+                    "maxItems": 1
+                  },
+                  "readPoint": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "pattern": "^https?:\\/\\/([^\\/?#:]+)(:([0-9]*))?(\\/[^?#]*)*\\/414\\/\\d{13}(\\/254\\/([a-zA-Z0-9_\".-]|%2[a-cA-CfF15-9]|%3[a-fA-F]){1,20})?$"
+                      }
+                    },
+                    "required": ["id"]
+                  },
+                  "bizStep": {
+                    "type": "string",
+                    "enum": ["packing"]
+                  },
+                  "disposition": {
+                    "type": "string",
+                    "pattern": "^https://epcis.example.com/disp/(completeness_checked|completeness_unchecked)$"
+                  },
+                  "childEPCs": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^https?:\\/\\/([^\\/?#:]+)(:([0-9]*))?(\\/[^?#]*)*\\/01\\/\\d{14}\\/21\\/([a-zA-Z0-9_\".-]|%2[a-cA-CfF15-9]|%3[a-fA-F]){1,20}$"
+                    }
+                  },
+                  "bizLocation": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "pattern": "^https?:\\/\\/([^\\/?#:]+)(:([0-9]*))?(\\/[^?#]*)*\\/414\\/\\d{13}(\\/254\\/([a-zA-Z0-9_\".-]|%2[a-cA-CfF15-9]|%3[a-fA-F]){1,20})?$"
+                      }
+                    },
+                    "required": ["id"]
+                  }
+                },
+                "required": [
+                  "type",
+                  "action",
+                  "parentID",
+                  "readPoint",
+                  "bizStep",
+                  "disposition"
+                ],
+                "additionalProperties": true
+              }
+            }
+          },
+          "required": ["eventList"]
+        }
+      },
+      "required": ["type", "epcisBody"],
+      "additionalProperties": true
+    }
+  ]
+}

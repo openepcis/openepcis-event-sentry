@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "allOf": [
+    {
+      "$ref": "https://ref.gs1.org/standards/epcis/epcis-json-schema.json"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "EPCISDocument"
+        },
+        "epcisBody": {
+          "type": "object",
+          "properties": {
+            "eventList": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": ["TransformationEvent"]
+                  },
+                  "inputQuantityList": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "epcClass": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "pattern": "^https?:\\/\\/([^\\/?#:]+)(:([0-9]*))?(\\/[^?#]*)*\\/01\\/\\d{14}\\/10\\/([a-zA-Z0-9_\".-]|%2[a-cA-CfF15-9]|%3[a-fA-F]){1,20}$"
+                            },
+                            {
+                              "type": "string",
+                              "pattern": "^urn:epc:class:lgtin:((\\d{6}\\.\\d{7})|(\\d{7}\\.\\d{6})|(\\d{8}\\.\\d{5})|(\\d{9}\\.\\d{4})|(\\d{10}\\.\\d{3})|(\\d{11}\\.\\d{2})|(\\d{12}\\.\\d{1}))\\.(\\%2[125-9A-Fa-f]|\\%3[0-9A-Fa-f]|\\%4[1-9A-Fa-f]|\\%5[0-9AaFf]|\\%6[1-9A-Fa-f]|\\%7[0-9Aa]|[!\\')(*+,.0-9:;=A-Za-z_-]){1,20}$"
+                            }
+                          ]
+                        },
+                        "quantity": {
+                          "type": "number"
+                        },
+                        "uom": {
+                          "type": "string",
+                          "enum": ["KGM", "GRM"]
+                        }
+                      },
+                      "required": ["epcClass", "quantity", "uom"]
+                    }
+                  },
+                  "outputQuantityList": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "epcClass": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "pattern": "^https?:\\/\\/([^\\/?#:]+)(:([0-9]*))?(\\/[^?#]*)*\\/01\\/\\d{14}\\/10\\/([a-zA-Z0-9_\".-]|%2[a-cA-CfF15-9]|%3[a-fA-F]){1,20}$"
+                            },
+                            {
+                              "type": "string",
+                              "pattern": "^urn:epc:class:lgtin:((\\d{6}\\.\\d{7})|(\\d{7}\\.\\d{6})|(\\d{8}\\.\\d{5})|(\\d{9}\\.\\d{4})|(\\d{10}\\.\\d{3})|(\\d{11}\\.\\d{2})|(\\d{12}\\.\\d{1}))\\.(\\%2[125-9A-Fa-f]|\\%3[0-9A-Fa-f]|\\%4[1-9A-Fa-f]|\\%5[0-9AaFf]|\\%6[1-9A-Fa-f]|\\%7[0-9Aa]|[!\\')(*+,.0-9:;=A-Za-z_-]){1,20}$"
+                            }
+                          ]
+                        },
+                        "quantity": {
+                          "type": "number"
+                        },
+                        "uom": {
+                          "type": "string",
+                          "enum": ["KGM", "GRM"]
+                        }
+                      },
+                      "required": ["epcClass", "quantity", "uom"]
+                    }
+                  },
+                  "readPoint": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "pattern": "^https?:\\/\\/([^\\/?#:]+)(:([0-9]*))?(\\/[^?#]*)*\\/414\\/\\d{13}(\\/254\\/([a-zA-Z0-9_\".-]|%2[a-cA-CfF15-9]|%3[a-fA-F]){1,20})?$"
+                          },
+                          {
+                            "type": "string",
+                            "pattern": "^urn:epc:id:sgln:((\\d{6}\\.\\d{6})|(\\d{7}\\.\\d{5})|(\\d{8}\\.\\d{4})|(\\d{9}\\.\\d{3})|(\\d{10}\\.\\d{2})|(\\d{11}\\.\\d{1})|(\\d{12}\\.))\\.(\\%2[125-9A-Fa-f]|\\%3[0-9A-Fa-f]|\\%4[1-9A-Fa-f]|\\%5[0-9AaFf]|\\%6[1-9A-Fa-f]|\\%7[0-9Aa]|[!\\')(*+,.0-9:;=A-Za-z_-]){1,20}$"
+                          }
+                        ]
+                      }
+                    },
+                    "required": ["id"]
+                  },
+                  "bizStep": {
+                    "type": "string",
+                    "enum": ["commissioning", "creating_class_instance"]
+                  }
+                },
+                "required": [
+                  "type",
+                  "inputQuantityList",
+                  "outputQuantityList",
+                  "readPoint",
+                  "bizStep"
+                ],
+                "additionalProperties": true
+              }
+            }
+          },
+          "required": ["eventList"]
+        }
+      },
+      "required": ["type", "epcisBody"],
+      "additionalProperties": true
+    }
+  ]
+}
