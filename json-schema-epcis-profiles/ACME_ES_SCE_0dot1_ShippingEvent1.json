@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "allOf": [
+    {
+      "$ref": "https://ref.gs1.org/standards/epcis/epcis-json-schema.json"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["ObjectEvent"]
+        },
+        "action": {
+          "type": "string",
+          "enum": ["OBSERVE"]
+        },
+        "eventID": {
+          "type": "string",
+          "format": "uri"
+        },
+        "epcList": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^https?:\\/\\/([^\\/?#:]+)(:([0-9]*))?(\\/[^?#]*)*\\/00\\/\\d{18}$"
+          },
+          "minItems": 1
+        },
+        "readPoint": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^https?:\\/\\/([^\\/?#:]+)(:([0-9]*))?(\\/[^?#]*)*\\/414\\/\\d{13}(\\/254\\/([a-zA-Z0-9_\".-]|%2[a-cA-CfF15-9]|%3[a-fA-F]){1,20})?$"
+            }
+          },
+          "required": ["id"]
+        },
+        "bizStep": {
+          "type": "string",
+          "enum": ["departing", "shipping"]
+        },
+        "disposition": {
+          "type": "string",
+          "enum": ["in_transit"]
+        }
+      },
+      "required": [
+        "type",
+        "action",
+        "eventID",
+        "epcList",
+        "readPoint",
+        "bizStep",
+        "disposition"
+      ],
+      "additionalProperties": true
+    }
+  ]
+}
