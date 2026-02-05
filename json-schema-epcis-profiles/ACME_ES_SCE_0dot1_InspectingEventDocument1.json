@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "allOf": [
+    {
+      "$ref": "https://ref.gs1.org/standards/epcis/epcis-json-schema.json"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "EPCISDocument"
+        },
+        "epcisBody": {
+          "type": "object",
+          "properties": {
+            "eventList": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "TransactionEvent"
+                    ]
+                  },
+                  "action": {
+                    "type": "string",
+                    "enum": [
+                      "ADD"
+                    ]
+                  },
+                  "eventID": {
+                    "type": "string",
+                    "pattern": "^[a-zA-Z][a-zA-Z0-9+.-]*:.*"
+                  },
+                  "epcList": {
+                    "type": "array",
+                    "items": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^https?:\\/\\/([^\\/?#:]+)(:([0-9]*))?(\\/[^?#]*)*\\/8003\\/\\d{14}([a-zA-Z0-9_\".-]|%2[a-cA-CfF15-9]|%3[a-fA-F]){1,16}$"
+                        },
+                        {
+                          "type": "string",
+                          "pattern": "urn:epc:id:grai:(?:\\d{6}\\.\\d{6}|\\d{7}\\.\\d{5}|\\d{8}\\.\\d{4}|\\d{9}\\.\\d{3}|\\d{10}\\.\\d{2}|\\d{11}\\.\\d{1}|\\d{12}\\..)(\\%2[125-9A-Fa-f]|\\%3[0-9A-Fa-f]|\\%4[1-9A-Fa-f]|\\%5[0-9AaFf]|\\%6[1-9A-Fa-f]|\\%7[0-9Aa]|[!')(*+,.0-9:;=A-Za-z_-]){1,16}$"
+                        }
+                      ]
+                    },
+                    "minItems": 1
+                  },
+                  "readPoint": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "pattern": "^https?:\\/\\/([^\\/?#:]+)(:([0-9]*))?(\\/[^?#]*)*\\/414\\/\\d{13}(\\/254\\/([a-zA-Z0-9_\".-]|%2[a-cA-CfF15-9]|%3[a-fA-F]){1,20})?$"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ]
+                  },
+                  "bizStep": {
+                    "type": "string",
+                    "enum": [
+                      "inspecting"
+                    ]
+                  },
+                  "disposition": {
+                    "type": "string",
+                    "enum": [
+                      "conformant",
+                      "non_conformant"
+                    ]
+                  },
+                  "bizTransactionList": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "enum": [
+                            "testres"
+                          ]
+                        },
+                        "bizTransaction": {
+                          "type": "string",
+                          "format": "uri"
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "bizTransaction"
+                      ]
+                    },
+                    "minItems": 1,
+                    "maxItems": 1
+                  }
+                },
+                "required": [
+                  "type",
+                  "action",
+                  "eventID",
+                  "epcList",
+                  "readPoint",
+                  "bizStep",
+                  "disposition",
+                  "bizTransactionList"
+                ],
+                "additionalProperties": true
+              }
+            }
+          },
+          "required": [
+            "eventList"
+          ]
+        }
+      },
+      "required": [
+        "type",
+        "epcisBody"
+      ],
+      "additionalProperties": true
+    }
+  ]
+}
