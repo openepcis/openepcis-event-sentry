@@ -1,0 +1,28 @@
+{
+    "@context": [
+        "https://ref.gs1.org/standards/epcis/2.0.0/epcis-context.jsonld"
+    ],
+    "type": "EPCISDocument",
+    "schemaVersion": "2.0",
+    "creationDate": "2026-01-13T12:06:08.13Z",
+    "epcisBody": {
+        "eventList": [
+            {
+                "type": "ObjectEvent",
+                "eventID": "ni:///sha-256;5af7501c0c8bc3f2f230b689f25bdc2766edf00b8bdc8115c83a021fe553b20d?ver=CBV2.0",
+                "eventTime": "2026-01-13T13:05:03+01:00",
+                "eventTimeZoneOffset": "+01:00",
+                "epcList": [
+                    "https://id.gs1.org/00/040123459053465896",
+                    "https://id.gs1.org/00/040123450080438457"
+                ],
+                "action": "OBSERVE",
+                "bizStep": "departing",
+                "disposition": "in_transit",
+                "readPoint": {
+                    "id": "https://id.gs1.org/414/6009561000003"
+                }
+            }
+        ]
+    }
+}

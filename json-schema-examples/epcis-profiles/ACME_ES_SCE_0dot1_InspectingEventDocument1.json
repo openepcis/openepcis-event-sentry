@@ -20,15 +20,11 @@
                 "properties": {
                   "type": {
                     "type": "string",
-                    "enum": [
-                      "TransactionEvent"
-                    ]
+                    "enum": ["TransactionEvent"]
                   },
                   "action": {
                     "type": "string",
-                    "enum": [
-                      "ADD"
-                    ]
+                    "enum": ["ADD"]
                   },
                   "eventID": {
                     "type": "string",
@@ -58,22 +54,15 @@
                         "pattern": "^https?:\\/\\/([^\\/?#:]+)(:([0-9]*))?(\\/[^?#]*)*\\/414\\/\\d{13}(\\/254\\/([a-zA-Z0-9_\".-]|%2[a-cA-CfF15-9]|%3[a-fA-F]){1,20})?$"
                       }
                     },
-                    "required": [
-                      "id"
-                    ]
+                    "required": ["id"]
                   },
                   "bizStep": {
                     "type": "string",
-                    "enum": [
-                      "inspecting"
-                    ]
+                    "enum": ["inspecting"]
                   },
                   "disposition": {
                     "type": "string",
-                    "enum": [
-                      "conformant",
-                      "non_conformant"
-                    ]
+                    "enum": ["conformant", "non_conformant"]
                   },
                   "bizTransactionList": {
                     "type": "array",
@@ -82,19 +71,14 @@
                       "properties": {
                         "type": {
                           "type": "string",
-                          "enum": [
-                            "testres"
-                          ]
+                          "enum": ["testres"]
                         },
                         "bizTransaction": {
                           "type": "string",
                           "format": "uri"
                         }
                       },
-                      "required": [
-                        "type",
-                        "bizTransaction"
-                      ]
+                      "required": ["type", "bizTransaction"]
                     },
                     "minItems": 1,
                     "maxItems": 1
@@ -114,15 +98,10 @@
               }
             }
           },
-          "required": [
-            "eventList"
-          ]
+          "required": ["eventList"]
         }
       },
-      "required": [
-        "type",
-        "epcisBody"
-      ],
+      "required": ["type", "epcisBody"],
       "additionalProperties": true
     }
   ]

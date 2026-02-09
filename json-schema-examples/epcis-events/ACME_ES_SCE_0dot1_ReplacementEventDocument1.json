@@ -1,0 +1,33 @@
+{
+    "@context": [
+        "https://ref.gs1.org/standards/epcis/2.0.0/epcis-context.jsonld"
+    ],
+    "type": "EPCISDocument",
+    "schemaVersion": "2.0",
+    "creationDate": "2026-01-29T09:45:17.89Z",
+    "epcisBody": {
+        "eventList": [
+            {
+                "type": "AssociationEvent",
+                "eventTime": "2026-01-29T10:41:32+01:00",
+                "eventTimeZoneOffset": "+01:00",
+                "parentID": "https://id.gs1.org/8003/40123451234564246545",
+                "childEPCs": [
+                    "https://id.gs1.org/8004/40123455361109703421612750",
+                    "https://id.gs1.org/01/04012345123456/21/987"
+                ],
+                "action": "ADD",
+                "bizStep": "installing",
+                "readPoint": {
+                    "id": "https://id.gs1.org/414/4012345123456"
+                },
+                "bizTransactionList": [
+                    {
+                        "type": "https://example.com/btt/replorder",
+                        "bizTransaction": "https://id.gs1.org/253/4012345123456999"
+                    }
+                ]
+            }
+        ]
+    }
+}

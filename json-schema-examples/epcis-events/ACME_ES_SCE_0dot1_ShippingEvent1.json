@@ -1,0 +1,17 @@
+{
+  "@context": ["https://ref.gs1.org/standards/epcis/2.0.0/epcis-context.jsonld"],
+  "type": "ObjectEvent",
+  "eventTime": "2026-01-08T11:40:49+01:00",
+  "eventTimeZoneOffset": "+01:00",
+  "eventID": "ni:///sha-256;374e0201e2ede57f855e47a78016d6f70193cd8c4558bc1e4f2bdb0f66e709a0?ver=CBV2.0",
+  "epcList": [
+    "https://id.gs1.org/00/040123451254225293",
+    "https://id.gs1.org/00/040123459123941824"
+  ],
+  "action": "OBSERVE",
+  "bizStep": "shipping",
+  "disposition": "in_transit",
+  "readPoint": {
+    "id": "https://id.gs1.org/414/4012345123456"
+  }
+}
