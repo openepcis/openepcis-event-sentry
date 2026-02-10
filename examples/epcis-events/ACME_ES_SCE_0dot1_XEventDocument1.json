@@ -1,0 +1,46 @@
+{
+    "@context": [
+        "https://ref.gs1.org/standards/epcis/2.0.0/epcis-context.jsonld"
+    ],
+    "type": "EPCISDocument",
+    "schemaVersion": "2.0",
+    "creationDate": "2026-01-22T09:01:28.46Z",
+    "epcisBody": {
+        "eventList": [
+            {
+                "type": "TransformationEvent",
+                "eventTime": "2026-01-22T09:59:56+01:00",
+                "eventTimeZoneOffset": "+01:00",
+                "inputQuantityList": [
+                    {
+                        "epcClass": "https://id.gs1.org/01/04012345123456/10/276341336249161198",
+                        "quantity": 2,
+                        "uom": "KGM"
+                    },
+                    {
+                        "epcClass": "urn:epc:class:lgtin:9876543.011111.12",
+                        "quantity": 2,
+                        "uom": "GRM"
+                    }
+                ],
+                "outputQuantityList": [
+                    {
+                        "epcClass": "urn:epc:class:lgtin:4012345.011111.12",
+                        "quantity": 2,
+                        "uom": "KGM"
+                    },
+                    {
+                        "epcClass": "https://id.gs1.org/01/04012345123456/10/071411370100070532",
+                        "quantity": 2,
+                        "uom": "KGM"
+                    }
+                ],
+                "bizStep": "commissioning",
+                "disposition": "active",
+                "readPoint": {
+                    "id": "https://id.gs1.org/414/4012345123456"
+                }
+            }
+        ]
+    }
+}

@@ -1,0 +1,35 @@
+{
+    "@context": [
+        "https://ref.gs1.org/standards/epcis/2.0.0/epcis-context.jsonld"
+    ],
+    "type": "EPCISDocument",
+    "schemaVersion": "2.0",
+    "creationDate": "2026-01-22T08:20:18.45Z",
+    "epcisBody": {
+        "eventList": [
+            {
+                "type": "AggregationEvent",
+                "eventTime": "2026-01-22T09:18:17+01:00",
+                "eventTimeZoneOffset": "+01:00",
+                "parentID": "https://id.gs1.org/00/340123456502308804",
+                "action": "ADD",
+                "bizStep": "packing",
+                "disposition": "https://epcis.example.com/disp/completeness_checked",
+                "readPoint": {
+                    "id": "https://id.gs1.org/414/4012345123456"
+                },
+                "childQuantityList": [
+                    {
+                        "epcClass": "https://id.gs1.org/01/04012345123456/10/6",
+                        "quantity": 2,
+                        "uom": "KGM"
+                    }
+                ],
+                "childEPCs": [
+                    "https://id.gs1.org/01/04012345123456/21/SER987",
+                    "https://id.gs1.org/01/04012345123456/21/SER988"
+                ]
+            }
+        ]
+    }
+}
