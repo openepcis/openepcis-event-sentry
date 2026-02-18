@@ -1,0 +1,12 @@
+{
+  "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/date-0.1.0.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Date",
+  "description": "Specifies a calendar date value expressed in ISO 8601 full-date format (YYYY-MM-DD), without time or timezone information.",
+  "$defs": {
+    "date": {
+      "type": "string",
+      "format": "date"
+    }
+  }
+}
