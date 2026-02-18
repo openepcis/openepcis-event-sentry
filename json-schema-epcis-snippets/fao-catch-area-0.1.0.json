@@ -1,0 +1,12 @@
+{
+  "$id": "https://openepcis.github.io/openepcis-event-sentry/json-schema-epcis-snippets/fao-catch-area-0.1.0.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "FAO Catch Area",
+  "description": "Specifies a FAO catch area code according to the FAO Major Fishing Areas for Statistical Purposes notation.",
+  "$defs": {
+    "fao-catch-area": {
+      "type": "string",
+      "pattern": "^(?:0[1-9]|[1-8][0-9])(?:\\.(?:\\d{1,2}|[a-z])){0,3}$"
+    }
+  }
+}
