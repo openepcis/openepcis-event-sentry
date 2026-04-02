@@ -1,153 +1,144 @@
-# Background
+<p align="center">
+  <img src="media/logo-white-circle.svg" alt="EPCIS Profile Checker Logo" width="180">
+</p>
 
-EPCIS is a traceability event messaging standard that enables supply chain visibility through sharing event data using a common language across, between and within enterprises.
+<h1 align="center">OpenEPCIS Event Sentry</h1>
 
-However, this standard is quite openended and it may not be obvious for business to understand and operate on top of what EPCIS provide with respect to event compliance.
+<p align="center">
+  An open-source SDK and web application for validating <a href="https://www.gs1.org/standards/epcis">GS1 EPCIS</a> supply chain events against custom business profiles using JSON Schema.
+</p>
 
-Event profile concept and openepcis-event-sentry framework or SDK so to say comes handy to define event profile, custom validation rules and checking whether event conforms to the rules mapped to specific profile.
+<p align="center">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache%202.0-blue.svg" alt="License"></a>
+  <a href="https://github.com/openepcis/openepcis-event-sentry"><img src="https://img.shields.io/github/stars/openepcis/openepcis-event-sentry?style=social" alt="GitHub Stars"></a>
+</p>
 
-What is an event profile?
+---
 
-Event profile is derived from event attributes representing the unique nature of the event which is business specific and can’t be represented as EPCIS standard vocabulary.
+## What is EPCIS?
 
-For example, fishing, farming, and slaughtering are the event profiles derived from visibility of event type ObjectEvent containing specific information about products in their ilmd data.
+[EPCIS (Electronic Product Code Information Services)](https://www.gs1.org/standards/epcis) is a GS1 standard for supply chain visibility and traceability. It enables organizations
+to capture and share event data in 5 dimensions — WHAT, WHEN, WHERE, WHY and HOW — using a common language across enterprises.
 
-- Call it a fishing profile if ILMD field in an event contains catchArea element within it
-- Call it farming profile if ILMD field in an event contains countryOfOrigin element within it
-- Call it a slaugtering profile if ILMD field in an event contains preStageDetails element within it.
+## What is an Event Profile?
 
-# Installation
+An event profile defines business-specific validation rules derived from EPCIS event attributes. While the EPCIS standard is open-ended, businesses often need to enforce stricter
+rules for compliance and data quality.
 
-1. <b>Using npm (Node Package Manager):</b>
+For example, given an `ObjectEvent` with ILMD (Item-Level Master Data):
 
-Open your terminal and execute the following command
+- **Fishing profile** — ILMD contains a `catchArea` element
+- **Farming profile** — ILMD contains a `countryOfOrigin` element
+- **Slaughtering profile** — ILMD contains a `preStageDetails` element
+
+Profiles are defined as [JSON Schema](https://json-schema.org/) documents, making them portable, machine-readable, and easy to validate against.
+
+## Features
+
+### SDK
+
+- **Validate events** against custom JSON Schema profiles using [AJV](https://ajv.js.org/)
+- **Detect document types** — EPCISDocument or bare events
+- **Type checking utilities** — verify event types (ObjectEvent, AggregationEvent, TransactionEvent, TransformationEvent, AssociationEvent)
+- **Profile rule schemas** — built-in schemas for profile detection and validation rules
+- **Dual build targets** — works in both Node.js and browser environments
+
+### Web Application
+
+A full-featured web UI is available as [Web Application](https://profile-checker.openepcis.io/) or source code
+at [openepcis-snippet-web](https://github.com/openepcis/openepcis-snippet-web):
+
+<table>
+  <tr>
+    <td align="center" width="33%">
+      <img src="media/profile-builder-light.svg" alt="Profile Builder" width="120"><br>
+      <b>Profile Builder</b><br>
+      <sub>Visually create JSON Schema profiles for EPCIS document/event validation</sub>
+    </td>
+    <td align="center" width="33%">
+      <img src="media/event-validator-light.svg" alt="Event Validator" width="120"><br>
+      <b>Event Validator</b><br>
+      <sub>Validate EPCIS events against profiles with instant compliance feedback</sub>
+    </td>
+    <td align="center" width="33%">
+      <img src="media/snippet-search-light.svg" alt="Snippet Search" width="120"><br>
+      <b>Snippet Search</b><br>
+      <sub>Search and filter reusable EPCIS event snippets from the library</sub>
+    </td>
+  </tr>
+</table>
+
+## Getting Started
+
+### Run the Web App with Docker / Podman
+
+The quickest way to get started. Pull and run the pre-built container:
 
 ```bash
-npm install openepcis-event-sentry
+# Docker
+docker pull ghcr.io/openepcis/openepcis-snippet-web:latest
+docker run -p 3000:3000 ghcr.io/openepcis/openepcis-snippet-web:latest
+
+# Podman
+podman pull ghcr.io/openepcis/openepcis-snippet-web:latest
+podman run -p 3000:3000 ghcr.io/openepcis/openepcis-snippet-web:latest
 ```
 
-This will download and install the library into your project's node_modules directory.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-2. <b>From CDN (Content Delivery Network):</b>
+**With Docker Compose:**
 
-If you prefer to use a CDN, include the library directly in your HTML file using a script tag:
-
-```html
-<script src="https://unpkg.com/openepcis-event-sentry@latest/dist/openepcis-event-sentry.browser.js"></script>
+```yaml
+services:
+  openepcis-snippet-web:
+    image: ghcr.io/openepcis/openepcis-snippet-web:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - NUXT_PUBLIC_SNIPPET_API_URL=https://api.epcis.cloud
+    restart: unless-stopped
 ```
 
-# Example Usage
-
-The following sections provides with sample usages of various features of SDK
-
-## Define Event Profile Rule
-
-Event profile is a combination of many rules. 
-For example, a business can consider an ObjectEvent valid only when it meets the below criteria.
-
-1. The EPCIS Event is an ObjectEvent.
-2. The EPC List includes at least one ID.
-3. The value(s) of the ID(s) in the EPCList is an/are SSCC(s).
-4. If bizStep is "shipping", then bizLocation is empty.
-5. The Event must include one user extension ("example:workingShift"), and its value is a numeric String (e.g. "5").
-6. The namespace of the extension is "https://epcis.example.com/".
-
-JSON Schema is used to come up with technical representation of the above rules which can later be used by frameworks for validation purpose.
-Here is the JSON Schema of above rules.
-
-Learn more about JSON schema from [here](https://json-schema.org/).
-
-```javascript
-{
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "allOf": [
-    {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "type": "object",
-      "properties": {
-        "@context": {
-          "type": "array",
-          "items": {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "object",
-                "patternProperties": {
-                  "^[a-zA-Z0-9]+$": {
-                    "type": "string",
-                    "const": "http://ns.example.com/epcis/"
-                  }
-                },
-                "additionalProperties": true
-              }
-            ]
-          },
-          "minItems": 1
-        },
-        "type": {
-          "type": "string",
-          "enum": [
-            "ObjectEvent"
-          ]
-        },
-        "action": {
-          "type": "string"
-        },
-        "bizStep": {
-          "type": "string"
-        },
-        "epcList": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "pattern": "/00/"
-          },
-          "minItems": 1,
-          "uniqueItems": true
-        },
-        "example:workingShift": {
-          "type": "string",
-          "pattern": "^[0-9]+$"
-        }
-      },
-      "required": [
-        "epcList",
-        "type",
-        "bizStep",
-        "@context",
-        "example:workingShift"
-      ],
-      "if": {
-        "properties": {
-          "bizStep": {
-            "const": "shipping"
-          }
-        }
-      },
-      "then": {
-        "properties": {
-          "bizLocation": {
-            "maxProperties": 0
-          }
-        }
-      },
-      "additionalProperties": true
-    }
-  ]
-}
+```bash
+docker-compose up -d
 ```
 
-## Check event complies to the rule
+For more Docker options and environment variables, see the [openepcis-snippet-web](https://github.com/openepcis/openepcis-snippet-web) repository.
 
-TBD
+### Run the Web App from Source
 
-# Contribute
+Requires [Node.js](https://nodejs.org/) 18+ and [pnpm](https://pnpm.io/).
 
-We welcome your contributions to openepcis-event-sentry! Here are some ways you can get involved:
+```bash
+git clone https://github.com/openepcis/openepcis-snippet-web.git
+cd openepcis-snippet-web
+pnpm install
+pnpm dev
 
-- Bug Fixes: Identify and report any bugs you encounter.
-- Feature Requests: Suggest new features that would benefit the project.
-- Pull Requests: Submit code changes that address issues or add functionality.
-- Documentation: Help improve the project's documentation by providing corrections or suggestions.
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## Examples
+
+The [`examples/`](examples/) directory contains paired EPCIS events and their corresponding validation profiles:
+
+- `epcis-events/` — Sample EPCIS event documents
+- `epcis-profiles/` — Matching JSON Schema profiles for validation
+
+The [`json-schema-epcis-snippets/`](json-schema-epcis-snippets/) directory contains reusable JSON Schema components for building custom profiles.
+
+## Contributing
+
+We welcome contributions! Here are ways to get involved:
+
+- **Bug Reports** — identify and report issues
+- **Feature Requests** — suggest improvements
+- **Pull Requests** — submit code changes or new profiles
+- **Documentation** — help improve guides and examples
+
+Please review the [Code of Conduct](codeOfConduct.md) before contributing.
+
+## License
+
+[Apache License 2.0](LICENSE)
