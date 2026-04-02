@@ -1,5 +1,9 @@
 <p align="center">
-  <img src="media/logo-white-circle.svg" alt="EPCIS Profile Checker Logo" width="180">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="media/logo-white-circle.svg">
+    <source media="(prefers-color-scheme: light)" srcset="media/logo-black-circle.svg">
+    <img src="media/logo-black-circle.svg" alt="EPCIS Profile Checker Logo" width="180">
+  </picture>
 </p>
 
 <h1 align="center">OpenEPCIS Event Sentry</h1>
@@ -51,17 +55,29 @@ at [openepcis-snippet-web](https://github.com/openepcis/openepcis-snippet-web):
 <table>
   <tr>
     <td align="center" width="33%">
-      <img src="media/profile-builder-light.svg" alt="Profile Builder" width="120"><br>
+      <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="media/profile-builder-dark.svg">
+        <source media="(prefers-color-scheme: light)" srcset="media/profile-builder-light.svg">
+        <img src="media/profile-builder-light.svg" alt="Profile Builder" width="120">
+      </picture><br>
       <b>Profile Builder</b><br>
       <sub>Visually create JSON Schema profiles for EPCIS document/event validation</sub>
     </td>
     <td align="center" width="33%">
-      <img src="media/event-validator-light.svg" alt="Event Validator" width="120"><br>
+      <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="media/event-validator-dark.svg">
+        <source media="(prefers-color-scheme: light)" srcset="media/event-validator-light.svg">
+        <img src="media/event-validator-light.svg" alt="Event Validator" width="120">
+      </picture><br>
       <b>Event Validator</b><br>
       <sub>Validate EPCIS events against profiles with instant compliance feedback</sub>
     </td>
     <td align="center" width="33%">
-      <img src="media/snippet-search-light.svg" alt="Snippet Search" width="120"><br>
+      <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="media/snippet-search-dark.svg">
+        <source media="(prefers-color-scheme: light)" srcset="media/snippet-search-light.svg">
+        <img src="media/snippet-search-light.svg" alt="Snippet Search" width="120">
+      </picture><br>
       <b>Snippet Search</b><br>
       <sub>Search and filter reusable EPCIS event snippets from the library</sub>
     </td>
