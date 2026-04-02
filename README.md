@@ -26,16 +26,168 @@ to capture and share event data in 5 dimensions — WHAT, WHEN, WHERE, WHY and H
 
 ## What is an Event Profile?
 
-An event profile defines business-specific validation rules derived from EPCIS event attributes. While the EPCIS standard is open-ended, businesses often need to enforce stricter
-rules for compliance and data quality.
+An event profile is a set of machine-readable validation rules that define what a compliant EPCIS event must look like. While the EPCIS standard is flexible and open-ended,
+businesses and industry associations often need to enforce stricter, agreed-upon rules for data quality and compliance.
 
-For example, given an `ObjectEvent` with ILMD (Item-Level Master Data):
+Consider a supply chain where there is industry-wide agreement to capture and share EPCIS Shipping Events with downstream trading partners. An industry association could provide an
+actionable, machine-readable profile that formally defines the required rules. For example:
 
-- **Fishing profile** — ILMD contains a `catchArea` element
-- **Farming profile** — ILMD contains a `countryOfOrigin` element
-- **Slaughtering profile** — ILMD contains a `preStageDetails` element
+- `type` **MUST** be `ObjectEvent`
+- `bizStep` **MUST** include either `departing` or `shipping`
+- `epcList` **MUST** contain at least one SSCC (Serial Shipping Container Code)
+- `readPoint` **MUST** be a GLN (Global Location Number) without extension
+- All GS1 identifiers **MUST** be valid GS1 Digital Link URIs
+- An extension field (ETA) **MUST** contain a valid date-time value
 
-Profiles are defined as [JSON Schema](https://json-schema.org/) documents, making them portable, machine-readable, and easy to validate against.
+<details>
+<summary>View the corresponding JSON Schema profile</summary>
+
+```json
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "allOf": [
+	{
+	    "$ref": "https://ref.gs1.org/standards/epcis/epcis-json-schema.json"
+	},
+	{
+	    "type": "object",
+	    "properties": {
+		"@context": {
+		    "contains": {
+			"type": "object",
+			"properties": {
+			    "example": {
+				"const": "http://example.com/"
+			    }
+			},
+			"required": [
+			    "example"
+			]
+		    }
+		},
+		"type": {
+		    "const": "EPCISDocument"
+		},
+		"epcisBody": {
+		    "type": "object",
+		    "properties": {
+			"eventList": {
+			    "type": "array",
+			    "items": {
+				"type": "object",
+				"properties": {
+				    "type": {
+					"type": "string",
+					"enum": [
+					    "ObjectEvent"
+					]
+				    },
+				    "bizStep": {
+					"type": "string",
+					"enum": [
+					    "departing",
+					    "shipping"
+					]
+				    },
+				    "epcList": {
+					"type": "array",
+					"items": {
+					    "type": "string",
+					    "pattern": "^https?:\\/\\/([^\\/?#:]+)(:([0-9]*))?(\\/[^?#]*)*\\/00\\/\\d{18}$"
+					}
+				    },
+				    "readPoint": {
+					"type": "object",
+					"properties": {
+					    "id": {
+						"type": "string",
+						"pattern": "^https?:\\/\\/([^\\/?#:]+)(:([0-9]*))?(\\/[^?#]*)*\\/414\\/\\d{13}(\\/254\\/([a-zA-Z0-9_\".-]|%2[a-cA-CfF15-9]|%3[a-fA-F]){1,20})?$"
+					    }
+					},
+					"required": [
+					    "id"
+					]
+				    },
+				    "example:estimatedTimeOfArrival": {
+					"type": "string",
+					"format": "date-time"
+				    }
+				},
+				"required": [
+				    "type",
+				    "bizStep",
+				    "epcList",
+				    "readPoint",
+				    "example:estimatedTimeOfArrival"
+				],
+				"additionalProperties": true
+			    }
+			}
+		    },
+		    "required": [
+			"eventList"
+		    ]
+		}
+	    },
+	    "required": [
+		"epcisBody",
+		"type"
+	    ],
+	    "additionalProperties": true
+	}
+    ]
+}
+```
+
+</details>
+
+Following is the corresponding EPCIS Document generated using [OpenEPCIS Test Data Generator](https://tools.openepcis.io/ui/event-data-generator) that matches the above profile:
+
+<details>
+<summary>View the corresponding EPCIS Document</summary>
+
+```json
+{
+    "@context": [
+	{
+	    "example": "http://example.com/"
+	},
+	"https://ref.gs1.org/standards/epcis/epcis-context.jsonld"
+    ],
+    "type": "EPCISDocument",
+    "schemaVersion": "2.0",
+    "creationDate": "2026-04-02T12:43:58.63Z",
+    "epcisBody": {
+	"eventList": [
+	    {
+		"type": "ObjectEvent",
+		"eventTime": "2026-04-02T14:42:36+02:00",
+		"eventTimeZoneOffset": "+02:00",
+		"epcList": [
+		    "https://id.gs1.org/00/092567800000000018"
+		],
+		"action": "OBSERVE",
+		"bizStep": "shipping",
+		"readPoint": {
+		    "id": "https://id.gs1.org/414/9520123456788"
+		},
+		"example:estimatedTimeOfArrival": "2026-04-02T14:30:00Z"
+	    }
+	]
+    }
+}
+```
+</details>
+
+This is exactly the type of use case the EPCIS Profile Checker is designed to support. It enables industry associations to define such profiles in a machine-readable form
+using [JSON Schema](https://json-schema.org/), and allows these rules to be consistently enforced through automated validation.
+
+Any member of the supply chain can use the same profile to independently verify whether their events comply with the agreed rules — before sharing them with trading partners. The
+result is:
+
+- Higher and more consistent **data quality**
+- Significantly reduced **manual validation effort**
+- Faster **onboarding** and shorter time to market for new partners
 
 ## Features
 
