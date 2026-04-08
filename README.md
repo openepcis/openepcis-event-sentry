@@ -21,8 +21,7 @@
 
 ## What is EPCIS?
 
-[EPCIS (Electronic Product Code Information Services)](https://ref.gs1.org/standards/epcis/) is a GS1 standard for supply chain visibility and traceability. It enables organizations
-to capture and share event data in 5 dimensions — WHAT, WHEN, WHERE, WHY and HOW — using a common language across enterprises.
+[EPCIS (Electronic Product Code Information Services)](https://ref.gs1.org/standards/epcis/) is a GS1 standard for supply chain visibility and traceability. It enables organisations to capture and share event data in 5 dimensions — WHAT, WHEN, WHERE, WHY and HOW — using a common language across enterprises.
 
 ## What is an Event Profile?
 
