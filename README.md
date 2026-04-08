@@ -25,8 +25,7 @@
 
 ## What is an Event Profile?
 
-An event profile is a set of machine-readable validation rules that define what a compliant EPCIS event must look like. While the EPCIS standard is flexible and open-ended,
-businesses and industry associations often need to enforce stricter, agreed-upon rules for data quality and compliance.
+An event profile is a set of machine-readable validation rules that define what a compliant EPCIS event must look like. While the EPCIS standard is deliberately flexible and open-ended, businesses and industry associations often need to enforce stricter, shared rules to ensure data quality and compliance.
 
 Consider a supply chain where there is industry-wide agreement to capture and share EPCIS Shipping Events with downstream trading partners. An industry association could provide an
 actionable, machine-readable profile that formally defines the required rules. For example:
