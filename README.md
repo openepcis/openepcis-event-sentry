@@ -9,7 +9,7 @@
 <h1 align="center">OpenEPCIS Event Sentry</h1>
 
 <p align="center">
-  An open-source SDK and web application for validating <a href="https://ref.gs1.org/standards/epcis/">GS1 EPCIS</a> supply chain events against custom business profiles using JSON Schema.
+  An open-source SDK and web application to build profiles for visibility event data (modeled as <a href="https://ref.gs1.org/standards/epcis/">EPCIS</a> events) and to validate EPCIS events against those profiles using JSON Schema.
 </p>
 
 <p align="center">
