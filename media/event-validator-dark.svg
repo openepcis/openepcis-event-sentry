@@ -1,0 +1,90 @@
+<svg width="800" height="400" viewBox="0 0 800 400" fill="none"
+  xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrow-validator-dark" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#94a3b8"/>
+    </marker>
+  </defs>
+
+  <!-- JSON Schema Editor (Left) -->
+  <g transform="translate(60, 80)">
+    <!-- Window frame -->
+    <rect x="0" y="0" width="260" height="240" rx="8" fill="#0f172a" stroke="#475569" stroke-width="2"/>
+
+    <!-- Window header -->
+    <rect x="0" y="0" width="260" height="32" rx="8" fill="#1e293b"/>
+    <rect x="0" y="24" width="260" height="8" fill="#1e293b"/>
+
+    <!-- Window controls -->
+    <circle cx="16" cy="16" r="5" fill="#ef4444"/>
+    <circle cx="32" cy="16" r="5" fill="#f59e0b"/>
+    <circle cx="48" cy="16" r="5" fill="#10b981"/>
+
+    <!-- Title -->
+    <text x="130" y="20" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" text-anchor="middle">JSON Schema</text>
+
+    <!-- JSON Content -->
+    <g font-family="'Monaco', 'Menlo', 'Consolas', monospace" font-size="11">
+      <text x="16" y="52" fill="#f8fafc" font-weight="600">{</text>
+      <text x="28" y="68" fill="#94a3b8">"$schema": "...",</text>
+      <text x="28" y="84" fill="#94a3b8">"type": "object",</text>
+      <text x="28" y="100" fill="#94a3b8">"properties": {</text>
+      <text x="44" y="116" fill="#38bdf8" font-weight="600">"action": "...",</text>
+      <text x="44" y="132" fill="#c084fc" font-weight="600">"epcList":[...],</text>
+      <text x="44" y="148" fill="#2dd4bf" font-weight="600">"bizStep": "..."</text>
+      <text x="28" y="164" fill="#94a3b8">},</text>
+      <text x="28" y="180" fill="#94a3b8">"required": [...]</text>
+      <text x="16" y="196" fill="#f8fafc" font-weight="600">}</text>
+    </g>
+  </g>
+
+  <!-- Validation Arrow and Checkmark (Center) -->
+  <g transform="translate(400, 200)">
+    <!-- Arrow from Schema to Validator -->
+    <path d="M -70 0 L -45 0" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow-validator-dark)"/>
+
+    <!-- Validation Circle with Checkmark -->
+    <circle cx="0" cy="0" r="32" fill="#0f172a" stroke="#22c55e" stroke-width="3"/>
+    <path d="M-12 0 L-4 8 L14 -10" stroke="#4ade80" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+
+    <!-- Arrow from Validator to Data -->
+    <path d="M 45 0 L 70 0" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow-validator-dark)"/>
+  </g>
+
+  <!-- JSON Data Editor (Right) -->
+  <g transform="translate(480, 80)">
+    <!-- Window frame -->
+    <rect x="0" y="0" width="260" height="240" rx="8" fill="#0f172a" stroke="#475569" stroke-width="2"/>
+
+    <!-- Window header -->
+    <rect x="0" y="0" width="260" height="32" rx="8" fill="#1e293b"/>
+    <rect x="0" y="24" width="260" height="8" fill="#1e293b"/>
+
+    <!-- Window controls -->
+    <circle cx="16" cy="16" r="5" fill="#ef4444"/>
+    <circle cx="32" cy="16" r="5" fill="#f59e0b"/>
+    <circle cx="48" cy="16" r="5" fill="#10b981"/>
+
+    <!-- Title -->
+    <text x="130" y="20" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" text-anchor="middle">JSON Data</text>
+
+    <!-- JSON Content -->
+    <g font-family="'Monaco', 'Menlo', 'Consolas', monospace" font-size="11">
+      <text x="16" y="52" fill="#f8fafc" font-weight="600">{</text>
+      <text x="28" y="68" fill="#94a3b8">"type": "ObjectEvent",</text>
+      <text x="28" y="84" fill="#38bdf8" font-weight="600">"action": "OBSERVE",</text>
+      <text x="28" y="100" fill="#c084fc" font-weight="600">"epcList": [</text>
+      <text x="44" y="116" fill="#c084fc">"https://id.gs1.org/01"</text>
+      <text x="28" y="132" fill="#c084fc" font-weight="600">],</text>
+      <text x="28" y="148" fill="#2dd4bf" font-weight="600">"bizStep": "shipping",</text>
+      <text x="28" y="164" fill="#94a3b8">"eventTime": "...",</text>
+      <text x="28" y="180" fill="#94a3b8">"readPoint": {...}</text>
+      <text x="16" y="196" fill="#f8fafc" font-weight="600">}</text>
+    </g>
+  </g>
+
+  <!-- Labels -->
+  <text x="190" y="350" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="500" text-anchor="middle">Profile Schema</text>
+  <text x="400" y="280" fill="#4ade80" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="600" text-anchor="middle">Valid</text>
+  <text x="610" y="350" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="500" text-anchor="middle">EPCIS Event</text>
+</svg>

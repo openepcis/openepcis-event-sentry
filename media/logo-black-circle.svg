@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+    <!-- EPCIS Profile Checker Logo (Circle variant) - For light mode -->
+    <!-- Concept: Circle with JSON braces and checkmark, echoing OpenEPCIS circular design -->
+    <defs>
+        <linearGradient id="circle-grad" x1="0" y1="0" x2="0.5" y2="1">
+            <stop offset="0%" stop-color="#3a62b5"/>
+            <stop offset="100%" stop-color="#2d4d9d"/>
+        </linearGradient>
+    </defs>
+
+    <!-- Main circle -->
+    <circle cx="32" cy="32" r="27" fill="url(#circle-grad)" stroke="none"/>
+
+    <!-- Subtle left curly brace { -->
+    <path d="M 22 20 C 19.5 20 18 22 18 24 V 28.5 C 18 30.5 16 32 14.5 32 C 16 32 18 33.5 18 35.5 V 40 C 18 42 19.5 44 22 44"
+          fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" opacity="0.3"/>
+
+    <!-- Subtle right curly brace } -->
+    <path d="M 42 20 C 44.5 20 46 22 46 24 V 28.5 C 46 30.5 48 32 49.5 32 C 48 32 46 33.5 46 35.5 V 40 C 46 42 44.5 44 42 44"
+          fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" opacity="0.3"/>
+
+    <!-- Bold checkmark - hero element -->
+    <polyline points="23,34 30,41 41,25"
+              fill="none" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- EPCIS dimension indicator dots (What/When/Where/Why/How) -->
+    <circle cx="20" cy="13" r="1.5" fill="#38bdf8" opacity="0.85"/>
+    <circle cx="26" cy="10" r="1.5" fill="#c084fc" opacity="0.85"/>
+    <circle cx="32" cy="9" r="1.5" fill="#2dd4bf" opacity="0.85"/>
+    <circle cx="38" cy="10" r="1.5" fill="#fbbf24" opacity="0.85"/>
+    <circle cx="44" cy="13" r="1.5" fill="#22d3ee" opacity="0.85"/>
+</svg>
