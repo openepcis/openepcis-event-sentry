@@ -1,5 +1,5 @@
 {
-  "@context": ["https://ref.gs1.org/standards/epcis/2.0.0/epcis-context.jsonld"],
+  "@context": ["https://ref.gs1.org/standards/epcis/epcis-context.jsonld"],
   "type": "ObjectEvent",
   "eventTime": "2026-01-08T11:40:49+01:00",
   "eventTimeZoneOffset": "+01:00",
